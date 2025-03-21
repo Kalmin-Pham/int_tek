@@ -1,0 +1,392 @@
+{
+    "schemaVersion": "1.0",
+    "appDefinitionTemplate": {
+        "id": "/providers/Microsoft.PowerApps/apps/",
+        "type": "Microsoft.PowerApps/apps",
+        "tags": {
+            "primaryDeviceWidth": "2504",
+            "primaryDeviceHeight": "1179",
+            "supportsPortrait": "true",
+            "supportsLandscape": "true",
+            "primaryFormFactor": "Tablet",
+            "showStatusBar": "false",
+            "publisherVersion": "3.25033.8",
+            "minimumRequiredApiVersion": "2.2.0",
+            "hasComponent": "false",
+            "hasUnlockedComponent": "false",
+            "isUnifiedRootApp": "false",
+            "sienaVersion": "20250318T105051Z-3.25033.8.0"
+        },
+        "properties": {
+            "appVersion": "2025-03-18T10:50:51Z",
+            "lifeCycleId": "Published",
+            "createdByClientVersion": {
+                "major": 3,
+                "minor": 25033,
+                "build": 8,
+                "revision": 0,
+                "majorRevision": 0,
+                "minorRevision": 0
+            },
+            "minClientVersion": {
+                "major": 3,
+                "minor": 25033,
+                "build": 8,
+                "revision": 0,
+                "majorRevision": 0,
+                "minorRevision": 0
+            },
+            "backgroundColor": "RGBA(0,176,240,1)",
+            "backgroundImageUri": "/12635487174787598139/Nede12425-b009-4fb6-b489-033b80aa3aed-logoSmallFile",
+            "displayName": "TKE PC Operation",
+            "aiGeneratedDescription": "Streamline backlog management, consultation requests, ICM approval processes, and recovery tracking with the TKE PC Operation app. Gain a comprehensive view of daily tasks, notifications, and key performance indicators to ensure efficient and effective operations. Empower your team with this all-in-one operational tool.",
+            "commitMessage": "v1.0.10.1",
+            "appUris": {
+                "documentUri": {
+                    "value": "/12635487174787598139/Nb8fc24b6-f013-4038-bc56-1afab63d3e9e-document.msapp"
+                },
+                "imageUris": [],
+                "additionalUris": [
+                    {
+                        "isSolutionAware": false,
+                        "value": "/12635487174787598139/Nea3bca95-4a57-475a-acf9-d54e5ba6602d-identity.json"
+                    }
+                ]
+            },
+            "createdTime": "0001-01-01T00:00:00Z",
+            "lastModifiedTime": "0001-01-01T00:00:00Z",
+            "sharedGroupsCount": 0,
+            "sharedUsersCount": 0,
+            "connectionReferences": {
+                "3be655b0-7fd3-4c17-ad60-c69a1686073c": {
+                    "id": "5e5addb3-764c-4f79-ad5c-66216d693a74",
+                    "displayName": "SharePoint",
+                    "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1738/1.0.1738.4131/sharepointonline/icon.png",
+                    "dataSources": [
+                        "Intenal_App_RawKPI",
+                        "Internal_ App_Backlog_Comment",
+                        "Internal_ App_Backup_Comment",
+                        "Internal_ App_Consultation_Comment",
+                        "Internal_ App_ICM_Comment",
+                        "Internal_ App_Notifications",
+                        "Internal_ App_Recovery_Comment",
+                        "Internal_App_Podchecker",
+                        "Internal_App_Setting",
+                        "Internal_App_timezone",
+                        "Internal_CRMError",
+                        "TKE P&C Backlog Management",
+                        "TKE P&C Backup tracking",
+                        "TKE P&C Consultation requests",
+                        "TKE P&C Engineers",
+                        "TKE P&C ICM approval requests",
+                        "TKE P&C Leave requests",
+                        "TKE P&C Recovery tracking",
+                        "Feedback & Report bug"
+                    ],
+                    "dependencies": [],
+                    "dependents": [
+                        "a8a0ab3a-6c5b-429e-9557-6a8b99fd8857"
+                    ],
+                    "parameterHints": {},
+                    "parameterHintsV2": {},
+                    "isOnPremiseConnection": false,
+                    "bypassConsent": false,
+                    "dataSets": {
+                        "https://microsoftapc.sharepoint.com/teams/TKEPCOperation": {
+                            "dataSources": {
+                                "Intenal_App_RawKPI": {
+                                    "tableName": "860f87aa-0735-4006-98be-1fb1ccd41f3b"
+                                },
+                                "Internal_ App_Backlog_Comment": {
+                                    "tableName": "c3324f23-aef5-461e-a55f-5da6d93662c3"
+                                },
+                                "Internal_ App_Backup_Comment": {
+                                    "tableName": "66d7361c-8126-43c6-98e1-1603320388cc"
+                                },
+                                "Internal_ App_Consultation_Comment": {
+                                    "tableName": "149cc5f4-ba46-4df4-90cc-5a91e1896717"
+                                },
+                                "Internal_ App_ICM_Comment": {
+                                    "tableName": "6b589e07-38c0-4c90-a8a8-93b3b035c102"
+                                },
+                                "Internal_ App_Notifications": {
+                                    "tableName": "8f83088c-cc39-4515-ac50-1f34dd5537b8"
+                                },
+                                "Internal_ App_Recovery_Comment": {
+                                    "tableName": "08e7f57f-df1e-4373-a4dc-0073aa974fed"
+                                },
+                                "Internal_App_Podchecker": {
+                                    "tableName": "d448dd82-ae1c-46bd-9796-a3964baea9e9"
+                                },
+                                "Internal_App_Setting": {
+                                    "tableName": "8e0dcb3f-baae-4a33-98cd-071d5b35205e"
+                                },
+                                "Internal_App_timezone": {
+                                    "tableName": "17ebdd78-c157-4be2-978a-d1eb7eb37caa"
+                                },
+                                "Internal_CRMError": {
+                                    "tableName": "909dc406-821c-4b7f-9949-f09ce763b983"
+                                },
+                                "TKE P&C Backlog Management": {
+                                    "tableName": "5ab2f260-44f4-4dd6-b676-2a25bf1e654f"
+                                },
+                                "TKE P&C Backup tracking": {
+                                    "tableName": "710487f4-e1fd-434d-ae1b-69e966dfe129"
+                                },
+                                "TKE P&C Consultation requests": {
+                                    "tableName": "9c6b6c0f-eb40-405e-bc00-9d46f6f18798"
+                                },
+                                "TKE P&C Engineers": {
+                                    "tableName": "fb6662b3-effe-4cb5-923c-06654804cd29"
+                                },
+                                "TKE P&C ICM approval requests": {
+                                    "tableName": "af1ddceb-5743-4c0e-87b5-f97d3282b017"
+                                },
+                                "TKE P&C Leave requests": {
+                                    "tableName": "62a88614-458f-421b-9c00-8a410121159a"
+                                },
+                                "TKE P&C Recovery tracking": {
+                                    "tableName": "25e4a084-933b-42f0-af47-d4e00132b372"
+                                },
+                                "Feedback & Report bug": {
+                                    "tableName": "5f848f1f-8b89-4153-96b3-cdd11d768659"
+                                }
+                            }
+                        }
+                    },
+                    "apiTier": "Standard",
+                    "isCustomApiConnection": false,
+                    "actions": [
+                        "providers/PowerPlatform.Governance/Operations/Read",
+                        "providers/PowerPlatform.Governance/Operations/Write",
+                        "providers/PowerPlatform.Governance/Operations/Delete"
+                    ]
+                },
+                "a8a0ab3a-6c5b-429e-9557-6a8b99fd8857": {
+                    "id": "4b0004cf-bacf-466d-940b-0efb8bf387c2",
+                    "displayName": "Logic flows",
+                    "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1725/1.0.1725.4002/logicflows/icon.png",
+                    "dataSources": [
+                        "TKEPCApp-CreateTeamspost"
+                    ],
+                    "dependencies": [
+                        "3be655b0-7fd3-4c17-ad60-c69a1686073c",
+                        "35d2c811-2266-4bd1-9701-69dde5e45cec"
+                    ],
+                    "dependents": [],
+                    "parameterHints": {
+                        "workflowName": {
+                            "value": "182e42ad-43b9-40db-9a81-70ab8e6e8d2a"
+                        },
+                        "workflowEntityId": {
+                            "value": "fb5aa40e-7f8b-ef11-8a6a-6045bdff557d"
+                        },
+                        "workflowDisplayName": {
+                            "value": "TKE PC App - Create Teams post"
+                        },
+                        "3be655b0-7fd3-4c17-ad60-c69a1686073c": {
+                            "value": "shared_sharepointonline"
+                        },
+                        "35d2c811-2266-4bd1-9701-69dde5e45cec": {
+                            "value": "shared_teams"
+                        }
+                    },
+                    "parameterHintsV2": {
+                        "workflowName": {
+                            "value": "182e42ad-43b9-40db-9a81-70ab8e6e8d2a"
+                        },
+                        "workflowEntityId": {
+                            "value": "fb5aa40e-7f8b-ef11-8a6a-6045bdff557d"
+                        },
+                        "workflowDisplayName": {
+                            "value": "TKE PC App - Create Teams post"
+                        },
+                        "shared_sharepointonline": {
+                            "value": "3be655b0-7fd3-4c17-ad60-c69a1686073c"
+                        },
+                        "shared_teams": {
+                            "value": "35d2c811-2266-4bd1-9701-69dde5e45cec"
+                        }
+                    },
+                    "isOnPremiseConnection": false,
+                    "bypassConsent": false,
+                    "dataSets": {},
+                    "apiTier": "Standard",
+                    "isCustomApiConnection": false,
+                    "actions": [
+                        "Run"
+                    ],
+                    "nestedActions": [
+                        {
+                            "id": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline/apiOperations/GetItem",
+                            "flowConnectionRef": "shared_sharepointonline",
+                            "apiName": "SharePoint",
+                            "actionName": "GetItem",
+                            "referencedResources": [
+                                {
+                                    "key": "site",
+                                    "value": "https://microsoftapc.sharepoint.com/teams/TKEPCOperation"
+                                },
+                                {
+                                    "key": "list",
+                                    "value": "af1ddceb-5743-4c0e-87b5-f97d3282b017"
+                                },
+                                {
+                                    "key": "site",
+                                    "value": "https://microsoftapc.sharepoint.com/teams/TKEPCOperation"
+                                },
+                                {
+                                    "key": "list",
+                                    "value": "9c6b6c0f-eb40-405e-bc00-9d46f6f18798"
+                                },
+                                {
+                                    "key": "site",
+                                    "value": "https://microsoftapc.sharepoint.com/teams/TKEPCOperation"
+                                },
+                                {
+                                    "key": "fileId",
+                                    "value": "@triggerBody()['number']"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "/providers/Microsoft.PowerApps/apis/shared_teams/apiOperations/AtMentionUser",
+                            "flowConnectionRef": "shared_teams",
+                            "apiName": "Microsoft Teams",
+                            "actionName": "AtMentionUser",
+                            "referencedResources": []
+                        },
+                        {
+                            "id": "/providers/Microsoft.PowerApps/apis/shared_teams/apiOperations/PostMessageToConversation",
+                            "flowConnectionRef": "shared_teams",
+                            "apiName": "Microsoft Teams",
+                            "actionName": "PostMessageToConversation",
+                            "referencedResources": [
+                                {
+                                    "key": "groupId",
+                                    "value": "0ddc9d39-fbef-42dc-b039-231455ef357c"
+                                },
+                                {
+                                    "key": "channelId",
+                                    "value": "19:e831497c91cb4f19844a12184177868c@thread.tacv2"
+                                },
+                                {
+                                    "key": "groupId",
+                                    "value": "0ddc9d39-fbef-42dc-b039-231455ef357c"
+                                },
+                                {
+                                    "key": "channelId",
+                                    "value": "19:35231ea50a1d470884fc9c0bd74c7c64@thread.tacv2"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "35d2c811-2266-4bd1-9701-69dde5e45cec": {
+                    "id": "de7a5e28-1ea0-42b1-8fbe-b4552c288fb2",
+                    "displayName": "Microsoft Teams",
+                    "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1741/1.0.1741.4152/teams/icon.png",
+                    "dataSources": [],
+                    "dependencies": [],
+                    "dependents": [
+                        "a8a0ab3a-6c5b-429e-9557-6a8b99fd8857",
+                        "ea6e173f-edc4-45e8-939f-bf96f897f35b"
+                    ],
+                    "parameterHints": {},
+                    "parameterHintsV2": {},
+                    "isOnPremiseConnection": false,
+                    "bypassConsent": false,
+                    "dataSets": {},
+                    "apiTier": "Standard",
+                    "isCustomApiConnection": false
+                },
+                "ea6e173f-edc4-45e8-939f-bf96f897f35b": {
+                    "id": "4b0004cf-bacf-466d-940b-0efb8bf387c2",
+                    "displayName": "Logic flows",
+                    "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1725/1.0.1725.4002/logicflows/icon.png",
+                    "dataSources": [
+                        "TKEPC-Sendcommentnotification"
+                    ],
+                    "dependencies": [
+                        "35d2c811-2266-4bd1-9701-69dde5e45cec"
+                    ],
+                    "dependents": [],
+                    "parameterHints": {
+                        "workflowName": {
+                            "value": "a59f4524-e71f-43f0-adf8-00f054a1662a"
+                        },
+                        "workflowEntityId": {},
+                        "workflowDisplayName": {
+                            "value": "TKE PC - Send comment notification"
+                        },
+                        "35d2c811-2266-4bd1-9701-69dde5e45cec": {
+                            "value": "shared_teams"
+                        }
+                    },
+                    "parameterHintsV2": {
+                        "workflowName": {
+                            "value": "a59f4524-e71f-43f0-adf8-00f054a1662a"
+                        },
+                        "workflowEntityId": {},
+                        "workflowDisplayName": {
+                            "value": "TKE PC - Send comment notification"
+                        },
+                        "shared_teams": {
+                            "value": "35d2c811-2266-4bd1-9701-69dde5e45cec"
+                        }
+                    },
+                    "isOnPremiseConnection": false,
+                    "bypassConsent": false,
+                    "dataSets": {},
+                    "apiTier": "Standard",
+                    "isCustomApiConnection": false,
+                    "actions": [
+                        "Run"
+                    ],
+                    "nestedActions": [
+                        {
+                            "id": "/providers/Microsoft.PowerApps/apis/shared_teams/apiOperations/PostMessageToConversation",
+                            "flowConnectionRef": "shared_teams",
+                            "apiName": "Microsoft Teams",
+                            "actionName": "PostMessageToConversation",
+                            "referencedResources": [
+                                {
+                                    "key": "chatId",
+                                    "value": "@{triggerBody()['email']};"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "authorizationReferences": [
+                {
+                    "resourceId": "powerbi"
+                }
+            ],
+            "databaseReferences": {},
+            "almMode": "Environment",
+            "performanceOptimizationEnabled": false,
+            "canConsumeAppPass": false,
+            "enableModernRuntimeMode": false,
+            "executionRestrictions": {
+                "isTeamsOnly": false,
+                "dataLossPreventionEvaluationResult": {
+                    "status": "Compliant",
+                    "lastEvaluationDate": "2025-03-18T10:51:56.2469889Z",
+                    "violations": [],
+                    "violationsByPolicy": [],
+                    "violationErrorMessage": "The app uses the following connectors: shared_sharepointonline, shared_logicflows, shared_teams."
+                },
+                "httpActionRestriction": {
+                    "appUsesSharepointHttpAction": false,
+                    "enforcementStrategy": "Legacy",
+                    "evaluationTime": "2025-03-18T10:51:56.2468541Z"
+                }
+            }
+        },
+        "isAppComponentLibrary": false,
+        "appType": "ClassicCanvasApp",
+        "appComponents": []
+    }
+}
