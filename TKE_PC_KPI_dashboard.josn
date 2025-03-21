@@ -1,0 +1,1954 @@
+{
+    "$schema": "https://dataexplorer.azure.com/static/d/schema/60/dashboard.json",
+    "id": "c82e9382-61ba-4304-a89b-908e0e396b66",
+    "eTag": "e4486c52-bf26-4cdb-9fa5-b7804c040532",
+    "schema_version": "60",
+    "title": "TKE KPI - EMEA",
+    "tiles": [
+        {
+            "id": "f33e7a12-773e-4a3d-a58e-555071dc4fc2",
+            "title": "SAT (TKE PC only)",
+            "visualType": "table",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 16,
+                "width": 24,
+                "height": 15
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "a1c4639e-b950-4391-a64b-28489aaca223"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": [
+                    {
+                        "id": "337112bf-610a-415e-ba28-f9828cb5fc9f",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "rows",
+                        "conditions": [
+                            {
+                                "operator": "!=",
+                                "column": "SAT",
+                                "values": [
+                                    "5"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "light",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "table"
+                    },
+                    {
+                        "id": "1908e71c-7b56-41d5-a023-722c406366ca",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "rows",
+                        "conditions": [
+                            {
+                                "operator": "==",
+                                "column": "Channel",
+                                "values": [
+                                    "Chat"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "light",
+                        "color": "yellow",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "table"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "a1cda9cd-89cb-4da8-a12f-6935bea09584",
+            "title": "SAT (TKE PC only) - Web",
+            "visualType": "column",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 7,
+                "width": 6,
+                "height": 9
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "b4c67f2f-c8dc-4bd2-b5de-4a9fe7daae6e"
+            },
+            "visualOptions": {
+                "multipleYAxes": {
+                    "base": {
+                        "id": "-1",
+                        "label": "",
+                        "columns": [],
+                        "yAxisMaximumValue": null,
+                        "yAxisMinimumValue": null,
+                        "yAxisScale": "linear",
+                        "horizontalLines": []
+                    },
+                    "additional": [],
+                    "showMultiplePanels": false
+                },
+                "hideLegend": false,
+                "xColumnTitle": "",
+                "xColumn": null,
+                "yColumns": null,
+                "seriesColumns": null,
+                "xAxisScale": "linear",
+                "verticalLine": "",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "legendLocation": "bottom",
+                "crossFilter": [],
+                "drillthrough": [],
+                "selectedDataOnLoad": {
+                    "all": true,
+                    "limit": 10
+                },
+                "dataPointsTooltip": {
+                    "all": false,
+                    "limit": 1
+                }
+            }
+        },
+        {
+            "id": "16c5c2b9-2aca-469e-bae8-27e101703d82",
+            "title": "SAT (All teams) - Web",
+            "visualType": "column",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 6,
+                "y": 7,
+                "width": 6,
+                "height": 9
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "20fd4077-0fbf-46c7-bc32-0b69f9f408c7"
+            },
+            "visualOptions": {
+                "multipleYAxes": {
+                    "base": {
+                        "id": "-1",
+                        "label": "",
+                        "columns": [],
+                        "yAxisMaximumValue": null,
+                        "yAxisMinimumValue": null,
+                        "yAxisScale": "linear",
+                        "horizontalLines": []
+                    },
+                    "additional": [],
+                    "showMultiplePanels": false
+                },
+                "hideLegend": false,
+                "xColumnTitle": "",
+                "xColumn": null,
+                "yColumns": null,
+                "seriesColumns": null,
+                "xAxisScale": "linear",
+                "verticalLine": "",
+                "crossFilterDisabled": true,
+                "drillthroughDisabled": false,
+                "legendLocation": "bottom",
+                "crossFilter": [
+                    {
+                        "interaction": "column",
+                        "property": "Count",
+                        "disabled": false
+                    }
+                ],
+                "drillthrough": [],
+                "selectedDataOnLoad": {
+                    "all": true,
+                    "limit": 10
+                },
+                "dataPointsTooltip": {
+                    "all": false,
+                    "limit": 1
+                }
+            }
+        },
+        {
+            "id": "2b7d1a36-f987-49a4-a7b8-8dffbeafd4be",
+            "title": "SAT by engineers",
+            "visualType": "bar",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 12,
+                "y": 7,
+                "width": 12,
+                "height": 9
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "a81c6842-2a6f-499a-9918-ea78521097d4"
+            },
+            "visualOptions": {
+                "multipleYAxes": {
+                    "base": {
+                        "id": "-1",
+                        "label": "",
+                        "columns": [],
+                        "yAxisMaximumValue": null,
+                        "yAxisMinimumValue": null,
+                        "yAxisScale": "linear",
+                        "horizontalLines": []
+                    },
+                    "additional": [],
+                    "showMultiplePanels": false
+                },
+                "hideLegend": false,
+                "legendLocation": "bottom",
+                "xColumnTitle": "",
+                "xColumn": null,
+                "yColumns": null,
+                "seriesColumns": null,
+                "xAxisScale": "linear",
+                "verticalLine": "",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "selectedDataOnLoad": {
+                    "all": true,
+                    "limit": 10
+                },
+                "dataPointsTooltip": {
+                    "all": false,
+                    "limit": 1
+                }
+            }
+        },
+        {
+            "id": "efbb0f5b-06d2-4a96-9e03-5180df0bf8b1",
+            "title": "SAT by engineers",
+            "visualType": "table",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 31,
+                "width": 13,
+                "height": 12
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "ed052ba9-539e-4410-87df-f21ae8b76fa5"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": [
+                    {
+                        "id": "eeffcfc1-cc4e-446d-b2e2-8a545be0c0e1",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "rows",
+                        "conditions": [
+                            {
+                                "values": [
+                                    "0"
+                                ],
+                                "operator": "!=",
+                                "column": "5_star_needed"
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "light",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "table"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "435a9d03-f1fe-467a-9a45-f254d307bbbe",
+            "title": "SAT",
+            "visualType": "card",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 1,
+                "width": 4,
+                "height": 3
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "3c3b8d1b-48eb-4a07-a7ae-34f3c349e151"
+            },
+            "visualOptions": {
+                "multiStat__textSize": "auto",
+                "multiStat__valueColumn": null,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "colorRules": [
+                    {
+                        "id": "d46c0aee-da30-4141-991f-2b60333af770",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "86151ae1-7b25-4f05-8715-c0bdf7e34f65",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "e840dd08-3ba4-4064-982a-55f675cb5922",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1d54e6d4-7fdc-4968-b2a9-d9ca8479686b",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "b2fc11d0-c448-4984-bbb8-366a3b73ded4",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Professional_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1b2d0262-d5d1-4a8d-9bae-cfad1794d09a",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": null,
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "07ba1385-da11-4ad1-a8ef-a8e0952bb29e",
+            "title": "SAT",
+            "visualType": "card",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 8,
+                "y": 1,
+                "width": 4,
+                "height": 3
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "7d4dfbcb-b407-4cf6-8ccf-c8fb98cc8ec9"
+            },
+            "visualOptions": {
+                "multiStat__textSize": "auto",
+                "multiStat__valueColumn": null,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "colorRules": [
+                    {
+                        "id": "d46c0aee-da30-4141-991f-2b60333af770",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "values": [
+                                    "4.7"
+                                ],
+                                "operator": ">=",
+                                "column": "Overall_SAT"
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "86151ae1-7b25-4f05-8715-c0bdf7e34f65",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "e840dd08-3ba4-4064-982a-55f675cb5922",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1d54e6d4-7fdc-4968-b2a9-d9ca8479686b",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "b2fc11d0-c448-4984-bbb8-366a3b73ded4",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Professional_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1b2d0262-d5d1-4a8d-9bae-cfad1794d09a",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": null,
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "6ac0d932-de37-45f2-aee2-d493cc352a97",
+            "title": "SAT",
+            "visualType": "card",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 16,
+                "y": 1,
+                "width": 4,
+                "height": 3
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "c0e36fb5-8c62-4170-ac0b-7788dc63ca5b"
+            },
+            "visualOptions": {
+                "multiStat__textSize": "auto",
+                "multiStat__valueColumn": null,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "colorRules": [
+                    {
+                        "id": "d46c0aee-da30-4141-991f-2b60333af770",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "values": [
+                                    "4.7"
+                                ],
+                                "operator": ">=",
+                                "column": "Overall_SAT"
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "86151ae1-7b25-4f05-8715-c0bdf7e34f65",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "e840dd08-3ba4-4064-982a-55f675cb5922",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1d54e6d4-7fdc-4968-b2a9-d9ca8479686b",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "b2fc11d0-c448-4984-bbb8-366a3b73ded4",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Professional_SAT",
+                                "values": [
+                                    "4.6"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1b2d0262-d5d1-4a8d-9bae-cfad1794d09a",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": null,
+                                "values": [
+                                    "4.6"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "b118f44a-8d36-488b-8c5b-1310952c25a3",
+            "title": "Survey count",
+            "visualType": "markdown",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 12,
+                "y": 1,
+                "width": 4,
+                "height": 6
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "8f6e71fb-bf47-4782-a0f1-2acd0bfaed5d"
+            },
+            "visualOptions": {
+                "xColumn": null,
+                "imageAllowlist": ""
+            }
+        },
+        {
+            "id": "a0a22b3f-8f58-41dc-b63d-f0c62ccb266b",
+            "title": "Survey count",
+            "visualType": "markdown",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 20,
+                "y": 1,
+                "width": 4,
+                "height": 6
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "411eeb31-12fe-498a-b934-56ff24a5aceb"
+            },
+            "visualOptions": {
+                "xColumn": null,
+                "imageAllowlist": ""
+            }
+        },
+        {
+            "id": "feb6535a-7565-464e-82c0-ef1b36fea222",
+            "title": "Survey count",
+            "visualType": "markdown",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 4,
+                "y": 1,
+                "width": 4,
+                "height": 6
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "002062d7-4ebf-41d0-938d-0172aa063570"
+            },
+            "visualOptions": {
+                "xColumn": null,
+                "imageAllowlist": ""
+            }
+        },
+        {
+            "id": "ae8b523a-88db-441c-80df-5d05e5efe303",
+            "title": "Survey rate",
+            "visualType": "card",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 4,
+                "width": 4,
+                "height": 3
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "60fab62f-b0e2-48e8-8997-1324cc3a17b9"
+            },
+            "visualOptions": {
+                "multiStat__textSize": "auto",
+                "multiStat__valueColumn": null,
+                "colorRulesDisabled": true,
+                "colorStyle": "light",
+                "colorRules": [
+                    {
+                        "id": "d46c0aee-da30-4141-991f-2b60333af770",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "values": [
+                                    "4.7"
+                                ],
+                                "operator": ">=",
+                                "column": "Overall_SAT"
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "86151ae1-7b25-4f05-8715-c0bdf7e34f65",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "e840dd08-3ba4-4064-982a-55f675cb5922",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1d54e6d4-7fdc-4968-b2a9-d9ca8479686b",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "b2fc11d0-c448-4984-bbb8-366a3b73ded4",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Professional_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1b2d0262-d5d1-4a8d-9bae-cfad1794d09a",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": null,
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "ceaeb2af-f854-453c-b923-ebe83f8ce3bb",
+            "title": "Overall",
+            "visualType": "markdownCard",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 8,
+                "height": 1
+            },
+            "markdownText": "\n",
+            "visualOptions": {}
+        },
+        {
+            "id": "44d5d699-76db-49c2-8608-3d1339fca4a2",
+            "title": "Premier",
+            "visualType": "markdownCard",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 8,
+                "y": 0,
+                "width": 8,
+                "height": 1
+            },
+            "markdownText": "\n",
+            "visualOptions": {}
+        },
+        {
+            "id": "f9a8e535-2d1b-4abe-8d0c-99b88900385b",
+            "title": "Professional",
+            "visualType": "markdownCard",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 16,
+                "y": 0,
+                "width": 8,
+                "height": 1
+            },
+            "markdownText": "\n",
+            "visualOptions": {}
+        },
+        {
+            "id": "6de8db66-4a59-4b6c-9622-ed95a2bcacf8",
+            "title": "Survey rate",
+            "visualType": "card",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 8,
+                "y": 4,
+                "width": 4,
+                "height": 3
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "2ff50672-88f5-4e85-960d-5f4445c71fcf"
+            },
+            "visualOptions": {
+                "multiStat__textSize": "auto",
+                "multiStat__valueColumn": null,
+                "colorRulesDisabled": true,
+                "colorStyle": "light",
+                "colorRules": [
+                    {
+                        "id": "d46c0aee-da30-4141-991f-2b60333af770",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "values": [
+                                    "4.7"
+                                ],
+                                "operator": ">=",
+                                "column": "Overall_SAT"
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "86151ae1-7b25-4f05-8715-c0bdf7e34f65",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "e840dd08-3ba4-4064-982a-55f675cb5922",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1d54e6d4-7fdc-4968-b2a9-d9ca8479686b",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "b2fc11d0-c448-4984-bbb8-366a3b73ded4",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Professional_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1b2d0262-d5d1-4a8d-9bae-cfad1794d09a",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": null,
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "27d4046a-4fa5-44e1-bdf4-c9a24ba23d92",
+            "title": "Survey rate",
+            "visualType": "card",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 16,
+                "y": 4,
+                "width": 4,
+                "height": 3
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "dd3e695a-a843-4c32-83d6-7ef5208370f9"
+            },
+            "visualOptions": {
+                "multiStat__textSize": "auto",
+                "multiStat__valueColumn": null,
+                "colorRulesDisabled": true,
+                "colorStyle": "light",
+                "colorRules": [
+                    {
+                        "id": "d46c0aee-da30-4141-991f-2b60333af770",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "values": [
+                                    "4.7"
+                                ],
+                                "operator": ">=",
+                                "column": "Overall_SAT"
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "86151ae1-7b25-4f05-8715-c0bdf7e34f65",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Overall_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "e840dd08-3ba4-4064-982a-55f675cb5922",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1d54e6d4-7fdc-4968-b2a9-d9ca8479686b",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": "Premier_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "b2fc11d0-c448-4984-bbb8-366a3b73ded4",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": ">=",
+                                "column": "Professional_SAT",
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "green",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    },
+                    {
+                        "id": "1b2d0262-d5d1-4a8d-9bae-cfad1794d09a",
+                        "ruleType": "colorByCondition",
+                        "applyToColumn": null,
+                        "hideText": false,
+                        "applyTo": "cells",
+                        "conditions": [
+                            {
+                                "operator": "<",
+                                "column": null,
+                                "values": [
+                                    "4.7"
+                                ]
+                            }
+                        ],
+                        "chainingOperator": "and",
+                        "colorStyle": "bold",
+                        "color": "red",
+                        "tag": "",
+                        "icon": null,
+                        "ruleName": "",
+                        "visualType": "card"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "9033d063-775f-487b-82d9-778040baf716",
+            "title": "Dynamics DSAT by SAP",
+            "visualType": "table",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 13,
+                "y": 31,
+                "width": 11,
+                "height": 12
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "ac7a3ace-14cb-4b94-8f5d-474dae38fa0a"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": true,
+                "colorStyle": "light",
+                "crossFilterDisabled": true,
+                "drillthroughDisabled": false,
+                "crossFilter": [
+                    {
+                        "interaction": "column",
+                        "property": "Count",
+                        "disabled": false
+                    }
+                ],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
+        },
+        {
+            "id": "44fb72f8-7658-433e-9a9a-b5d2b4c0550d",
+            "title": "SAT by month",
+            "visualType": "line",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 0,
+                "y": 43,
+                "width": 12,
+                "height": 9
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "083a5b40-688b-4eac-ada8-8aafccfad44a"
+            },
+            "visualOptions": {
+                "multipleYAxes": {
+                    "base": {
+                        "id": "-1",
+                        "label": "SAT",
+                        "columns": [],
+                        "yAxisMaximumValue": null,
+                        "yAxisMinimumValue": null,
+                        "yAxisScale": "linear",
+                        "horizontalLines": [
+                            {
+                                "id": "c1610687-d596-4a74-95d0-71e68a9480fc",
+                                "value": 4.7
+                            }
+                        ]
+                    },
+                    "additional": [],
+                    "showMultiplePanels": false
+                },
+                "hideLegend": true,
+                "legendLocation": "bottom",
+                "xColumnTitle": "Month",
+                "xColumn": null,
+                "yColumns": null,
+                "seriesColumns": null,
+                "xAxisScale": "linear",
+                "verticalLine": "",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "selectedDataOnLoad": {
+                    "all": true,
+                    "limit": 10
+                },
+                "dataPointsTooltip": {
+                    "all": false,
+                    "limit": 1
+                }
+            }
+        },
+        {
+            "id": "c7d2915e-a5bd-4778-8235-5488a7e47b53",
+            "title": "SRR by month",
+            "visualType": "line",
+            "pageId": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318",
+            "layout": {
+                "x": 12,
+                "y": 43,
+                "width": 12,
+                "height": 9
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "333e7aa4-a69a-4fed-a839-cee3a2b6c315"
+            },
+            "visualOptions": {
+                "multipleYAxes": {
+                    "base": {
+                        "id": "-1",
+                        "label": "SRR (%)",
+                        "columns": [],
+                        "yAxisMaximumValue": null,
+                        "yAxisMinimumValue": null,
+                        "yAxisScale": "linear",
+                        "horizontalLines": [
+                            {
+                                "id": "bea6b967-9690-47ec-bc20-6cf681e9eb3f",
+                                "value": 20
+                            }
+                        ]
+                    },
+                    "additional": [],
+                    "showMultiplePanels": false
+                },
+                "hideLegend": true,
+                "legendLocation": "bottom",
+                "xColumnTitle": "Month",
+                "xColumn": null,
+                "yColumns": null,
+                "seriesColumns": null,
+                "xAxisScale": "linear",
+                "verticalLine": "",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "selectedDataOnLoad": {
+                    "all": true,
+                    "limit": 10
+                },
+                "dataPointsTooltip": {
+                    "all": false,
+                    "limit": 1
+                }
+            }
+        }
+    ],
+    "baseQueries": [],
+    "parameters": [
+        {
+            "kind": "string",
+            "id": "c7f8f083-b7a9-47f7-b258-92d078ebc930",
+            "displayName": "Engineer",
+            "description": "",
+            "variableName": "sealias",
+            "selectionType": "scalar",
+            "includeAllOption": true,
+            "defaultValue": {
+                "kind": "all"
+            },
+            "dataSource": {
+                "kind": "static",
+                "values": [
+                    {
+                        "displayText": "Arsene",
+                        "value": "v-amucyo"
+                    },
+                    {
+                        "displayText": "Derick",
+                        "value": "v-dfuraha"
+                    },
+                    {
+                        "displayText": "Elysee",
+                        "value": "v-elyseem"
+                    },
+                    {
+                        "displayText": "Juliette",
+                        "value": "v-jkangabe"
+                    },
+                    {
+                        "displayText": "Gilbert",
+                        "value": "v-gcyubahiro"
+                    }
+                ]
+            },
+            "showOnPages": {
+                "kind": "selection",
+                "pageIds": [
+                    "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318"
+                ]
+            }
+        },
+        {
+            "kind": "string",
+            "selectionType": "freetext",
+            "id": "d977a4d6-f876-46ff-9642-8660f5772d90",
+            "displayName": "Customer ID",
+            "variableName": "cxid",
+            "description": "",
+            "defaultValue": {
+                "kind": "all"
+            },
+            "showOnPages": {
+                "kind": "all"
+            }
+        },
+        {
+            "kind": "string",
+            "id": "0f5b78bc-08ba-41b0-b40c-423e394aebb1",
+            "displayName": "Month",
+            "description": "",
+            "variableName": "time_mth",
+            "selectionType": "scalar",
+            "includeAllOption": true,
+            "defaultValue": {
+                "kind": "value",
+                "value": "3"
+            },
+            "dataSource": {
+                "kind": "static",
+                "values": [
+                    {
+                        "value": "1"
+                    },
+                    {
+                        "value": "2"
+                    },
+                    {
+                        "value": "3"
+                    },
+                    {
+                        "value": "4"
+                    },
+                    {
+                        "value": "5"
+                    },
+                    {
+                        "value": "6"
+                    },
+                    {
+                        "value": "7"
+                    },
+                    {
+                        "value": "8"
+                    },
+                    {
+                        "value": "9"
+                    },
+                    {
+                        "value": "10"
+                    },
+                    {
+                        "value": "11"
+                    },
+                    {
+                        "value": "12"
+                    }
+                ]
+            },
+            "showOnPages": {
+                "kind": "all"
+            }
+        },
+        {
+            "kind": "string",
+            "id": "438a1437-705a-4282-bdd8-50e577fef648",
+            "displayName": "Quarter",
+            "description": "",
+            "variableName": "time_qt",
+            "selectionType": "scalar",
+            "includeAllOption": true,
+            "defaultValue": {
+                "kind": "all"
+            },
+            "dataSource": {
+                "kind": "static",
+                "values": [
+                    {
+                        "value": "1"
+                    },
+                    {
+                        "value": "2"
+                    },
+                    {
+                        "value": "3"
+                    },
+                    {
+                        "value": "4"
+                    }
+                ]
+            },
+            "showOnPages": {
+                "kind": "all"
+            }
+        },
+        {
+            "kind": "string",
+            "id": "94dd20a8-806f-4a93-92d3-582e00c9641c",
+            "displayName": "Year",
+            "description": "",
+            "variableName": "time_yr",
+            "selectionType": "scalar",
+            "includeAllOption": true,
+            "defaultValue": {
+                "kind": "value",
+                "value": "2025"
+            },
+            "dataSource": {
+                "kind": "static",
+                "values": [
+                    {
+                        "value": "2024"
+                    },
+                    {
+                        "value": "2025"
+                    }
+                ]
+            },
+            "showOnPages": {
+                "kind": "all"
+            }
+        }
+    ],
+    "dataSources": [
+        {
+            "id": "75bb739c-0a85-448b-a636-bc624fa7b704",
+            "kind": "manual-kusto",
+            "scopeId": "kusto",
+            "name": "u360sec",
+            "clusterUri": "https://u360sec.kusto.windows.net/",
+            "database": "KPISupportData"
+        }
+    ],
+    "pages": [
+        {
+            "name": "KPI",
+            "id": "7c9a0760-9c7b-48d3-8b23-6d59b5fc9318"
+        }
+    ],
+    "queries": [
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| extend Agent = case(\nAgentAlias==\"v-amucyo\",\"Arsene\",\nAgentAlias==\"v-gcyubahiro\",\"Gilbert\",\nAgentAlias==\"v-dfuraha\",\"Derick\",\nAgentAlias==\"v-elyseem\",\"Elysee\",\nAgentAlias==\"v-jkangabe\",\"Juliette\", \"Other\")\n| where isempty(TotalCustomerSATScore) == false\n| where * contains cxid or isempty(cxid)\n| project Time=ClosedDateTime, SR=IncidentId, Agent, SAT=TotalCustomerSATScore,  Verbatim=SurveyVerbatims, Servicelevel, Channel=SupportChannel, Status, Country=SupportCountry, CustomerId\n| order by Time desc \n\n//for all\n// CSATDataVNext\n// | where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n// | where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n// | where isempty(TotalCustomerSATScore) == false\n// | where * contains cxid or isempty(cxid)\n// | project ClosedDateTime, IncidentId, AgentAlias, TotalCustomerSATScore,  SurveyVerbatims, InternalTitle, Status, Severity, OwnershipCount, SupportCountry, CreationChannel, Title, Servicelevel, CustomerId\n// | order by ClosedDateTime desc ",
+            "id": "a1c4639e-b950-4391-a64b-28489aaca223",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| where isempty(TotalCustomerSATScore) == false\n| where * contains cxid or isempty(cxid)\n// | project CreatedDateTime, IncidentId, Agent, TotalCustomerSATScore,  SurveyVerbatims, InternalTitle, Status, Severity, OwnershipCount, SupportCountry, CreationChannel, Title, Servicelevel, CustomerId\n// | order by CreatedDateTime desc \n| summarize SAT_score=countif(SupportChannel!=\"Chat\") by TotalCustomerSATScore",
+            "id": "b4c67f2f-c8dc-4bd2-b5de-4a9fe7daae6e",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where isempty(TotalCustomerSATScore) == false\n| where * contains cxid or isempty(cxid)\n// | project CreatedDateTime, IncidentId, Agent, TotalCustomerSATScore,  SurveyVerbatims, InternalTitle, Status, Severity, OwnershipCount, SupportCountry, CreationChannel, Title, Servicelevel, CustomerId\n// | order by CreatedDateTime desc \n| summarize SAT_score=countif(SupportChannel!=\"Chat\") by TotalCustomerSATScore",
+            "id": "20fd4077-0fbf-46c7-bc32-0b69f9f408c7",
+            "usedVariables": [
+                "cxid",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| extend Agent = case(\nAgentAlias==\"v-amucyo\",\"Arsene\",\nAgentAlias==\"v-gcyubahiro\",\"Gilbert\",\nAgentAlias==\"v-dfuraha\",\"Derick\",\nAgentAlias==\"v-elyseem\",\"Elysee\",\nAgentAlias==\"v-jkangabe\",\"Juliette\", \"Other\")\n| where * contains cxid or isempty(cxid)\n| where isempty(TotalCustomerSATScore) == false\n// | project CreatedDateTime, IncidentId, Agent, TotalCustomerSATScore,  SurveyVerbatims, InternalTitle, Status, Severity, OwnershipCount, SupportCountry, CreationChannel, Title, Servicelevel, CustomerId\n// | order by CreatedDateTime desc \n| summarize CSAT=countif(TotalCustomerSATScore==5 and SupportChannel!=\"Chat\"), DSAT=countif(TotalCustomerSATScore!=5 and SupportChannel!=\"Chat\") by Agent",
+            "id": "a81c6842-2a6f-499a-9918-ea78521097d4",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| extend Agent = case(\nAgentAlias==\"v-amucyo\",\"Arsene\",\nAgentAlias==\"v-gcyubahiro\",\"Gilbert\",\nAgentAlias==\"v-dfuraha\",\"Derick\",\nAgentAlias==\"v-elyseem\",\"Elysee\",\nAgentAlias==\"v-jkangabe\",\"Juliette\", \"Other\")\n| where * contains cxid or isempty(cxid)\n| where SupportChannel != \"Chat\"\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nCount=count(), \nCount_BC=countif(SupportChannel != \"Chat\" and Servicelevel == \"Professional\"), \nCount_ES=countif(SupportChannel != \"Chat\" and Servicelevel == \"Premier\"), \n1_star=countif(TotalCustomerSATScore == 1), \n2_star=countif(TotalCustomerSATScore == 2), \n3_star=countif(TotalCustomerSATScore == 3), \n4_star=countif(TotalCustomerSATScore == 4), \n5_star=countif(TotalCustomerSATScore == 5), \nSum=sum(TotalCustomerSATScore),\nSum_BC=sumif(TotalCustomerSATScore, SupportChannel != \"Chat\" and Servicelevel == \"Professional\"),\nSum_ES=sumif(TotalCustomerSATScore, SupportChannel != \"Chat\" and Servicelevel == \"Premier\") by Agent\n| extend Type = case(\nAgent==\"Arsene\",\"ES\",\nAgent==\"Gilbert\",\"ES\",\nAgent==\"Derick\",\"BC\",\nAgent==\"Elysee\",\"BC\",\nAgent==\"Juliette\",\"BC\", \"Other\")\n| extend rCount = toreal(Count)\n| extend rCount_BC = toreal(Count_BC)\n| extend rCount_ES = toreal(Count_ES)\n| extend rSum = toreal(Sum)\n| extend rSum_BC = toreal(Sum_BC)\n| extend rSum_ES = toreal(Sum_ES)\n| extend Avg = iff(round(rSum/rCount,2)>5,toreal(5),round(rSum/rCount,2))\n| extend Avg_BC = iff(round(rSum_BC/rCount_BC,2)>5,toreal(5),round(rSum_BC/rCount_BC,2))\n| extend Avg_ES = iff(round(rSum_ES/rCount_ES,2)>5,toreal(5),round(rSum_ES/rCount_ES,2))\n| extend 5count = iff(isnan(Avg)==true, real(1), iff(Avg>=4.7,real(0),ceiling(((4.7*Count)-Sum)/(5-4.7))))\n| extend 5count_BC = iff((isnan(Avg_BC)==true and Type==\"BC\"), real(1), iff(Avg_BC>=4.6,real(0),ceiling(((4.6*Count_BC)-Sum_BC)/(5-4.6)))) \n| extend 5count_ES = iff((isnan(Avg_ES)==true and Type==\"ES\"), real(1), iff(Avg_ES>=4.7,real(0),ceiling(((4.7*Count_ES)-Sum_ES)/(5-4.7))))\n| project Agent, Survey_count=Count, 1_star, 2_star, 3_star, 4_star, 5_star, Current_SAT=Avg, 5_star_needed=5count, 5_star_needed_ES=5count_ES, 5_star_needed_BC=5count_BC\n| order by 5_star_needed desc ",
+            "id": "ed052ba9-539e-4410-87df-f21ae8b76fa5",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nOverall_SAT = round(avgif(TotalCustomerSATScore, SupportChannel != \"Chat\"),2)\n\n// | summarize \n// Overall_SAT = round(avgif(TotalCustomerSATScore, CreationChannel != \"Chat\"),2), \n// Premier_SAT = round(avgif(TotalCustomerSATScore,Servicelevel ==\"Premier\" and CreationChannel != \"Chat\"),2), \n// Professional_SAT = round(avgif(TotalCustomerSATScore,Servicelevel ==\"Professional\" and CreationChannel != \"Chat\"),2), \n// Premier_Survey_count = strcat(\"Overall: \", tostring(countif(CreationChannel != \"Chat\" and Servicelevel == \"Premier\")), \" / CSAT: \", tostring(countif(TotalCustomerSATScore == 5 and CreationChannel != \"Chat\" and Servicelevel == \"Premier\")), \" / DSAT: \",tostring(countif(TotalCustomerSATScore != 5 and CreationChannel != \"Chat\" and Servicelevel == \"Premier\"))),\n// Professional_Survey_count = strcat(\"Overall: \", tostring(countif(CreationChannel != \"Chat\" and Servicelevel == \"Professional\")), \" / CSAT: \", tostring(countif(TotalCustomerSATScore == 5 and CreationChannel != \"Chat\" and Servicelevel == \"Professional\")), \" / DSAT: \",tostring(countif(TotalCustomerSATScore != 5 and CreationChannel != \"Chat\" and Servicelevel == \"Professional\")))",
+            "id": "3c3b8d1b-48eb-4a07-a7ae-34f3c349e151",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nPremier_SAT = round(avgif(TotalCustomerSATScore,Servicelevel ==\"Premier\" and SupportChannel != \"Chat\"),2)",
+            "id": "7d4dfbcb-b407-4cf6-8ccf-c8fb98cc8ec9",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nProfessional_SAT = round(avgif(TotalCustomerSATScore,Servicelevel ==\"Professional\" and SupportChannel != \"Chat\"),2)",
+            "id": "c0e36fb5-8c62-4170-ac0b-7788dc63ca5b",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| where * contains cxid or isempty(cxid)\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nOverall = tostring(countif(SupportChannel != \"Chat\" and Servicelevel == \"Premier\")), \nCSAT = tostring(countif(TotalCustomerSATScore == 5 and SupportChannel != \"Chat\" and Servicelevel == \"Premier\")), \nDSAT = tostring(countif(TotalCustomerSATScore != 5 and SupportChannel != \"Chat\" and Servicelevel == \"Premier\")), \nCount=countif(SupportChannel != \"Chat\" and Servicelevel == \"Premier\"), \nSum=sumif(TotalCustomerSATScore, SupportChannel != \"Chat\" and Servicelevel == \"Premier\")\n| extend rCount = toreal(Count)\n| extend rSum = toreal(Sum)\n| extend Avg = iff(round(rSum/rCount,2)>5,toreal(5),round(rSum/rCount,2))\n| extend 5count = iff(Avg>=4.7,real(0),ceiling(((4.7*Count)-Sum)/(5-4.7)))\n| project Details = strcat(\n'**Overall**: ', Overall, \n'\\n\\n**CSAT**: ', CSAT, \n'\\n\\n**DSAT**: ', DSAT,\n'\\n\\n**5 star to hit target**: ', toint(5count)\n)",
+            "id": "8f6e71fb-bf47-4782-a0f1-2acd0bfaed5d",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nOverall = tostring(countif(SupportChannel != \"Chat\" and Servicelevel == \"Professional\")), \nCSAT = tostring(countif(TotalCustomerSATScore == 5 and SupportChannel != \"Chat\" and Servicelevel == \"Professional\")), \nDSAT = tostring(countif(TotalCustomerSATScore != 5 and SupportChannel != \"Chat\" and Servicelevel == \"Professional\")), \nCount=countif(SupportChannel != \"Chat\" and Servicelevel == \"Professional\"), \nSum=sumif(TotalCustomerSATScore, SupportChannel != \"Chat\" and Servicelevel == \"Professional\")\n| extend rCount = toreal(Count)\n| extend rSum = toreal(Sum)\n| extend Avg = iff(round(rSum/rCount,2)>5,toreal(5),round(rSum/rCount,2))\n| extend 5count = iff(Avg>=4.6,real(0),ceiling(((4.6*Count)-Sum)/(5-4.6)))\n| project Details = strcat(\n'**Overall**: ', Overall, \n'\\n\\n**CSAT**: ', CSAT, \n'\\n\\n**DSAT**: ', DSAT,\n'\\n\\n**5 star to hit target**: ', toint(5count)\n)",
+            "id": "411eeb31-12fe-498a-b934-56ff24a5aceb",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| where * contains cxid or isempty(cxid)\n| where isempty(TotalCustomerSATScore) == false\n| summarize \nOverall = tostring(countif(SupportChannel != \"Chat\")), \nCSAT = tostring(countif(TotalCustomerSATScore == 5 and SupportChannel != \"Chat\")), \nDSAT = tostring(countif(TotalCustomerSATScore != 5 and SupportChannel != \"Chat\")), \nCount=countif(SupportChannel != \"Chat\"), \nSum=sumif(TotalCustomerSATScore, SupportChannel != \"Chat\")\n| extend rCount = toreal(Count)\n| extend rSum = toreal(Sum)\n| extend Avg = iff(round(rSum/rCount,2)>5,toreal(5),round(rSum/rCount,2))\n| extend 5count = iff(Avg>=4.7,real(0),ceiling(((4.7*Count)-Sum)/(5-4.7)))\n| project Details = strcat(\n'**Overall**: ', Overall, \n'\\n\\n**CSAT**: ', CSAT, \n'\\n\\n**DSAT**: ', DSAT,\n'\\n\\n**5 star to hit target**: ', toint(5count)\n)",
+            "id": "002062d7-4ebf-41d0-938d-0172aa063570",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where State == \"Resolved\"\n| where SupportChannel != \"Chat\"\n| summarize Surveycount = \nstrcat(tostring(round((todouble(countif(isempty(TotalCustomerSATScore) == false))/todouble(count())*100),2)),\" %\")",
+            "id": "60fab62f-b0e2-48e8-8997-1324cc3a17b9",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where State == \"Resolved\"\n| where SupportChannel != \"Chat\"\n| where Servicelevel == \"Premier\"\n| summarize Surveycount = strcat(tostring(round((todouble(countif(isempty(TotalCustomerSATScore) == false))/todouble(count())*100),2)),\" %\")",
+            "id": "2ff50672-88f5-4e85-960d-5f4445c71fcf",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where State == \"Resolved\"\n| where SupportChannel != \"Chat\"\n| where Servicelevel == \"Professional\"\n| summarize Surveycount = strcat(tostring(round((todouble(countif(isempty(TotalCustomerSATScore) == false))/todouble(count())*100),2)),\" %\")",
+            "id": "dd3e695a-a843-4c32-83d6-7ef5208370f9",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('month', ClosedDateTime) == time_mth or isempty(time_mth)\n| where datetime_part('quarter', ClosedDateTime) == time_qt or isempty(time_qt)\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where isempty(TotalCustomerSATScore) == false\n| where TotalCustomerSATScore != 5\n| where * contains cxid or isempty(cxid)\n| where SapPath startswith \"Dynamics\"\n// | project CreatedDateTime, IncidentId, Agent, TotalCustomerSATScore,  SurveyVerbatims, InternalTitle, Status, Severity, OwnershipCount, SupportCountry, CreationChannel, Title, Servicelevel, CustomerId\n// | order by CreatedDateTime desc \n| summarize count() by SapPath\n| project SapPath, count_",
+            "id": "ac7a3ace-14cb-4b94-8f5d-474dae38fa0a",
+            "usedVariables": [
+                "cxid",
+                "time_mth",
+                "time_qt",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where AgentAlias == sealias or isempty(sealias)\n| where isempty(TotalCustomerSATScore) == false\n| summarize Overall_SAT = round(avgif(TotalCustomerSATScore, SupportChannel != \"Chat\"),2) by Month = toint(datetime_part('month', ClosedDateTime))\n| order by Month asc ",
+            "id": "083a5b40-688b-4eac-ada8-8aafccfad44a",
+            "usedVariables": [
+                "sealias",
+                "time_yr"
+            ]
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "75bb739c-0a85-448b-a636-bc624fa7b704"
+            },
+            "text": "AllCloudsSupportIncidentWithReferenceModelVNext\n| where datetime_part('year', ClosedDateTime) == time_yr or isempty(time_yr)\n| where AgentAlias in (\n\"v-amucyo\",\"Arsene\",\n\"v-gcyubahiro\",\"Gilbert\",\n\"v-dfuraha\",\"Derick\",\n\"v-elyseem\",\"Elysee\",\n\"v-jkangabe\",\"Juliette\"\n)\n| where * contains cxid or isempty(cxid)\n| where AgentAlias == sealias or isempty(sealias)\n| where State == \"Resolved\"\n| where SupportChannel != \"Chat\"\n| summarize Surveycount = round((todouble(countif(isempty(TotalCustomerSATScore) == false))/todouble(count())*100),2) by Month = toint(datetime_part('month', ClosedDateTime))\n| order by Month asc",
+            "id": "333e7aa4-a69a-4fed-a839-cee3a2b6c315",
+            "usedVariables": [
+                "cxid",
+                "sealias",
+                "time_yr"
+            ]
+        }
+    ]
+}
