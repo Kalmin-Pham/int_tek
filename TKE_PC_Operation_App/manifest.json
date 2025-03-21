@@ -1,0 +1,127 @@
+{
+    "schema": "1.0",
+    "details": {
+        "displayName": "TKE_PC_Operation",
+        "description": "",
+        "createdTime": "2025-03-21T08:02:31.0317521Z",
+        "packageTelemetryId": "9a3fa7f5-b810-4d3c-aee2-332e39189e68",
+        "creator": "Kalmin Pham (Tek Experts)",
+        "sourceEnvironment": "MCS Portfolio "
+    },
+    "resources": {
+        "d4b94810-ec94-4e21-8e69-68a47d80b87c": {
+            "type": "Microsoft.PowerApps/apps",
+            "suggestedCreationType": "New",
+            "creationType": "New, Update",
+            "details": {
+                "displayName": "TKE PC Operation"
+            },
+            "configurableBy": "User",
+            "dependsOn": [
+                "5e5addb3-764c-4f79-ad5c-66216d693a74",
+                "4b0004cf-bacf-466d-940b-0efb8bf387c2",
+                "182e42ad-43b9-40db-9a81-70ab8e6e8d2a",
+                "de7a5e28-1ea0-42b1-8fbe-b4552c288fb2",
+                "4b0004cf-bacf-466d-940b-0efb8bf387c2",
+                "a59f4524-e71f-43f0-adf8-00f054a1662a"
+            ]
+        },
+        "5e5addb3-764c-4f79-ad5c-66216d693a74": {
+            "id": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+            "name": "shared_sharepointonline",
+            "type": "Microsoft.PowerApps/apis",
+            "suggestedCreationType": "Existing",
+            "details": {
+                "displayName": "SharePoint",
+                "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1738/1.0.1738.4131/sharepointonline/icon.png"
+            },
+            "configurableBy": "System",
+            "hierarchy": "Child",
+            "dependsOn": []
+        },
+        "4b0004cf-bacf-466d-940b-0efb8bf387c2": {
+            "id": "/providers/Microsoft.PowerApps/apis/shared_logicflows",
+            "name": "shared_logicflows",
+            "type": "Microsoft.PowerApps/apis",
+            "suggestedCreationType": "Existing",
+            "details": {
+                "displayName": "Logic flows",
+                "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1725/1.0.1725.4002/logicflows/icon.png"
+            },
+            "configurableBy": "System",
+            "hierarchy": "Child",
+            "dependsOn": []
+        },
+        "182e42ad-43b9-40db-9a81-70ab8e6e8d2a": {
+            "type": "Microsoft.Flow/flows",
+            "suggestedCreationType": "New",
+            "creationType": "Existing, New, Update",
+            "details": {
+                "displayName": "TKE PC App - Create Teams post"
+            },
+            "configurableBy": "User",
+            "hierarchy": "Child",
+            "dependsOn": [
+                "5e5addb3-764c-4f79-ad5c-66216d693a74",
+                "6040aa75-119f-43a7-916a-4c8e5971b930",
+                "de7a5e28-1ea0-42b1-8fbe-b4552c288fb2",
+                "afee41ae-f378-4bbf-b669-1c1fda3bf6ae"
+            ]
+        },
+        "de7a5e28-1ea0-42b1-8fbe-b4552c288fb2": {
+            "id": "/providers/Microsoft.PowerApps/apis/shared_teams",
+            "name": "shared_teams",
+            "type": "Microsoft.PowerApps/apis",
+            "suggestedCreationType": "Existing",
+            "details": {
+                "displayName": "Microsoft Teams",
+                "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1741/1.0.1741.4152/teams/icon.png"
+            },
+            "configurableBy": "System",
+            "hierarchy": "Child",
+            "dependsOn": []
+        },
+        "a59f4524-e71f-43f0-adf8-00f054a1662a": {
+            "type": "Microsoft.Flow/flows",
+            "suggestedCreationType": "New",
+            "creationType": "Existing, New, Update",
+            "details": {
+                "displayName": "TKE PC - Send comment notification"
+            },
+            "configurableBy": "User",
+            "hierarchy": "Child",
+            "dependsOn": [
+                "de7a5e28-1ea0-42b1-8fbe-b4552c288fb2",
+                "afee41ae-f378-4bbf-b669-1c1fda3bf6ae"
+            ]
+        },
+        "6040aa75-119f-43a7-916a-4c8e5971b930": {
+            "type": "Microsoft.PowerApps/apis/connections",
+            "suggestedCreationType": "Existing",
+            "creationType": "Existing",
+            "details": {
+                "displayName": "v-ngocpham@microsoft.com",
+                "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1723/1.0.1723.3984/sharepointonline/icon.png"
+            },
+            "configurableBy": "User",
+            "hierarchy": "Child",
+            "dependsOn": [
+                "5e5addb3-764c-4f79-ad5c-66216d693a74"
+            ]
+        },
+        "afee41ae-f378-4bbf-b669-1c1fda3bf6ae": {
+            "type": "Microsoft.PowerApps/apis/connections",
+            "suggestedCreationType": "Existing",
+            "creationType": "Existing",
+            "details": {
+                "displayName": "v-ngocpham@microsoft.com",
+                "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1736/1.0.1736.4107/teams/icon.png"
+            },
+            "configurableBy": "User",
+            "hierarchy": "Child",
+            "dependsOn": [
+                "de7a5e28-1ea0-42b1-8fbe-b4552c288fb2"
+            ]
+        }
+    }
+}
