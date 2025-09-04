@@ -1,0 +1,207 @@
+- sub_podcheck:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Height: =Parent.Height-35
+      Visible: =If(activescreen="podcheck", true, false)
+      Width: =Parent.Width-glb_menu.Width
+      X: =glb_menu.Width
+      Y: =35
+    Children:
+      - TextCanvas1_44:
+          Control: Text@0.0.51
+          Properties:
+            Text: ="Issue:"
+            Weight: ='TextCanvas.Weight'.Bold
+            X: =39
+            Y: =75
+      - TextCanvas1_43:
+          Control: Text@0.0.51
+          Properties:
+            Text: ="Pod:"
+            Weight: ='TextCanvas.Weight'.Bold
+            X: =39
+            Y: =114
+      - TextCanvas1_42:
+          Control: Text@0.0.51
+          Properties:
+            Text: ="Note:"
+            Weight: ='TextCanvas.Weight'.Bold
+            X: =39
+            Y: =204
+      - TextCanvas2_38:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Start
+            PaddingLeft: =5
+            Text: =LookUp(Internal_App_Podchecker, Issue=ComboboxCanvas1_4.Selected.Issue).Pod.Value
+            Width: =Parent.Width*60%
+            X: =105
+            Y: =114
+      - TextCanvas2_37:
+          Control: Text@0.0.51
+          Properties:
+            AutoHeight: =true
+            Height: =394
+            PaddingLeft: =5
+            Text: =LookUp(Internal_App_Podchecker, Issue=ComboboxCanvas1_4.Selected.Issue).Note
+            Width: =Parent.Width*60%
+            X: =105
+            Y: =224
+      - TextCanvas1_41:
+          Control: Text@0.0.51
+          Properties:
+            Text: ="Link:"
+            Weight: ='TextCanvas.Weight'.Bold
+            X: =39
+            Y: =158
+      - LinkCanvas1_1:
+          Control: Link@0.0.45
+          Properties:
+            PaddingLeft: =5
+            Text: ="Click here"
+            URL: =LookUp(Internal_App_Podchecker, Issue=ComboboxCanvas1_4.Selected.Issue).Reference
+            X: =105
+            Y: =158
+      - ComboboxCanvas1_4:
+          Control: ComboBox@0.0.51
+          Properties:
+            BorderRadius: =10
+            InputTextPlaceholder: ="Find issue"
+            Items: =Internal_App_Podchecker
+            Width: =Parent.Width*60%
+            X: =105
+            Y: =75
+          Children:
+            - Issue2:
+                Control: ComboBoxDataField@1.5.0
+                Variant: textualColumn
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Issue"
+                  FieldName: ="Issue"
+                  FieldType: ="s"
+                  Order: =1
+            - Pod2:
+                Control: ComboBoxDataField@1.5.0
+                Variant: textualColumn
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Pod"
+                  FieldName: ="Pod"
+                  FieldType: ="E"
+                  Order: =2
+            - Note2:
+                Control: ComboBoxDataField@1.5.0
+                Variant: textualColumn
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Note"
+                  FieldName: ="Note"
+                  FieldType: ="s"
+                  Order: =3
+            - Reference2:
+                Control: ComboBoxDataField@1.5.0
+                Variant: textualColumn
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Reference"
+                  FieldName: ="Reference"
+                  FieldType: ="s"
+                  Order: =4
+            - Attachments2_1:
+                Control: ComboBoxDataField@1.5.0
+                Variant: textualColumn
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Attachments"
+                  FieldName: ="{Attachments}"
+                  FieldType: ="r*"
+                  Order: =5
+      - TextCanvas9:
+          Control: Text@0.0.51
+          Properties:
+            Fill: =RGBA(242, 229, 189, 0.6)
+            Height: =60
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: |-
+              ="Important note: Pod checker provides you the reference for pod alignment among support teams. It CANNOT replace the official confirmation from TL/SME. If you are unable to find the exact match issue here or you have any concern, please ALWAYS reach out to TL/SME for confirmation. For case transferring, TL/SME confirmation is required for all scenarios"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width
+      - ButtonCanvas6:
+          Control: Button@0.0.45
+          Properties:
+            Appearance: ='ButtonCanvas.Appearance'.Secondary
+            Height: =57
+            OnSelect: |-
+              =UpdateContext({podcheck_popup: true})
+            Text: ="If you have insight for a new pod alignment which hasn't been listed here. Please click to this button to submit your sharing."
+            Width: =Parent.Width
+            Y: =Parent.Height-ButtonCanvas6.Height
+      - Container2:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Height: =300
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            Visible: =podcheck_popup
+            X: =Parent.Width/4
+            Y: =Parent.Height/4
+          Children:
+            - TextInputCanvas5:
+                Control: TextInput@0.0.54
+                Properties:
+                  Placeholder: |-
+                    ="Brief issue topic (Ex: Solution import)"
+                  TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                  Width: =Parent.Width-40
+                  X: =Parent.Width-TextInputCanvas5.Width-20
+                  Y: =20
+            - TextInputCanvas5_1:
+                Control: TextInput@0.0.54
+                Properties:
+                  Placeholder: ="Pod (Platform or Customization)"
+                  TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                  Width: =Parent.Width-40
+                  X: =Parent.Width-TextInputCanvas5_1.Width-20
+                  Y: =TextInputCanvas5.Y+TextInputCanvas5.Height+20
+            - TextInputCanvas5_2:
+                Control: TextInput@0.0.54
+                Properties:
+                  Height: =107
+                  Mode: ='TextInputCanvas.Mode'.Multiline
+                  Placeholder: ="Reference link or insight"
+                  TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                  Width: =Parent.Width-40
+                  X: =20
+                  Y: =TextInputCanvas5_1.Y+TextInputCanvas5_1.Height+20
+            - ButtonCanvas7:
+                Control: Button@0.0.45
+                Properties:
+                  Appearance: ='ButtonCanvas.Appearance'.Secondary
+                  OnSelect: |-
+                    ='TKEPC-Sendcommentnotification'.Run(TextInputCanvas5_1.Value, TextInputCanvas5_2.Value, "v-ngocpham@microsoft.com", User().FullName, TextInputCanvas5.Value);
+                    Reset(TextInputCanvas5);
+                    Reset(TextInputCanvas5_1);
+                    Reset(TextInputCanvas5_2);
+                    UpdateContext({podcheck_popup: false})
+                  Text: ="Submit"
+                  X: =98
+                  Y: =250
+            - ButtonCanvas7_1:
+                Control: Button@0.0.45
+                Properties:
+                  Appearance: ='ButtonCanvas.Appearance'.Secondary
+                  OnSelect: |-
+                    =UpdateContext({podcheck_popup: false})
+                  Text: ="Cancel"
+                  X: =309
+                  Y: =250
