@@ -1,0 +1,2444 @@
+- sub_backup:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Height: =Parent.Height-35
+      Visible: =If(activescreen="backup", true, false)
+      Width: =Parent.Width-glb_menu.Width
+      X: =glb_menu.Width
+      Y: =35
+    Children:
+      - List_1:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            Height: =Parent.Height
+            Visible: =listvisi
+            Width: =Parent.Width
+          Children:
+            - Gallery_backup:
+                Control: DataTable@1.0.3
+                Properties:
+                  HeadingColor: =RGBA(184, 0, 0, 1)
+                  HeadingFill: =
+                  HeadingFontWeight: =FontWeight.Semibold
+                  HeadingSize: =10.5
+                  Height: =Parent.Height-36
+                  Items: |-
+                    =If(IsBlank(glb_search.Value)=false, 
+                    Filter('TKE P&C Backup tracking', 'Case number'=glb_search.Value), 
+                    If(Backup_filterview.Selected.Value="Active requests",
+                    Filter('TKE P&C Backup tracking', And(Status.Value<>"Completed", Status.Value<>"Ignored")),
+                    If(Backup_filterview.Selected.Value="My requests",
+                    Filter('TKE P&C Backup tracking', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Ignored")),
+                    If(Backup_filterview.Selected.Value="My backup request",
+                    Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Ignored")),
+                    Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Ignored"), And('Start date'<=Today(), 'End date'>=Today()))
+                    )
+                    )
+                    )
+                    )
+                  Size: =10.5
+                  Width: =Parent.Width
+                  Y: =36
+                Children:
+                  - Status_Column2:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Status"
+                        FieldName: ="Status"
+                        Order: =11
+                        Text: =ThisItem.Status.Value
+                  - End date_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="End date"
+                        FieldName: ="Nextcontactdate_x0028_forreviewe"
+                        Order: =10
+                        Text: =Text(DateValue(ThisItem.'End date'), "dddd, mmmm d")
+                  - Start date_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Start date"
+                        FieldName: ="Approvedclosuredate"
+                        Order: =7
+                        Text: =Text(DateValue(ThisItem.'Start date'), "dddd, mmmm d")
+                  - Backup engineer_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Backup engineer"
+                        FieldName: ="Reviewer"
+                        Order: =6
+                        Text: =ThisItem.'Backup engineer'.DisplayName
+                  - Created By_Column2:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Created By"
+                        FieldName: ="Author"
+                        Order: =5
+                        Text: =ThisItem.'Created By'.DisplayName
+                  - Case number_Column2:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Case number"
+                        FieldName: ="Title"
+                        IsHyperlink: =true
+                        OnSelect: |-
+                          =UpdateContext({formvisi: true});
+                          UpdateContext({listvisi: false});
+                          ViewForm(Form1_1)
+                        Order: =1
+                        Text: =ThisItem.'Case number'
+            - Backup_filterview:
+                Control: DropDown@0.0.45
+                Properties:
+                  Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                  DefaultSelectedItems: "={Value: \"My requests\"} "
+                  Items: =["Active requests", "My requests", "My backup request", "Follow up today"]
+                  X: =Parent.Width-320
+            - TextInputCanvas1_1:
+                Control: TextInput@0.0.54
+                Properties:
+                  Align: =Align.Right
+                  Appearance: ='TextInputCanvas.Appearance'.FilledLighter
+                  Value: |-
+                    =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
+                    Filter('TKE P&C Backup tracking', 'Case number'=glb_search.Value), 
+                    If(Backup_filterview.Selected.Value="Active requests",
+                    Filter('TKE P&C Backup tracking', And(Status.Value<>"Completed", Status.Value<>"Ignored")),
+                    If(Backup_filterview.Selected.Value="My requests",
+                    Filter('TKE P&C Backup tracking', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Ignored")),
+                    If(Backup_filterview.Selected.Value="My backup request",
+                    Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Ignored")),
+                    Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Ignored"), And('Start date'<=Today(), 'End date'>=Today()))
+                    )
+                    )
+                    )
+                    )))
+                  Width: =100
+                  X: =Parent.Width-420
+            - quickcreateform_1:
+                Control: GroupContainer@1.3.0
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.ExtraBold
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =550
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Visible: =quickcreateformvisi
+                  Width: =550
+                  X: =(Parent.Width/2)-275
+                  Y: =(Parent.Height/2)-275
+                Children:
+                  - ButtonCanvas2_9:
+                      Control: Button@0.0.45
+                      Properties:
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        Icon: ="Dismiss"
+                        Layout: ='ButtonCanvas.Layout'.IconOnly
+                        OnSelect: |-
+                          =UpdateContext({quickcreateformvisi: false});
+                          ResetForm(quickcreate_form_1)
+                        Width: =32
+                        X: =518
+                  - ButtonCanvas3_8:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Primary
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        Icon: ="Add"
+                        Layout: ='ButtonCanvas.Layout'.IconOnly
+                        OnSelect: |-
+                          =SubmitForm(quickcreate_form_1);
+                          UpdateContext({quickcreateformvisi: false});
+                          Refresh('TKE P&C Backup tracking');
+                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
+                          {
+                              Comment: Concatenate(User().FullName, " created a backup request for case ", casenum),
+                              Recipient: recipient,
+                              Channel: "TKE P&C Backup Requests"
+                          }
+                          );
+                          ResetForm(quickcreate_form_1)
+                        Text: ="Create"
+                        Width: =32
+                  - TextCanvas7_5:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =31
+                        Text: ="New Backup request"
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =350
+                        X: =100
+                  - quickcreate_form_1:
+                      Control: Form@2.4.4
+                      Layout: Vertical
+                      Properties:
+                        DataSource: ='TKE P&C Backup tracking'
+                        DefaultMode: =FormMode.New
+                        NumberOfColumns: =1
+                        Width: =550
+                        Y: =40
+                      Children:
+                        - Case number_DataCard4:
+                            Control: TypedDataCard@1.0.7
+                            Variant: TextualEdit
+                            IsLocked: true
+                            Properties:
+                              DataField: ="Title"
+                              Default: =ThisItem.'Case number'
+                              DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Case number')
+                              MaxLength: =DataSourceInfo([@'TKE P&C Backup tracking'], DataSourceInfo.MaxLength, 'Case number')
+                              Required: =false
+                              Update: =DataCardValue38.Value
+                              Width: =550
+                              X: =0
+                              Y: =0
+                            Children:
+                              - DataCardKey38:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =Parent.Width - 48
+                                    Wrap: =false
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue38:
+                                  Control: TextInput@0.0.54
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DisplayMode: =Parent.DisplayMode
+                                    Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                                    OnChange: |-
+                                      =UpdateContext({casenum: DataCardValue38.Value})
+                                    Required: =Parent.Required
+                                    ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                    Value: =Parent.Default
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey38.Y + DataCardKey38.Height + 4
+                              - ErrorMessage37:
+                                  Control: Text@0.0.51
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue38.Y + DataCardValue38.Height
+                              - StarVisible37:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey38.Y
+                        - Service level_DataCard5:
+                            Control: TypedDataCard@1.0.7
+                            Variant: ComboBoxEdit
+                            IsLocked: true
+                            Properties:
+                              DataField: ="Servicelevel"
+                              Default: =ThisItem.'Service level'
+                              DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Service level')
+                              Required: =false
+                              Update: =DataCardValue40.Selected
+                              Width: =550
+                              X: =0
+                              Y: =1
+                            Children:
+                              - DataCardKey40:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =Parent.Width - 48
+                                    Wrap: =false
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue40:
+                                  Control: ComboBox@0.0.51
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DefaultSelectedItems: =[Parent.Default]
+                                    DisplayMode: =Parent.DisplayMode
+                                    Items: =Choices([@'TKE P&C Backup tracking'].'Service level')
+                                    Required: =Parent.Required
+                                    ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey40.Y + DataCardKey40.Height + 4
+                              - ErrorMessage39:
+                                  Control: Text@0.0.51
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue40.Y + DataCardValue40.Height
+                              - StarVisible39:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    Height: =20
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey40.Y
+                        - Backup details_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: TextualEdit
+                            IsLocked: true
+                            Properties:
+                              DataField: ="Casereviewdetails_x0028_forrevie"
+                              Default: =ThisItem.'Backup details'
+                              DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Backup details')
+                              Height: =121
+                              MaxLength: =DataSourceInfo([@'TKE P&C Backup tracking'], DataSourceInfo.MaxLength, 'Backup details')
+                              Required: =true
+                              Update: =DataCardValue41.Value
+                              Width: =550
+                              X: =0
+                              Y: =2
+                            Children:
+                              - DataCardKey41:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =Parent.Width - 48
+                                    Wrap: =false
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue41:
+                                  Control: TextInput@0.0.54
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DisplayMode: =Parent.DisplayMode
+                                    Height: =74
+                                    Mode: ='TextInputCanvas.Mode'.Multiline
+                                    Required: =Parent.Required
+                                    ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                    Value: =Parent.Default
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey41.Y + DataCardKey41.Height + 4
+                              - ErrorMessage40:
+                                  Control: Text@0.0.51
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue41.Y + DataCardValue41.Height
+                              - StarVisible40:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey41.Y
+                        - Start date_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: DateEdit
+                            Properties:
+                              DataField: ="Approvedclosuredate"
+                              Default: =ThisItem.'Start date'
+                              DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Start date')
+                              Required: =true
+                              Update: =DataCardValue47.SelectedDate
+                              Width: =550
+                              X: =0
+                              Y: =3
+                            Children:
+                              - DataCardKey47:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =Parent.Width - 48
+                                    Wrap: =false
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue47:
+                                  Control: DatePicker@0.0.46
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DisplayMode: =Parent.DisplayMode
+                                    EndDate: =Date(Year(Today())+100, 12, 31)
+                                    SelectedDate: =DateAdd(Today(),1)
+                                    StartDate: =Date(1900, 1, 1)
+                                    ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey47.Y + DataCardKey47.Height + 4
+                              - ErrorMessage46:
+                                  Control: Text@0.0.51
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue47.Y + DataCardValue47.Height
+                              - StarVisible46:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey47.Y
+                        - End date_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: DateEdit
+                            Properties:
+                              DataField: ="Nextcontactdate_x0028_forreviewe"
+                              Default: =ThisItem.'End date'
+                              DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'End date')
+                              Required: =true
+                              Update: =DataCardValue48.SelectedDate
+                              Width: =550
+                              X: =0
+                              Y: =4
+                            Children:
+                              - DataCardKey48:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =Parent.Width - 48
+                                    Wrap: =false
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue48:
+                                  Control: DatePicker@0.0.46
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DisplayMode: =Parent.DisplayMode
+                                    EndDate: =Date(Year(Today())+100, 12, 31)
+                                    SelectedDate: =DateAdd(Today(),1)
+                                    StartDate: =Date(1900, 1, 1)
+                                    ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey48.Y + DataCardKey48.Height + 4
+                              - ErrorMessage47:
+                                  Control: Text@0.0.51
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue48.Y + DataCardValue48.Height
+                              - StarVisible47:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey48.Y
+                        - Backup engineer_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: ComboBoxEdit
+                            Properties:
+                              DataField: ="Reviewer"
+                              Default: =ThisItem.'Backup engineer'
+                              DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Backup engineer')
+                              Required: =true
+                              Update: =DataCardValue49.Selected.Engineer
+                              Width: =550
+                              X: =0
+                              Y: =5
+                            Children:
+                              - DataCardKey49:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldName
+                                  Properties:
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =Parent.Width - 48
+                                    Wrap: =false
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue49:
+                                  Control: ComboBox@0.0.51
+                                  MetadataKey: FieldValue
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DefaultSelectedItems: =[Parent.Default]
+                                    DisplayMode: =Parent.DisplayMode
+                                    Items: =Filter('TKE P&C Engineers', Role.Value<>"Manager")
+                                    OnChange: |-
+                                      =UpdateContext({recipient: DataCardValue49.Selected.Engineer})
+                                    Required: =Parent.Required
+                                    ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey49.Y + DataCardKey49.Height + 4
+                                  Children:
+                                    - Engineer7:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="Engineer"
+                                          FieldName: ="Engineer"
+                                          FieldType: ="E"
+                                          Order: =1
+                                    - Email7:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="Email"
+                                          FieldName: ="Email"
+                                          FieldType: ="s"
+                                          Order: =2
+                                    - Role7:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="Role"
+                                          FieldName: ="Role"
+                                          FieldType: ="E"
+                                          Order: =3
+                                    - AA Skill7:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="AA Skill"
+                                          FieldName: ="AASkill"
+                                          FieldType: ="E"
+                                          Order: =4
+                                    - Working shift7:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="Working shift"
+                                          FieldName: ="Workingshift"
+                                          FieldType: ="E"
+                                          Order: =5
+                                    - App_setting_Enable admin mode6:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="App_setting_Enable admin mode"
+                                          FieldName: ="App_setting_Enableadminmode"
+                                          FieldType: ="b"
+                                          Order: =6
+                                    - App_setting_Auto route ICM6:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="App_setting_Auto route ICM"
+                                          FieldName: ="App_setting_AutorouteICM"
+                                          FieldType: ="b"
+                                          Order: =7
+                                    - App_setting_Teams notification6:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="App_setting_Teams notification"
+                                          FieldName: ="App_setting_Teamsnotification"
+                                          FieldType: ="b"
+                                          Order: =8
+                                    - App_setting_Auto route Consultation6:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="App_setting_Auto route Consultation"
+                                          FieldName: ="App_setting_AutorouteConsultatio"
+                                          FieldType: ="b"
+                                          Order: =9
+                                    - Attachments7:
+                                        Control: ComboBoxDataField@1.5.0
+                                        Variant: textualColumn
+                                        IsLocked: true
+                                        Properties:
+                                          FieldDisplayName: ="Attachments"
+                                          FieldName: ="{Attachments}"
+                                          FieldType: ="r*"
+                                          Order: =10
+                              - ErrorMessage48:
+                                  Control: Text@0.0.51
+                                  MetadataKey: ErrorMessage
+                                  Properties:
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue49.Y + DataCardValue49.Height
+                              - StarVisible48:
+                                  Control: Text@0.0.51
+                                  MetadataKey: FieldRequired
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    Height: =20
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey49.Y
+            - Toolbar1_1:
+                Control: Toolbar@2.0.5
+                Properties:
+                  Height: =36
+                  Items: |-
+                    =Table(
+                        {
+                            ItemKey: "new", 
+                            ItemDisplayName: "New", 
+                            ItemIconName: "Add", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: true,
+                            ItemTooltip: "Create new backup request"
+                        },
+                        {
+                            ItemKey: "refresh", 
+                            ItemDisplayName: "Refresh", 
+                            ItemIconName: "ArrowClockwise", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: If(Form1_1.Mode=FormMode.View, false, true),
+                            ItemTooltip: "Refresh"
+                        }
+                    )
+                  OnSelect: |-
+                    =Switch(Self.Selected.ItemKey,
+                        "new", 
+                        UpdateContext({quickcreateformvisi: true});
+                        NewForm(quickcreate_form_1);
+                        UpdateContext({notichannel: "TKE P&C Backup Requests"}),
+                        "refresh",
+                        Refresh('TKE P&C Backup tracking')
+                    )
+                  Padding: ='Toolbar.Padding'.Small
+      - Form_1:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            Height: =Parent.Height
+            Visible: =formvisi
+            Width: =Parent.Width
+          Children:
+            - TextCanvas3_21:
+                Control: Text@0.0.51
+                Properties:
+                  Size: =18
+                  Text: |-
+                    =Concatenate("Backup request: ", Gallery_backup.Selected.'Case number')
+                  Visible: =Parent.Visible
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =500
+                  X: =12
+                  Y: =45
+            - TabList1_1:
+                Control: TabList@2.2.31
+                Properties:
+                  DefaultSelectedItems: |-
+                    ={Value: "Details"}
+                  FontColor: =RGBA(13, 50, 61, 1)
+                  FontWeight: =FontWeight.Semibold
+                  Height: =52
+                  Items: =["Details", "Parent case"]
+                  Size: ='TabList.Size'.Medium
+                  Width: =Parent.Width/2
+                  Y: =77
+            - Avatar1_1:
+                Control: Avatar@1.0.40
+                Properties:
+                  Appearance: ='Avatar.Appearance'.Brand
+                  Height: =35
+                  Image: =Gallery_backup.Selected.'Created By'.Picture
+                  Width: =35
+                  X: =Parent.Width-260-35
+                  Y: =3
+            - TextCanvas4_2:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(9, 33, 98, 1)
+                  Height: =25
+                  PaddingLeft: =2
+                  PaddingRight: =2
+                  Size: =12
+                  Text: =Gallery_backup.Selected.'Created By'.DisplayName
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =250
+                  X: =Parent.Width-250
+            - TextCanvas4_3:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(53, 61, 63, 1)
+                  Height: =25
+                  PaddingLeft: =2
+                  PaddingRight: =2
+                  Size: =12
+                  Text: ="Owner"
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =250
+                  X: =Parent.Width-250
+                  Y: =20
+            - Form1_2:
+                Control: Form@2.4.4
+                Layout: Vertical
+                Properties:
+                  DataSource: ='TKE P&C Backlog Management'
+                  DefaultMode: =FormMode.View
+                  Height: =Parent.Height-(TabList1_1.Y+TabList1_1.Height)
+                  Item: =LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_backup.Selected.'Case number')
+                  Visible: =If(TabList1_1.Selected.Value="Parent case", true, false)
+                  Width: =Parent.Width*70%
+                  Y: =TabList1_1.Y+TabList1_1.Height
+                Children:
+                  - Service level_DataCard4:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreComboBoxEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Servicelevel"
+                        Default: =ThisItem.'Service level'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Service level')
+                        Required: =true
+                        Update: =DataCardValue42.Selected
+                        Width: =478
+                        X: =0
+                        Y: =0
+                      Children:
+                        - DataCardKey42:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue42:
+                            Control: Classic/ComboBox@2.4.0
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              DefaultSelectedItems: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Items: =Choices([@'TKE P&C Backlog Management'].'Service level')
+                              SelectMultiple: =false
+                              Size: =10.5
+                              Tooltip: =Parent.DisplayName
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey42.Y + DataCardKey42.Height + 4
+                        - ErrorMessage41:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue42.Y + DataCardValue42.Height
+                        - StarVisible41:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =20
+                              Text: ="*"
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey42.Y
+                  - Severity_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreComboBoxEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Severity"
+                        Default: =ThisItem.Severity
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,Severity)
+                        Required: =true
+                        Update: =DataCardValue43.Selected
+                        Width: =478
+                        X: =0
+                        Y: =1
+                      Children:
+                        - DataCardKey43:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue43:
+                            Control: Classic/ComboBox@2.4.0
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              DefaultSelectedItems: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Items: =Choices([@'TKE P&C Backlog Management'].Severity)
+                              SelectMultiple: =false
+                              Size: =10.5
+                              Tooltip: =Parent.DisplayName
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey43.Y + DataCardKey43.Height + 4
+                        - ErrorMessage42:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue43.Y + DataCardValue43.Height
+                        - StarVisible42:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =20
+                              Text: ="*"
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey43.Y
+                  - Pod_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreComboBoxEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Pod"
+                        Default: =ThisItem.Pod
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,Pod)
+                        Required: =true
+                        Update: =DataCardValue44.Selected
+                        Width: =478
+                        X: =0
+                        Y: =2
+                      Children:
+                        - DataCardKey44:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue44:
+                            Control: Classic/ComboBox@2.4.0
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              DefaultSelectedItems: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Items: =Choices([@'TKE P&C Backlog Management'].Pod)
+                              SelectMultiple: =false
+                              Size: =10.5
+                              Tooltip: =Parent.DisplayName
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey44.Y + DataCardKey44.Height + 4
+                        - ErrorMessage43:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue44.Y + DataCardValue44.Height
+                        - StarVisible43:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =20
+                              Text: ="*"
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey44.Y
+                  - Customer title_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreTextualEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Customertitle"
+                        Default: =ThisItem.'Customer title'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Customer title')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backlog Management'], DataSourceInfo.MaxLength, 'Customer title')
+                        Required: =true
+                        Update: =DataCardValue45.Value
+                        Width: =478
+                        X: =0
+                        Y: =3
+                      Children:
+                        - DataCardKey45:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue45:
+                            Control: FluentV8/TextBox@1.7.2
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Required: =Parent.Required
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey45.Y + DataCardKey45.Height + 4
+                        - ErrorMessage44:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue45.Y + DataCardValue45.Height
+                        - StarVisible44:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey45.Y
+                  - Action plan_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreTextualEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Actionplan"
+                        Default: =ThisItem.'Action plan'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Action plan')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backlog Management'], DataSourceInfo.MaxLength, 'Action plan')
+                        Required: =false
+                        Update: =DataCardValue46.Value
+                        Width: =478
+                        X: =0
+                        Y: =4
+                      Children:
+                        - DataCardKey46:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue46:
+                            Control: FluentV8/TextBox@1.7.2
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Required: =Parent.Required
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey46.Y + DataCardKey46.Height + 4
+                        - ErrorMessage45:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue46.Y + DataCardValue46.Height
+                        - StarVisible45:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey46.Y
+                  - Issue description_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreTextualEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Issuedescription"
+                        Default: =ThisItem.'Issue description'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Issue description')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backlog Management'], DataSourceInfo.MaxLength, 'Issue description')
+                        Required: =false
+                        Update: =DataCardValue52.Value
+                        Width: =478
+                        X: =0
+                        Y: =5
+                      Children:
+                        - DataCardKey52:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue52:
+                            Control: FluentV8/TextBox@1.7.2
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Required: =Parent.Required
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey52.Y + DataCardKey52.Height + 4
+                        - ErrorMessage51:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue52.Y + DataCardValue52.Height
+                        - StarVisible51:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey52.Y
+                  - Note_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreTextualEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Note"
+                        Default: =ThisItem.Note
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,Note)
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backlog Management'], DataSourceInfo.MaxLength, Note)
+                        Required: =false
+                        Update: =DataCardValue54.Value
+                        Width: =478
+                        X: =0
+                        Y: =6
+                      Children:
+                        - DataCardKey54:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue54:
+                            Control: FluentV8/TextBox@1.7.2
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Required: =Parent.Required
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey54.Y + DataCardKey54.Height + 4
+                        - ErrorMessage53:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue54.Y + DataCardValue54.Height
+                        - StarVisible53:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey54.Y
+                  - Case number_DataCard3_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreTextualEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Title"
+                        Default: =ThisItem.'Case number'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Case number')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backlog Management'], DataSourceInfo.MaxLength, 'Case number')
+                        Required: =true
+                        Update: =DataCardValue55.Value
+                        Width: =478
+                        X: =0
+                        Y: =7
+                      Children:
+                        - DataCardKey55:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue55:
+                            Control: FluentV8/TextBox@1.7.2
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Required: =Parent.Required
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey55.Y + DataCardKey55.Height + 4
+                        - ErrorMessage54:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue55.Y + DataCardValue55.Height
+                        - StarVisible54:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey55.Y
+                  - Status_DataCard1_1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreComboBoxEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Status"
+                        Default: =ThisItem.Status
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,Status)
+                        Required: =true
+                        Update: =DataCardValue56.Selected
+                        Width: =478
+                        X: =0
+                        Y: =8
+                      Children:
+                        - DataCardKey56:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue56:
+                            Control: Classic/ComboBox@2.4.0
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              DefaultSelectedItems: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Items: =Choices([@'TKE P&C Backlog Management'].Status)
+                              SelectMultiple: =false
+                              Size: =10.5
+                              Tooltip: =Parent.DisplayName
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey56.Y + DataCardKey56.Height + 4
+                        - ErrorMessage55:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue56.Y + DataCardValue56.Height
+                        - StarVisible55:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =20
+                              Text: ="*"
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey56.Y
+                  - Expected Followup_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreDateEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Expected_x0020_Followup"
+                        Default: =ThisItem.'Expected Followup'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Expected Followup')
+                        Required: =false
+                        Update: =DataCardValue58_1.Value
+                        Width: =478
+                        X: =0
+                        Y: =9
+                      Children:
+                        - DataCardKey58_1:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue58_1:
+                            Control: FluentV8/DatePicker@1.5.9
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              DisplayMode: =Parent.DisplayMode
+                              MaxDate: =Date(Year(Today())+100,1,1)
+                              MinDate: =Date(1900,1,1)
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey58_1.Y + DataCardKey58_1.Height + 4
+                        - ErrorMessage56_1:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue58_1.Y + DataCardValue58_1.Height
+                        - StarVisible56_1:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey58_1.Y
+                  - Next follow up_DataCard2:
+                      Control: TypedDataCard@1.0.7
+                      Variant: PcfCoreDateEditCard
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Nextfollowup"
+                        Default: =ThisItem.'Next follow up'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backlog Management'],DataSourceInfo.DisplayName,'Next follow up')
+                        Required: =false
+                        Update: =DataCardValue59_1.Value
+                        Width: =478
+                        X: =0
+                        Y: =10
+                      Children:
+                        - DataCardKey59_1:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              FontSize: =9
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Tooltip: =Parent.DisplayName
+                              VerticalAlignment: =VerticalAlign.Bottom
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =10
+                        - DataCardValue59_1:
+                            Control: FluentV8/DatePicker@1.5.9
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              DisplayMode: =Parent.DisplayMode
+                              MaxDate: =Date(Year(Today())+100,1,1)
+                              MinDate: =Date(1900,1,1)
+                              Tooltip: =Parent.DisplayName
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey59_1.Y + DataCardKey59_1.Height + 4
+                        - ErrorMessage57_1:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              AutoHeight: =true
+                              Color: =Color.Red
+                              FontSize: =9
+                              Height: =30
+                              Text: =Parent.Error
+                              Tooltip: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue59_1.Y + DataCardValue59_1.Height
+                        - StarVisible57_1:
+                            Control: FluentV8/Label@1.8.6
+                            Properties:
+                              Alignment: =Align.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey59_1.Y
+            - TextCanvas4_4:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(9, 33, 98, 1)
+                  Height: =25
+                  PaddingLeft: =2
+                  PaddingRight: =2
+                  Size: =12
+                  Text: =Gallery_backup.Selected.'Backup engineer'.DisplayName
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =250
+                  X: =Parent.Width-500-10-Avatar1_1.Width
+            - TextCanvas4_5:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(53, 61, 63, 1)
+                  Height: =25
+                  PaddingLeft: =2
+                  PaddingRight: =2
+                  Size: =12
+                  Text: ="Backup engineer"
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =250
+                  X: =TextCanvas4_4.X
+                  Y: =TextCanvas4_3.Y
+            - Avatar1_2:
+                Control: Avatar@1.0.40
+                Properties:
+                  Appearance: ='Avatar.Appearance'.Brand
+                  Height: =35
+                  Image: =Gallery_backup.Selected.'Backup engineer'.Picture
+                  Width: =35
+                  X: =Parent.Width-500-20-Avatar1_1.Width-Avatar1_2.Width
+                  Y: =Avatar1_1.Y
+            - comment_1:
+                Control: GroupContainer@1.3.0
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(214, 221, 224, 1)
+                  BorderThickness: =0.5
+                  Height: =Parent.Height-TabList1_1.X-TabList1_1.Height
+                  Visible: =Form1_1.Visible
+                  Width: =Parent.Width*30%
+                  X: =Parent.Width-comment_1.Width
+                  Y: =TabList1_1.X+TabList1_1.Height
+                Children:
+                  - Gallery2_1:
+                      Control: Gallery@2.15.0
+                      Variant: BrowseLayout_Flexible_SocialFeed_pcfCore
+                      Properties:
+                        Height: =Parent.Height-90
+                        Items: =SortByColumns(Filter('Internal_ App_Backup_Comment', And('Case number'=Gallery_backup.Selected.'Case number', SPID=Gallery_backup.Selected.ID)), "Created", SortOrder.Descending)
+                        Width: =Parent.Width
+                        X: =Parent.Width-comment_1.Width
+                        Y: =
+                      Children:
+                        - Title1_4:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(255, 0, 0, 1)
+                              Height: =Self.Size * 1.8
+                              OnSelect: =Select(Parent)
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
+                              PaddingTop: =0
+                              Size: =10
+                              Text: =Concatenate(ThisItem.'Created By'.DisplayName, " posted on ", ThisItem.Created)
+                              VerticalAlign: =VerticalAlign.Top
+                              Width: =Parent.Width
+                        - Title1_3:
+                            Control: Label@2.5.1
+                            Properties:
+                              AutoHeight: =true
+                              Height: =Self.Size * 1.8
+                              OnSelect: =Select(Parent)
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
+                              PaddingTop: =0
+                              Size: =10
+                              Text: =ThisItem.Comment
+                              VerticalAlign: =VerticalAlign.Top
+                              Width: =Parent.Width
+                              Y: =18
+                  - TextInputCanvas3_1:
+                      Control: TextInput@0.0.54
+                      Properties:
+                        Height: =90
+                        Placeholder: ="Type you comment"
+                        Width: =Parent.Width*85%
+                        Y: =Parent.Height-90
+                  - ButtonCanvas2_8:
+                      Control: Button@0.0.45
+                      Properties:
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        Height: =90
+                        Icon: ="Send"
+                        Layout: ='ButtonCanvas.Layout'.IconOnly
+                        OnSelect: |-
+                          =NewForm(Form2_1);
+                          UpdateContext({cmt_casenumber: Gallery_backup.Selected.'Case number'});
+                          UpdateContext({cmt_comment: TextInputCanvas3_1.Value});
+                          UpdateContext({cmt_id: Gallery_backup.Selected.ID});
+                          SubmitForm(Form2_1);
+                          ResetForm(Form2_1);
+                          Reset(TextInputCanvas3_1);
+                          Refresh('Internal_ App_Backup_Comment')
+                        Width: =Parent.Width*15%
+                        X: =Parent.Width-(Parent.Width*15%)
+                        Y: =Parent.Height-90
+                  - Form2_1:
+                      Control: Form@2.4.4
+                      Layout: Vertical
+                      Properties:
+                        DataSource: ='Internal_ App_Backup_Comment'
+                        DefaultMode: =FormMode.New
+                        Visible: =false
+                        Width: =409.8
+                        Y: =40
+                      Children:
+                        - Comment_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: PcfCoreTextualEditCard
+                            IsLocked: true
+                            Properties:
+                              DataField: ="Comment"
+                              Default: =ThisItem.Comment
+                              DisplayName: =DataSourceInfo([@'Internal_ App_Backup_Comment'],DataSourceInfo.DisplayName,Comment)
+                              MaxLength: =DataSourceInfo([@'Internal_ App_Backup_Comment'], DataSourceInfo.MaxLength, Comment)
+                              Required: =false
+                              Update: =DataCardValue34.Value
+                              Width: =136
+                              X: =0
+                              Y: =0
+                            Children:
+                              - DataCardKey34:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    FontSize: =9
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Tooltip: =Parent.DisplayName
+                                    VerticalAlignment: =VerticalAlign.Bottom
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue34:
+                                  Control: FluentV8/TextBox@1.7.2
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DisplayMode: =Parent.DisplayMode
+                                    Required: =Parent.Required
+                                    Tooltip: =Parent.DisplayName
+                                    Value: =cmt_comment
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey34.Y + DataCardKey34.Height + 4
+                              - ErrorMessage33_1:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    Color: =Color.Red
+                                    FontSize: =9
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Tooltip: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue34.Y + DataCardValue34.Height
+                              - StarVisible33_1:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    Alignment: =Align.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey34.Y
+                        - Recipient_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: PcfCoreComboBoxEditCard
+                            IsLocked: true
+                            Properties:
+                              DataField: ="Recipient"
+                              Default: =ThisItem.Recipient
+                              DisplayName: =DataSourceInfo([@'Internal_ App_Backup_Comment'],DataSourceInfo.DisplayName,Recipient)
+                              Required: =false
+                              Update: =DataCardValue35.Selected
+                              Width: =136
+                              X: =1
+                              Y: =0
+                            Children:
+                              - DataCardKey35:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    FontSize: =9
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Tooltip: =Parent.DisplayName
+                                    VerticalAlignment: =VerticalAlign.Bottom
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue35:
+                                  Control: Classic/ComboBox@2.4.0
+                                  Properties:
+                                    AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                                    DefaultSelectedItems: =Parent.Default
+                                    DisplayFields: =["DisplayName","Email","Picture"]
+                                    DisplayMode: =Parent.DisplayMode
+                                    Height: =32
+                                    Items: =Choices([@'Internal_ App_Backup_Comment'].Recipient)
+                                    SearchFields: =["DisplayName"]
+                                    SelectMultiple: =false
+                                    Size: =10.5
+                                    Tooltip: =Parent.DisplayName
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey35.Y + DataCardKey35.Height + 4
+                              - ErrorMessage34:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    Color: =Color.Red
+                                    FontSize: =9
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Tooltip: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue35.Y + DataCardValue35.Height
+                              - StarVisible34:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    Alignment: =Align.Center
+                                    Height: =20
+                                    Text: ="*"
+                                    VerticalAlignment: =VerticalAlign.Bottom
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey35.Y
+                        - Case number_DataCard6:
+                            Control: TypedDataCard@1.0.7
+                            Variant: PcfCoreTextualEditCard
+                            IsLocked: true
+                            Properties:
+                              DataField: ="Casenumber"
+                              Default: =ThisItem.'Case number'
+                              DisplayName: =DataSourceInfo([@'Internal_ App_Backup_Comment'],DataSourceInfo.DisplayName,'Case number')
+                              MaxLength: =DataSourceInfo([@'Internal_ App_Backup_Comment'], DataSourceInfo.MaxLength, 'Case number')
+                              Required: =false
+                              Update: =DataCardValue36.Value
+                              Width: =136
+                              X: =0
+                              Y: =1
+                            Children:
+                              - DataCardKey36:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    FontSize: =9
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Tooltip: =Parent.DisplayName
+                                    VerticalAlignment: =VerticalAlign.Bottom
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue36:
+                                  Control: FluentV8/TextBox@1.7.2
+                                  Properties:
+                                    AccessibleLabel: =Parent.DisplayName
+                                    DisplayMode: =Parent.DisplayMode
+                                    Required: =Parent.Required
+                                    Tooltip: =Parent.DisplayName
+                                    Value: =cmt_casenumber
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey36.Y + DataCardKey36.Height + 4
+                              - ErrorMessage35:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    Color: =Color.Red
+                                    FontSize: =9
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Tooltip: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue36.Y + DataCardValue36.Height
+                              - StarVisible35:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    Alignment: =Align.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey36.Y
+                        - SPID_DataCard1:
+                            Control: TypedDataCard@1.0.7
+                            Variant: PcfCoreNumberEditCard
+                            IsLocked: true
+                            Properties:
+                              DataField: ="SPID"
+                              Default: =ThisItem.SPID
+                              DisplayName: =DataSourceInfo([@'Internal_ App_Backup_Comment'],DataSourceInfo.DisplayName,SPID)
+                              Required: =false
+                              Update: =Value(DataCardValue37.Text)
+                              Width: =136
+                              X: =0
+                              Y: =2
+                            Children:
+                              - DataCardKey37:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    FontSize: =9
+                                    Height: =22
+                                    Text: =Parent.DisplayName
+                                    Tooltip: =Parent.DisplayName
+                                    VerticalAlignment: =VerticalAlign.Bottom
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =10
+                              - DataCardValue37:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                                    BorderThickness: =0
+                                    Default: =cmt_id
+                                    DelayOutput: =true
+                                    DisplayMode: =Parent.DisplayMode
+                                    Format: =TextFormat.Number
+                                    Height: =32
+                                    PaddingBottom: =4
+                                    PaddingRight: =12
+                                    PaddingTop: =0
+                                    RadiusBottomLeft: =3
+                                    RadiusBottomRight: =3
+                                    RadiusTopLeft: =3
+                                    RadiusTopRight: =3
+                                    Tooltip: =Parent.DisplayName
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardKey37.Y + DataCardKey37.Height + 4
+                              - ErrorMessage36:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    AutoHeight: =true
+                                    Color: =Color.Red
+                                    FontSize: =9
+                                    Height: =30
+                                    Text: =Parent.Error
+                                    Tooltip: =Parent.Error
+                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =Parent.Width - 48
+                                    X: =24
+                                    Y: =DataCardValue37.Y + DataCardValue37.Height
+                              - StarVisible36:
+                                  Control: FluentV8/Label@1.8.6
+                                  Properties:
+                                    Alignment: =Align.Center
+                                    Height: =30
+                                    Text: ="*"
+                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                    Width: =30
+                                    Y: =DataCardKey37.Y
+            - Toolbar2_1:
+                Control: Toolbar@2.0.5
+                Properties:
+                  Height: =36
+                  Items: |-
+                    =Table(
+                        {
+                            ItemKey: "close", 
+                            ItemDisplayName: "Close", 
+                            ItemIconName: "Dismiss", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: true,
+                            ItemTooltip: "Close"
+                        },
+                        {
+                            ItemKey: "save", 
+                            ItemDisplayName: "Save", 
+                            ItemIconName: "Save", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: If(Form1_1.Mode=FormMode.View, false, true),
+                            ItemTooltip: "Save record"
+                        },
+                        {
+                            ItemKey: "edit", 
+                            ItemDisplayName: "Edit", 
+                            ItemIconName: "Edit", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: If(And(Form1_1.Mode=FormMode.View, Gallery_backup.Selected.Status.Value<>"Completed", Gallery_backup.Selected.Status.Value<>"Ignored"), true, false),
+                            ItemTooltip: "Edit record"
+                        },
+                        {
+                            ItemKey: "delete", 
+                            ItemDisplayName: "Delete", 
+                            ItemIconName: "Delete", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: If(Form1_1.Mode=FormMode.View, true, false),
+                            ItemTooltip: "Delete record"
+                        },
+                        {
+                            ItemKey: "ack", 
+                            ItemDisplayName: "Acknowledge", 
+                            ItemIconName: "Eye", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: If(And(Form1_1.Mode=FormMode.View, Gallery_backup.Selected.Status.Value="Pending"), true, false),
+                            ItemTooltip: "Acknowledge"
+                        },
+                        {
+                            ItemKey: "refresh", 
+                            ItemDisplayName: "Refresh", 
+                            ItemIconName: "ArrowClockwise", 
+                            ItemAppearance: "Subtle", 
+                            ItemIconStyle: "Regular", 
+                            ItemDisabled: false,
+                            ItemVisible: If(Form1_1.Mode=FormMode.View, true, false),
+                            ItemTooltip: "Refresh"
+                        }
+                    )
+                  OnSelect: |-
+                    =Switch(Self.Selected.ItemKey,
+                        "close", 
+                        UpdateContext({formvisi: false});
+                        UpdateContext({listvisi: true}),
+                        "save", 
+                        SubmitForm(Form1_1);
+                        Refresh('TKE P&C Backup tracking');
+                        ViewForm(Form1_1);
+                        ViewForm(Form1_1),
+                        "edit",
+                        EditForm(Form1_1),
+                        "delete",
+                        UpdateContext({deleteconfirmvisi: true}),
+                        "ack",
+                        Patch('TKE P&C Backup tracking', Gallery_backup.Selected,
+                        {
+                            Status: {Value: "In progress"}
+                        });
+                        Refresh('TKE P&C Backup tracking'),
+                        "refresh",
+                        Refresh('Internal_ App_Backup_Comment');
+                        Refresh('TKE P&C Backup tracking')
+                    )
+                  Padding: ='Toolbar.Padding'.Small
+                  Width: =Parent.Width-(Parent.Width-Avatar1_2.X)-50
+            - Form1_1:
+                Control: Form@2.4.4
+                Layout: Vertical
+                Properties:
+                  DataSource: ='TKE P&C Backup tracking'
+                  DefaultMode: =FormMode.View
+                  Height: =Parent.Height-(TabList1_1.Y+TabList1_1.Height)
+                  Item: =Gallery_backup.Selected
+                  NumberOfColumns: =2
+                  Visible: =If(TabList1_1.Selected.Value="Details", true, false)
+                  Width: =Parent.Width*70%
+                  Y: =TabList1_1.Y+TabList1_1.Height
+                Children:
+                  - Case number_DataCard5:
+                      Control: TypedDataCard@1.0.7
+                      Variant: TextualEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Title"
+                        Default: =ThisItem.'Case number'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Case number')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backup tracking'], DataSourceInfo.MaxLength, 'Case number')
+                        Required: =false
+                        Update: =DataCardValue53.Value
+                        Width: =430
+                        X: =0
+                        Y: =0
+                      Children:
+                        - DataCardKey53:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue53:
+                            Control: TextInput@0.0.54
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey53.Y + DataCardKey53.Height + 4
+                        - ErrorMessage52:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue53.Y + DataCardValue53.Height
+                        - StarVisible52:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey53.Y
+                  - Risk_DataCard2:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Risk"
+                        Default: =ThisItem.Risk
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,Risk)
+                        Required: =false
+                        Update: =DataCardValue60.Selected
+                        Width: =430
+                        X: =1
+                        Y: =0
+                      Children:
+                        - DataCardKey60:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue60:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Backup tracking'].Risk)
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey60.Y + DataCardKey60.Height + 4
+                        - ErrorMessage59:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue60.Y + DataCardValue60.Height
+                        - StarVisible59:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey60.Y
+                  - Service level_DataCard6:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Servicelevel"
+                        Default: =ThisItem.'Service level'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Service level')
+                        Required: =false
+                        Update: =DataCardValue61.Selected
+                        Width: =430
+                        X: =0
+                        Y: =1
+                      Children:
+                        - DataCardKey61:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue61:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Backup tracking'].'Service level')
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey61.Y + DataCardKey61.Height + 4
+                        - ErrorMessage60:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue61.Y + DataCardValue61.Height
+                        - StarVisible60:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey61.Y
+                  - Status_DataCard4:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Status"
+                        Default: =ThisItem.Status
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,Status)
+                        Required: =false
+                        Update: =DataCardValue68.Selected
+                        Width: =430
+                        X: =1
+                        Y: =1
+                      Children:
+                        - DataCardKey68:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue68:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Backup tracking'].Status)
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey68.Y + DataCardKey68.Height + 4
+                        - ErrorMessage67:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue68.Y + DataCardValue68.Height
+                        - StarVisible67:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey68.Y
+                  - Start date_DataCard3:
+                      Control: TypedDataCard@1.0.7
+                      Variant: DateEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Approvedclosuredate"
+                        Default: =ThisItem.'Start date'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Start date')
+                        Required: =true
+                        Update: =DataCardValue63.SelectedDate
+                        Width: =430
+                        X: =0
+                        Y: =2
+                      Children:
+                        - DataCardKey63:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue63:
+                            Control: DatePicker@0.0.46
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              EndDate: =Date(Year(Today())+100, 12, 31)
+                              SelectedDate: =Parent.Default
+                              StartDate: =Date(1900, 1, 1)
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey63.Y + DataCardKey63.Height + 4
+                        - ErrorMessage62:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue63.Y + DataCardValue63.Height
+                        - StarVisible62:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey63.Y
+                  - End date_DataCard3:
+                      Control: TypedDataCard@1.0.7
+                      Variant: DateEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Nextcontactdate_x0028_forreviewe"
+                        Default: =ThisItem.'End date'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'End date')
+                        Required: =true
+                        Update: =DataCardValue64.SelectedDate
+                        Width: =430
+                        X: =1
+                        Y: =2
+                      Children:
+                        - DataCardKey64:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue64:
+                            Control: DatePicker@0.0.46
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              EndDate: =Date(Year(Today())+100, 12, 31)
+                              SelectedDate: =Parent.Default
+                              StartDate: =Date(1900, 1, 1)
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey64.Y + DataCardKey64.Height + 4
+                        - ErrorMessage63:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue64.Y + DataCardValue64.Height
+                        - StarVisible63:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey64.Y
+                  - Backup details_DataCard3:
+                      Control: TypedDataCard@1.0.7
+                      Variant: TextualEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Casereviewdetails_x0028_forrevie"
+                        Default: =ThisItem.'Backup details'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Backup details')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backup tracking'], DataSourceInfo.MaxLength, 'Backup details')
+                        Required: =true
+                        Update: =DataCardValue62.Value
+                        Width: =430
+                        X: =0
+                        Y: =3
+                      Children:
+                        - DataCardKey62:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue62:
+                            Control: TextInput@0.0.54
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =119
+                              Mode: ='TextInputCanvas.Mode'.Multiline
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey62.Y + DataCardKey62.Height + 4
+                        - ErrorMessage61:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue62.Y + DataCardValue62.Height
+                        - StarVisible61:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey62.Y
+                  - Engagement details_DataCard2:
+                      Control: TypedDataCard@1.0.7
+                      Variant: TextualEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Engagement1_x0028_forrevieweronl"
+                        Default: =ThisItem.'Engagement details'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Backup tracking'],DataSourceInfo.DisplayName,'Engagement details')
+                        Height: =165
+                        MaxLength: =DataSourceInfo([@'TKE P&C Backup tracking'], DataSourceInfo.MaxLength, 'Engagement details')
+                        Required: =false
+                        Update: =DataCardValue66.Value
+                        Width: =430
+                        X: =1
+                        Y: =3
+                      Children:
+                        - DataCardKey66:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue66:
+                            Control: TextInput@0.0.54
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =119
+                              Mode: ='TextInputCanvas.Mode'.Multiline
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey66.Y + DataCardKey66.Height + 4
+                        - ErrorMessage65:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue66.Y + DataCardValue66.Height
+                        - StarVisible65:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey66.Y
+            - deleteconfirm_1:
+                Control: GroupContainer@1.3.0
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.ExtraBold
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =130
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Visible: =deleteconfirmvisi
+                  Width: =300
+                  X: =(Parent.Width/2)-150
+                  Y: =(Parent.Height/2)-150
+                Children:
+                  - ButtonCanvas2_7:
+                      Control: Button@0.0.45
+                      Properties:
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        BorderRadiusBottomLeft: =10
+                        BorderRadiusBottomRight: =10
+                        BorderRadiusTopLeft: =10
+                        BorderRadiusTopRight: =10
+                        Icon: ="Dismiss"
+                        Layout: ='ButtonCanvas.Layout'.TextOnly
+                        OnSelect: |-
+                          =Remove('TKE P&C Backup tracking', Gallery_backup.Selected);
+                          UpdateContext({deleteconfirmvisi: false});
+                          UpdateContext({formvisi: false});
+                          UpdateContext({listvisi: true});
+                          RemoveIf('Internal_ App_Backup_Comment', 'Case number'=Gallery_backup.Selected.'Case number');
+                          Refresh('TKE P&C Backup tracking')
+                        Text: ="Yes"
+                        Width: =100
+                        X: =175
+                        Y: =72
+                  - ButtonCanvas3_7:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Primary
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        BorderRadiusBottomLeft: =10
+                        BorderRadiusBottomRight: =10
+                        BorderRadiusTopLeft: =10
+                        BorderRadiusTopRight: =10
+                        Icon: ="Add"
+                        Layout: ='ButtonCanvas.Layout'.TextOnly
+                        OnSelect: |-
+                          =UpdateContext({deleteconfirmvisi: false})
+                        Text: ="No"
+                        Width: =100
+                        X: =24
+                        Y: =72
+                  - TextCanvas5_1:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =40
+                        Size: =16
+                        Text: ="Do you want to delete this item?"
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =251
+                        X: =24
+                        Y: =16
