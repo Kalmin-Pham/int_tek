@@ -1,0 +1,115 @@
+- sub_notification:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Height: =Parent.Height-35
+      Visible: =If(activescreen="notification", true, false)
+      Width: =Parent.Width-glb_menu.Width
+      X: =glb_menu.Width
+      Y: =35
+    Children:
+      - Gallery1:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =Parent.Height-36
+            Items: =Filter('Internal_ App_Notifications', Recipient.Email=User().Email)
+            TemplateSize: =48
+            Width: =Parent.Width
+            Y: =36
+          Children:
+            - Title1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(255, 0, 0, 1)
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =1
+                  PaddingRight: =1
+                  PaddingTop: =1
+                  Size: =10
+                  Text: =Concatenate(ThisItem.Channel, " at ", ThisItem.Created)
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Parent.Width-30
+            - Subtitle1:
+                Control: Label@2.5.1
+                Properties:
+                  AutoHeight: =true
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =1
+                  PaddingRight: =1
+                  PaddingTop: =1
+                  Size: =10
+                  Text: =ThisItem.Comment
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Parent.Width-30
+                  X: =Title1.X
+                  Y: =Title1.Y + Title1.Height
+            - NextArrow1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =Self.Tooltip
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(39, 113, 194, 1)
+                  DisabledBorderColor: =RGBA(56, 56, 56, 1)
+                  DisabledColor: =RGBA(119, 119, 119, 1)
+                  Height: =30
+                  Icon: =Icon.Check
+                  OnSelect: =Remove('Internal_ App_Notifications', Gallery1.Selected)
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  Tooltip: ="Mark as read"
+                  Width: =30
+                  X: =Title1.Width
+            - Separator1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =8
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+                  Y: =Parent.TemplateHeight - Self.Height
+      - sub_notification_view_ribbon:
+          Control: Toolbar@2.0.5
+          Properties:
+            Height: =36
+            Items: |-
+              =Table(
+                  {
+                  ItemKey: "refresh", 
+                  ItemDisplayName: "Refresh", 
+                  ItemIconName: "ArrowClockwise", 
+                  ItemAppearance: "Subtle", 
+                  ItemIconStyle: "Regular", 
+                  ItemDisabled: false,
+                  ItemVisible: true,
+                  ItemTooltip: "Refresh notification"
+                  },
+                  {
+                  ItemKey: "deleteall", 
+                  ItemDisplayName: "Delete all notifications", 
+                  ItemIconName: "Delete", 
+                  ItemAppearance: "Subtle",
+                  ItemIconStyle: "Regular",
+                  ItemDisabled: false,
+                  ItemVisible: true,
+                  ItemTooltip: "Delete all notifications"
+                  }
+              )
+            OnSelect: |-
+              =Switch(Self.Selected.ItemKey,
+              "refresh", 
+              Refresh('Internal_ App_Notifications'),
+              "deleteall", 
+              RemoveIf('Internal_ App_Notifications', Recipient.Email=User().Email);
+              Refresh('Internal_ App_Notifications')
+              )
+            Padding: ='Toolbar.Padding'.Small
+            Width: =500
