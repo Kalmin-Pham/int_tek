@@ -1,0 +1,270 @@
+- sub_schedule:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Height: =Parent.Height-35
+      Visible: =If(activescreen="schedule", true, false)
+      Width: =Parent.Width-glb_menu.Width
+      X: =glb_menu.Width
+      Y: =35
+    Children:
+      - Gallery10:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =Parent.Height-70
+            Items: |-
+              =ForAll(
+                  Sequence(42),
+                  varFirstDayOfMonth
+                  +Value-Weekday(varFirstDayOfMonth, StartOfWeek.Sunday)
+              )
+            TemplateSize: =Self.Height/6
+            Width: =Parent.Width
+            WrapCount: =7
+            Y: =70
+          Children:
+            - TextCanvas18:
+                Control: Text@0.0.51
+                Properties:
+                  Align: ='TextCanvas.Align'.Center
+                  BorderColor: =RGBA(179, 179, 179, 1)
+                  BorderStyle: =BorderStyle.Solid
+                  BorderThickness: =0.5
+                  Fill: =If(Month(DateTimeValue(Self.Text))<>Month(Today()), RGBA(122, 138, 143, 1), RGBA(255, 255, 255, 1))
+                  FontColor: =If(Month(DateTimeValue(Self.Text))<>Month(Today()), RGBA(122, 138, 143, 1), RGBA(255, 255, 255, 1))
+                  Height: =Gallery10.TemplateHeight
+                  Text: =ThisItem.Value
+                  VerticalAlign: =VerticalAlign.Middle
+                  Width: =Gallery10.TemplateWidth
+            - TextCanvas18_1:
+                Control: Text@0.0.51
+                Properties:
+                  Align: ='TextCanvas.Align'.Center
+                  BorderColor: =RGBA(179, 179, 179, 1)
+                  BorderRadius: =15
+                  BorderThickness: =0.5
+                  Fill: =If(Date(Year(ThisItem.Value), Month(ThisItem.Value), Day(ThisItem.Value))=Today(), RGBA(62, 128, 149, 1), If(Month(ThisItem.Value)<>Month(Today()), RGBA(122, 138, 143, 1), RGBA(255, 255, 255, 1)))
+                  FontColor: =If(Date(Year(ThisItem.Value), Month(ThisItem.Value), Day(ThisItem.Value))=Today(), Color.White, Color.Black)
+                  Height: =20
+                  PaddingBottom: =2
+                  PaddingLeft: =1
+                  PaddingRight: =2
+                  Size: =12
+                  Text: =Day(ThisItem.Value)
+                  VerticalAlign: =VerticalAlign.Middle
+                  Width: =20
+                  X: =3
+                  Y: =3
+            - Gallery5:
+                Control: Gallery@2.15.0
+                Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                Properties:
+                  Height: =Gallery10.TemplateHeight-30
+                  Items: =Filter('TKE PC - Schedule', Date=ThisItem.Value, If(DropdownCanvas6.Selected.Value="All", 'Task Type'.Value<>"None", 'Task Type'.Value=DropdownCanvas6.Selected.Value), If(DropdownCanvas6_1.Selected.Value="Me", Agent.Email=User().Email, Agent.Email<>"None"))
+                  TemplateSize: =Self.Height/3
+                  Width: =Gallery10.TemplateWidth
+                  Y: =30
+                Children:
+                  - TextCanvas17:
+                      Control: Text@0.0.51
+                      Properties:
+                        AutoHeight: =true
+                        BorderRadius: =5
+                        Fill: =If(ThisItem.'Task Type'.Value="Out-of-office", RGBA(255, 184, 174, 1), ThisItem.'Task Type'.Value="Chat", RGBA(166, 215, 153, 1), ThisItem.'Task Type'.Value="Queue monitor", RGBA(180, 214, 250, 1), RGBA(255, 255, 0, 1))
+                        Height: =Gallery5.Height
+                        PaddingBottom: =0
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =2
+                        Size: =13
+                        Text: =Concatenate(Left(ThisItem.Agent.DisplayName, Len(ThisItem.Agent.DisplayName) - 25), " - ", ThisItem.Task.Value)
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =Gallery5.TemplateWidth
+                        Wrap: =false
+      - TextCanvas15:
+          Control: Text@0.0.51
+          Properties:
+            Height: =40
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: =Text(Today(), "mmmm / yyyy")
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =150
+      - DropdownCanvas6:
+          Control: DropDown@0.0.45
+          Properties:
+            Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderRadius: =5
+            BorderStyle: =BorderStyle.Solid
+            DefaultSelectedItems: |-
+              ={Value: "All"}
+            Height: =30
+            Items: =["All", "Chat", "Out-of-office", "Queue monitor", "Weekend coverage"]
+            Width: =180
+            X: =210
+            Y: =5
+      - TextCanvas15_1:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.End
+            Height: =40
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Event"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =60
+            X: =150
+      - TextCanvas15_2:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.End
+            Height: =40
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Agent"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =60
+            X: =407
+      - DropdownCanvas6_1:
+          Control: DropDown@0.0.45
+          Properties:
+            Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderRadius: =5
+            BorderStyle: =BorderStyle.Solid
+            DefaultSelectedItems: |-
+              ={Value: "Me"}
+            Height: =30
+            Items: =["Me", "Team"]
+            Width: =180
+            X: =467
+            Y: =5
+      - TextCanvas15_3:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Sunday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            Y: =40
+      - TextCanvas15_4:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Monday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            X: =Parent.Width/7
+            Y: =40
+      - TextCanvas15_5:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Tuesday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            X: =Parent.Width/7*2
+            Y: =40
+      - TextCanvas15_6:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Wednesday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            X: =Parent.Width/7*3
+            Y: =40
+      - TextCanvas15_7:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Thursday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            X: =Parent.Width/7*4
+            Y: =40
+      - TextCanvas15_8:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Friday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            X: =Parent.Width/7*5
+            Y: =40
+      - TextCanvas15_9:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Fill: =RGBA(62, 128, 149, 1)
+            FontColor: =RGBA(255, 255, 255, 1)
+            Height: =30
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Text: ="Saturday"
+            VerticalAlign: =VerticalAlign.Middle
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =Parent.Width/7
+            X: =Parent.Width/7*6
+            Y: =40
