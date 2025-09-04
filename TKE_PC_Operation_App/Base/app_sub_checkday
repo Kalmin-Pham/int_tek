@@ -1,0 +1,315 @@
+- sub_checkday:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Fill: =If(st_darkmode.Checked=true, RGBA(53, 61, 63, 1), RGBA(0, 0, 0, 0))
+      Height: =Parent.Height-35
+      Visible: =If(activescreen="checkday", true, false)
+      Width: =Parent.Width-glb_menu.Width
+      X: =glb_menu.Width
+      Y: =35
+    Children:
+      - sub_checkday_ribbon:
+          Control: Toolbar@2.0.5
+          Properties:
+            Height: =36
+            Items: |-
+              =Table(
+                  {
+                      ItemKey: "refresh", 
+                      ItemDisplayName: "Refresh", 
+                      ItemIconName: "ArrowClockwise", 
+                      ItemAppearance: "Subtle", 
+                      ItemIconStyle: "Regular", 
+                      ItemDisabled: false,
+                      ItemVisible: true,
+                      ItemTooltip: "Close"
+                  }
+              )
+            OnSelect: |-
+              =Switch(Self.Selected.ItemKey,
+              "refresh", 
+              Refresh('TKE P&C Backlog Management');
+              Refresh('TKE P&C Backup tracking');
+              Refresh('TKE P&C Consultation requests');
+              Refresh('TKE P&C ICM approval requests');
+              Refresh('TKE P&C Recovery tracking');
+              Refresh('TKE P&C Engineers')
+              )
+            Padding: ='Toolbar.Padding'.Small
+            Width: =500
+      - TextCanvas3:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("User name: ", User().FullName)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =20
+            Y: =60
+      - TextCanvas3_1:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("Role: ", LookUp('TKE P&C Engineers', Engineer.Email=User().Email).Role.Value)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =20
+            Y: =90
+      - TextCanvas3_2:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("Global auto assign: ", LookUp('TKE P&C Engineers', Engineer.Email=User().Email).'AA Skill'.Value)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =20
+            Y: =120
+      - TextCanvas3_3:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: ="Backlog Management"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =20
+            Y: =190
+      - TextCanvas3_4:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: =Concatenate(CountRows(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved")), " active case(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =220
+      - TextCanvas3_5:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())))>0,  RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: =Concatenate(CountRows(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()))), " case(s) need to follow up today")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =250
+      - TextCanvas3_6:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: ="Recovery request"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =20
+            Y: =330
+      - TextCanvas3_7:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: '=If(theme="Light", RGBA(53, 61, 63, 1), RGBA(255,255,255,1)) '
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As reviewer: ", CountRows(Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"))), " active request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =360
+      - TextCanvas3_8:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), Or(IsBlank('Next contact date (for reviewer only)')=true, 'Next contact date (for reviewer only)'<=Today())))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), Or(IsBlank('Next contact date (for reviewer only)')=true, 'Next contact date (for reviewer only)'<=Today())))>0, RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As reviewer: ", CountRows(Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), Or(IsBlank('Next contact date (for reviewer only)')=true, 'Next contact date (for reviewer only)'<=Today()))), " request(s) need to follow up today")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =390
+      - TextCanvas3_9:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: '=If(theme="Light", RGBA(53, 61, 63, 1), RGBA(255,255,255,1)) '
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As engineer: ", CountRows(Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, And(Status.Value<>"Closed", Status.Value<>"Cancelled"))), " active request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =420
+      - TextCanvas3_10:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed"))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed"))>0, RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As engineer: ", CountRows(Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed")), " request(s) are ready to close")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =450
+      - TextCanvas3_11:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: ="Consultation request"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =20
+            Y: =530
+      - TextCanvas3_12:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Requesting more details")))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Requesting more details")))>0, RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As reviewer: ", CountRows(Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Pending FTE", Status.Value<>"Requesting more details"))), " pending request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =560
+      - TextCanvas3_13:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing")))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing")))>0,  RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As engineer: ", CountRows(Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing"))), " pending request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =20
+            Y: =590
+      - TextCanvas3_14:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: ="ICM approval request"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =528
+            Y: =190
+      - TextCanvas3_15:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Approved for creation", Status.Value<>"Revision required")))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Approved for creation", Status.Value<>"Revision required")))>0,  RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As reviewer: ", CountRows(Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Approved for creation", Status.Value<>"Revision required"))), " pending request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =528
+            Y: =220
+      - TextCanvas3_16:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Reviewing", Status.Value<>"Pending", Status.Value<>"Created")))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Reviewing", Status.Value<>"Pending", Status.Value<>"Created")))>0,  RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("As engineer: ", CountRows(Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Reviewing", Status.Value<>"Pending", Status.Value<>"Created"))), " pending request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =528
+            Y: =250
+      - TextCanvas3_17:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: ="Backup request"
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =528
+            Y: =330
+      - TextCanvas3_18:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: '=If(theme="Light", RGBA(53, 61, 63, 1), RGBA(255,255,255,1)) '
+            Height: =30
+            Size: =13
+            Text: =Concatenate(CountRows(Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And(Status.Value<>"Cancel", Status.Value<>"Completed", Status.Value<>"Ignored"))), " active request(s)")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =528
+            Y: =360
+      - TextCanvas3_19:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: |-
+              =If(theme="Light",
+              If(CountRows(Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And('Start date'<=Today(), 'End date'>=Today())))>0, RGBA(184, 0, 0, 1), RGBA(53, 61, 63, 1)),
+              If(CountRows(Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And('Start date'<=Today(), 'End date'>=Today())))>0,  RGBA(225, 225, 0, 1), RGBA(225, 225, 225, 1))
+              )
+            Height: =30
+            Size: =13
+            Text: =Concatenate(CountRows(Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And('Start date'<=Today(), 'End date'>=Today()))), " request(s) need to follow up today")
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =340
+            X: =528
+            Y: =390
+      - TextCanvas3_37:
+          Control: Text@0.0.51
+          Properties:
+            FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
+            Height: =30
+            Size: =13
+            Text: |-
+              =Concatenate("Working hours: ", LookUp('TKE P&C Engineers', Engineer.Email=User().Email).'Working shift'.Value)
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =340
+            X: =360
+            Y: =60
