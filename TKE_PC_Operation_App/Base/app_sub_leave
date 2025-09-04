@@ -1,0 +1,1055 @@
+- sub_leave:
+    Control: GroupContainer@1.3.0
+    Variant: ManualLayout
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      Height: =Parent.Height-35
+      Visible: =If(activescreen="leave", true, false)
+      Width: =Parent.Width-glb_menu.Width
+      X: =glb_menu.Width
+      Y: =35
+    Children:
+      - Container3:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Height: =Parent.Height/3
+            Visible: =leave_loadmode=false
+            Width: =If(Container5.Visible=true, Parent.Width/3, Parent.Width-40)
+            X: =20
+            Y: =20
+          Children:
+            - Table2:
+                Control: Table@1.0.278
+                Properties:
+                  EnableRangeSelection: ='PowerAppsOneGrid.EnableRangeSelection'.Disable
+                  EnableSorting: ='PowerAppsOneGrid.EnableSorting'.Disable
+                  Height: =Parent.Height-30
+                  Items: |
+                    =Table(
+                        {
+                            Type: "Total", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added"), 'Leave count'),  
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved")), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email), 'Leave count')
+                        },
+                        {
+                            Type : "Annual", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added", 'Leave type'.Value="Annual"), 'Leave count'), 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Annual"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved"), 'Leave type'.Value="Annual"), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value="Annual"), 'Leave count')
+                        },
+                        {
+                            Type: "Compensation - WR", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added", 'Leave type'.Value="Compensation - WR"), 'Leave count'), 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Compensation - WR"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved"), 'Leave type'.Value="Compensation - WR"), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value="Compensation - WR"), 'Leave count')
+                        },
+                        {
+                            Type: "Compensation - PH", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added", 'Leave type'.Value="Compensation - PH"), 'Leave count'), 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Compensation - PH"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved"), 'Leave type'.Value="Compensation - PH"), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value="Compensation - PH"), 'Leave count')
+                        },
+                        {
+                            Type: "Unpaid", 
+                            Create: "", 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Unpaid"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Under review", 'Leave type'.Value="Unpaid"), 'Leave count')*-1, 
+                            Balance: ""
+                        },
+                        {
+                            Type: "Sick", 
+                            Create: "", 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Sick"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Under review", 'Leave type'.Value="Sick"), 'Leave count')*-1, 
+                            Balance: ""
+                        },
+                        {
+                            Type: "Pregnacy", 
+                            Create: "", 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Pregnacy"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Under review", 'Leave type'.Value="Pregnacy"), 'Leave count')*-1, 
+                            Balance: ""
+                        },
+                        {
+                            Type: "Maternity", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added", 'Leave type'.Value="Maternity"), 'Leave count'), 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Maternity"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved"), 'Leave type'.Value="Maternity"), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value="Maternity"), 'Leave count')
+                        },
+                        {
+                            Type: "Paternity", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added", 'Leave type'.Value="Paternity"), 'Leave count'), 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Paternity"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved"), 'Leave type'.Value="Paternity"), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value="Paternity"), 'Leave count')
+                        },
+                        {
+                            Type: "Marriage", 
+                            Create: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Added", 'Leave type'.Value="Marriage"), 'Leave count'), 
+                            Taken: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Status.Value="Taken", 'Leave type'.Value="Marriage"), 'Leave count')*-1, 
+                            Pending: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, Or(Status.Value="Under review", Status.Value="Approved"), 'Leave type'.Value="Marriage"), 'Leave count')*-1, 
+                            Balance: Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value="Marriage"), 'Leave count')
+                        }
+                    )
+                  ReflowBehavior: ='PowerAppsOneGrid.ReflowBehavior'.GridOnly
+                  Width: =Parent.Width
+                  Y: =30
+                Children:
+                  - Type1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        CanGrow: =false
+                        FieldDisplayName: ="Type"
+                        FieldName: ="Type"
+                        FieldType: ="s"
+                        Order: =1
+                        Width: =Parent.Width/5
+                  - Create2:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        CanGrow: =false
+                        FieldDisplayName: ="Create"
+                        FieldName: ="Create"
+                        FieldType: ="n"
+                        Order: =2
+                        Width: =Parent.Width/7
+                  - Pending2:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        CanGrow: =false
+                        FieldDisplayName: ="Pending"
+                        FieldName: ="Pending"
+                        FieldType: ="n"
+                        Order: =3
+                        Width: =Parent.Width/7
+                  - Taken3:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        CanGrow: =false
+                        FieldDisplayName: ="Taken"
+                        FieldName: ="Taken"
+                        FieldType: ="n"
+                        Order: =4
+                        Width: =Parent.Width/7
+                  - Balance2:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        CanGrow: =false
+                        FieldDisplayName: ="Balance"
+                        FieldName: ="Balance"
+                        FieldType: ="n"
+                        Order: =5
+                        Width: =Parent.Width/7
+            - TextCanvas14:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(184, 0, 0, 1)
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Balance"
+                  Weight: ='TextCanvas.Weight'.Semibold
+      - Container4:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Height: =Parent.Height-Container3.Height-60
+            Width: =Parent.Width-40
+            X: =20
+            Y: =Container3.Height+40
+          Children:
+            - Table3:
+                Control: Table@1.0.278
+                Properties:
+                  EnableRangeSelection: ='PowerAppsOneGrid.EnableRangeSelection'.Disable
+                  EnableSorting: ='PowerAppsOneGrid.EnableSorting'.Disable
+                  Height: =Parent.Height-36
+                  Items: =SortByColumns(Filter('TKE P&C Leave requests', Engineer.Email=User().Email), "Date", SortOrder.Descending)
+                  Visible: =leave_loadmode=false
+                  Width: =Parent.Width
+                  Y: =36
+                Children:
+                  - Leave type1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Leave type"
+                        FieldName: ="Leavetype"
+                        FieldType: ="E"
+                        Order: =2
+                  - Date1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Date"
+                        FieldName: ="Date"
+                        FieldType: ="D"
+                        Order: =3
+                  - Time off1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Time off"
+                        FieldName: ="Timeoff"
+                        FieldType: ="E"
+                        HeaderText: ="Duration"
+                        Order: =4
+                  - Status5:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Status"
+                        FieldName: ="Status"
+                        FieldType: ="E"
+                        Order: =5
+                  - Engineer12:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Engineer"
+                        FieldName: ="Engineer"
+                        FieldType: ="E"
+                        Order: =1
+                  - Urgent leave1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Urgent leave"
+                        FieldName: ="Urgentleave"
+                        FieldType: ="b"
+                        Order: =6
+                  - Due date1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Due date"
+                        FieldName: ="Duedate"
+                        FieldType: ="D"
+                        HeaderText: ="Expiration date"
+                        Order: =8
+                  - Note1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Note"
+                        FieldName: ="Note"
+                        FieldType: ="s"
+                        Order: =9
+                  - Comment1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Comment"
+                        FieldName: ="Comment"
+                        FieldType: ="s"
+                        Order: =10
+                  - Created1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Created"
+                        FieldName: ="Created"
+                        FieldType: ="d"
+                        Order: =10
+            - Toolbar4:
+                Control: Toolbar@2.0.5
+                Properties:
+                  FontColor: =RGBA(184, 0, 0, 1)
+                  Height: =36
+                  Items: |-
+                    =Table(
+                        {
+                        ItemKey: "new", 
+                        ItemDisplayName: "Submit new request", 
+                        ItemIconName: "Add", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: true,
+                        ItemTooltip: "Create new ticket"
+                        },
+                        {
+                        ItemKey: "cancel", 
+                        ItemDisplayName: "Cancel", 
+                        ItemIconName: "Dismiss", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: And(Table3.Selected.Status.Value="Under review", Table3.Selected.Status.Value="Approved"),
+                        ItemTooltip: "Refresh"
+                        },
+                        {
+                        ItemKey: "approve", 
+                        ItemDisplayName: "Approve", 
+                        ItemIconName: "Checkmark", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: And(Table3.Selected.Status.Value="Under review", LookUp('TKE P&C Engineers', Email=User().Email).Leave_approver=true),
+                        ItemTooltip: "Refresh"
+                        },
+                        {
+                        ItemKey: "reject", 
+                        ItemDisplayName: "Reject", 
+                        ItemIconName: "DismissCircle", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: And(Table3.Selected.Status.Value="Under review", LookUp('TKE P&C Engineers', Email=User().Email).Leave_approver=true),
+                        ItemTooltip: "Refresh"
+                        },
+                        {
+                        ItemKey: "urgent", 
+                        ItemDisplayName: "Mark as urgent", 
+                        ItemIconName: "Warning", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: Table3.Selected.'Urgent leave'=false,
+                        ItemTooltip: "Refresh"
+                        },
+                        {
+                        ItemKey: "add", 
+                        ItemDisplayName: "Add leave", 
+                        ItemIconName: "AppsListDetail", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: LookUp('TKE P&C Engineers', Email=User().Email).Leave_admin=true,
+                        ItemTooltip: "Refresh"
+                        },
+                        {
+                        ItemKey: "switch", 
+                        ItemDisplayName: If(leave_loadmode=true,"Switch to Engineer view","Switch to Manager view"), 
+                        ItemIconName: "ArrowSort", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: LookUp('TKE P&C Engineers', Email=User().Email).Leave_approver=true,
+                        ItemTooltip: "Refresh"
+                        },
+                        {
+                        ItemKey: "generate", 
+                        ItemDisplayName: "Generate timesheet", 
+                        ItemIconName: "DocumentBulletList", 
+                        ItemAppearance: "Subtle", 
+                        ItemIconStyle: "Regular", 
+                        ItemDisabled: false,
+                        ItemVisible: LookUp('TKE P&C Engineers', Email=User().Email).Leave_approver=true,
+                        ItemTooltip: "Refresh"
+                        }
+                    )
+                  OnSelect: |-
+                    =Switch(Self.Selected.ItemKey,
+                    "new", 
+                    UpdateContext({leave_active: "submit"});
+                    Reset(TextInputCanvas6_1);
+                    Reset(DatePickerCanvas2);
+                    Reset(DropdownCanvas5_1);
+                    Reset(DropdownCanvas5);
+                    Reset(DropdownCanvas5_3);
+                    Reset(DropdownCanvas5_2)
+                    ,
+                    "cancel",
+                    Patch('TKE P&C Leave requests', Table3.Selected,
+                        {
+                            Status: {Value: "Cancelled"},
+                            'Leave count': 0
+                        }
+                    ),
+                    "approve",
+                    Patch('TKE P&C Leave requests', Table3.Selected,
+                        {
+                            Status: {Value: "Approved"}
+                        }
+                    ),
+                    "add",
+                    UpdateContext({leave_active: "add"});
+                    Reset(TextInputCanvas6_1);
+                    Reset(DatePickerCanvas2);
+                    Reset(DropdownCanvas5_1);
+                    Reset(DropdownCanvas5);
+                    Reset(DropdownCanvas5_3);
+                    Reset(DropdownCanvas5_2)
+                    ,
+                    "reject",
+                    Patch('TKE P&C Leave requests', Table3.Selected,
+                        {
+                            Status: {Value: "Rejected"}
+                        }
+                    ),
+                    "urgent",
+                    Patch('TKE P&C Leave requests', Table3.Selected,
+                        {
+                            'Urgent leave':true
+                        }
+                    ),
+                    "switch",
+                    UpdateContext({leave_loadmode: If(leave_loadmode=true, false, true)});
+                    Refresh('TKE P&C Leave requests')
+                    )
+                  Padding: ='Toolbar.Padding'.Small
+                  Width: =Parent.Width
+            - Table3_1:
+                Control: Table@1.0.278
+                Properties:
+                  EnableRangeSelection: ='PowerAppsOneGrid.EnableRangeSelection'.Disable
+                  EnableSorting: ='PowerAppsOneGrid.EnableSorting'.Disable
+                  Height: =Parent.Height-36
+                  Items: =SortByColumns('TKE P&C Leave requests', "Date", SortOrder.Descending)
+                  Visible: =leave_loadmode=true
+                  Width: =Parent.Width
+                  Y: =36
+                Children:
+                  - Leave type1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Leave type"
+                        FieldName: ="Leavetype"
+                        FieldType: ="E"
+                        Order: =2
+                  - Date1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Date"
+                        FieldName: ="Date"
+                        FieldType: ="D"
+                        Order: =3
+                  - Time off1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Time off"
+                        FieldName: ="Timeoff"
+                        FieldType: ="E"
+                        HeaderText: ="Duration"
+                        Order: =4
+                  - Status5_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Status"
+                        FieldName: ="Status"
+                        FieldType: ="E"
+                        Order: =5
+                  - Engineer12_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Engineer"
+                        FieldName: ="Engineer"
+                        FieldType: ="E"
+                        Order: =1
+                  - Urgent leave1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Urgent leave"
+                        FieldName: ="Urgentleave"
+                        FieldType: ="b"
+                        Order: =6
+                  - Due date1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Due date"
+                        FieldName: ="Duedate"
+                        FieldType: ="D"
+                        HeaderText: ="Expiration date"
+                        Order: =8
+                  - Note1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Note"
+                        FieldName: ="Note"
+                        FieldType: ="s"
+                        Order: =9
+                  - Comment1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Comment"
+                        FieldName: ="Comment"
+                        FieldType: ="s"
+                        Order: =10
+                  - Created1_1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Created"
+                        FieldName: ="Created"
+                        FieldType: ="d"
+                        Order: =10
+      - Container5:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Height: =Container3.Height
+            Visible: =And(leave_loadmode=false, Or(leave_active="submit",leave_active="add"))
+            Width: =Parent.Width-Container3.Width-60
+            X: =Container3.Width+40
+            Y: =20
+          Children:
+            - TextInputCanvas6_1:
+                Control: TextInput@0.0.54
+                Properties:
+                  Height: =172
+                  Mode: ='TextInputCanvas.Mode'.Multiline
+                  TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                  Visible: =leave_active="submit"
+                  Width: =Parent.Width-DropdownCanvas5.Width-30
+                  X: =DropdownCanvas5.X+DropdownCanvas5.Width+10
+                  Y: =30
+            - DatePickerCanvas2:
+                Control: DatePicker@0.0.46
+                Properties:
+                  Appearance: ='DatePickerCanvas.Appearance'.FilledDarker
+                  SelectedDate: =Today()
+                  Visible: =Or(leave_active="submit",leave_active="add")
+                  Width: =(Parent.Width)/2-20
+                  X: =10
+                  Y: =170
+            - DropdownCanvas5:
+                Control: DropDown@0.0.45
+                Properties:
+                  Height: =30
+                  Items: =["Annual", "Compensation - WR", "Compensation - PH", "Unpaid", "Sick", "Pregnacy", "Maternity", "Paternity", "Marriage"]
+                  Visible: =leave_active="submit"
+                  Width: =(Parent.Width)/2-20
+                  X: =10
+                  Y: =30
+            - DropdownCanvas5_1:
+                Control: DropDown@0.0.45
+                Properties:
+                  Items: =["Full day", "Morning", "Afternoon"]
+                  Visible: =leave_active="submit"
+                  Width: =(Parent.Width)/2-20
+                  X: =10
+                  Y: =100
+            - TextCanvas16:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Leave type"
+                  Visible: =Or(leave_active="submit",leave_active="add")
+                  X: =5
+            - TextCanvas16_1:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Duration"
+                  Visible: =leave_active="submit"
+                  X: =5
+                  Y: =70
+            - TextCanvas16_2:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Date"
+                  Visible: =Or(leave_active="submit",leave_active="add")
+                  X: =5
+                  Y: =140
+            - TextCanvas16_3:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Comment/Note"
+                  Visible: =leave_active="submit"
+                  Width: =200
+                  X: =TextInputCanvas6_1.X
+            - ButtonCanvas9:
+                Control: Button@0.0.45
+                Properties:
+                  BasePaletteColor: =RGBA(141, 229, 250, 1)
+                  DisplayMode: |-
+                    =If(Or(DropdownCanvas5.Selected.Value="Unpaid", DropdownCanvas5.Selected.Value="Sick", DropdownCanvas5.Selected.Value="Pregnacy", leave_active="add"), DisplayMode.Edit,
+                        If(
+                            Sum(Filter('TKE P&C Leave requests', Engineer.Email=User().Email, 'Leave type'.Value=DropdownCanvas5.Selected.Value), 'Leave count')>=If(DropdownCanvas5_1.Selected.Value="Full day", 1, 0.5),
+                            DisplayMode.Edit,
+                            DisplayMode.Disabled
+                        )
+                    )
+                  Height: =25
+                  Icon: ="Checkmark"
+                  Layout: ='ButtonCanvas.Layout'.IconOnly
+                  OnSelect: |-
+                    =If(leave_active="submit",
+                        Patch('TKE P&C Leave requests', Defaults('TKE P&C Leave requests'),
+                        {
+                            Status: {Value: "Under review"},
+                            Engineer: 
+                                {
+                                    '@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                    Claims: Concatenate("i:0#.f|membership|", User().Email),
+                                    Department: "",
+                                    DisplayName: "",
+                                    Email: User().Email,
+                                    JobTitle: "",
+                                    Picture: ""
+                                },
+                            'Leave type': {Value: DropdownCanvas5.Selected.Value},
+                            Date: DatePickerCanvas2.SelectedDate,
+                            'Time off': {Value: DropdownCanvas5_1.Selected.Value},
+                            'Leave count': If(DropdownCanvas5_1.Selected.Value="Full day", -1, -0.5),
+                            Note: TextInputCanvas6_1.Value
+                        }
+                        )
+                        ,
+                        false
+                    );
+
+                    If(leave_active="add",
+                        If(DropdownCanvas5_2.Selected.Value="Compensation - WR",
+                            Patch('TKE P&C Leave requests', Defaults('TKE P&C Leave requests'),
+                            {
+                                Status: {Value: "Added"},
+                                Engineer: 
+                                    {
+                                        '@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: Concatenate("i:0#.f|membership|", DropdownCanvas5_3.Selected.Email),
+                                        Department: "",
+                                        DisplayName: "",
+                                        Email: DropdownCanvas5_3.Selected.Email,
+                                        JobTitle: "",
+                                        Picture: ""
+                                    },
+                                'Leave type': {Value: DropdownCanvas5_2.Selected.Value},
+                                Date: DatePickerCanvas2.SelectedDate,
+                                'Leave count': 1,
+                                Note: "Weekend coverage",
+                                'Due date': DateAdd(DatePickerCanvas2.SelectedDate, 30)
+                            }
+                            )
+                            ,
+                            false
+                        );
+                        If(DropdownCanvas5_2.Selected.Value="Compensation - PH",
+                            Patch('TKE P&C Leave requests', Defaults('TKE P&C Leave requests'),
+                            {
+                                Status: {Value: "Added"},
+                                Engineer: 
+                                    {
+                                        '@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: Concatenate("i:0#.f|membership|", DropdownCanvas5_3.Selected.Email),
+                                        Department: "",
+                                        DisplayName: "",
+                                        Email: DropdownCanvas5_3.Selected.Email,
+                                        JobTitle: "",
+                                        Picture: ""
+                                    },
+                                'Leave type': {Value: DropdownCanvas5_2.Selected.Value},
+                                Date: DatePickerCanvas2.SelectedDate,
+                                'Leave count': 1,
+                                Note: "Holiday coverage",
+                                'Due date': Date(2025, 12, 31)
+                            }
+                            )
+                            ,
+                            false
+                        )
+                        ,
+                        false
+                    );
+
+                    Reset(TextInputCanvas6_1);
+                    Reset(DatePickerCanvas2);
+                    Reset(DropdownCanvas5_1);
+                    Reset(DropdownCanvas5);
+                    Reset(DropdownCanvas5_3);
+                    Reset(DropdownCanvas5_2)
+                  Visible: =Or(leave_active="submit",leave_active="add")
+                  Width: =25
+                  X: =Parent.Width-25
+            - DropdownCanvas5_2:
+                Control: DropDown@0.0.45
+                Properties:
+                  Height: =30
+                  Items: =["Compensation - WR", "Compensation - PH", "Unpaid"]
+                  Visible: =leave_active="add"
+                  Width: =(Parent.Width)/2-20
+                  X: =10
+                  Y: =30
+            - TextCanvas16_4:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Engineer"
+                  Visible: =leave_active="add"
+                  X: =5
+                  Y: =70
+            - DropdownCanvas5_3:
+                Control: DropDown@0.0.45
+                Properties:
+                  Items: ='TKE P&C Engineers'
+                  Visible: =leave_active="add"
+                  Width: =(Parent.Width)/2-20
+                  X: =10
+                  Y: =100
+                Children:
+                  - Engineer13:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Engineer"
+                        FieldName: ="Engineer"
+                        FieldType: ="E"
+                        Order: =1
+                  - Email8:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Email"
+                        FieldName: ="Email"
+                        FieldType: ="s"
+                        Order: =2
+                  - Role8:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Role"
+                        FieldName: ="Role"
+                        FieldType: ="E"
+                        Order: =3
+                  - AAD ID1:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="AAD ID"
+                        FieldName: ="AADID"
+                        FieldType: ="s"
+                        Order: =4
+                  - Billable status1:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Billable status"
+                        FieldName: ="Billablestatus"
+                        FieldType: ="E"
+                        Order: =5
+                  - AA Skill8:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="AA Skill"
+                        FieldName: ="AASkill"
+                        FieldType: ="E"
+                        Order: =6
+                  - Working shift8:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Working shift"
+                        FieldName: ="Workingshift"
+                        FieldType: ="E"
+                        Order: =7
+                  - App_setting_Enable admin mode7:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Enable admin mode"
+                        FieldName: ="App_setting_Enableadminmode"
+                        FieldType: ="b"
+                        Order: =8
+                  - App_setting_Teams notification7:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Teams notification"
+                        FieldName: ="App_setting_Teamsnotification"
+                        FieldType: ="b"
+                        Order: =9
+                  - App_setting_Auto route ICM_Plat2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Auto route ICM_Plat"
+                        FieldName: ="App_setting_AutorouteICM"
+                        FieldType: ="b"
+                        Order: =10
+                  - App_setting_Auto route ICM_Cust2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Auto route ICM_Cust"
+                        FieldName: ="App_setting_AutorouteICM_Cust"
+                        FieldType: ="b"
+                        Order: =11
+                  - App_setting_Auto route Consultation7:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Auto route Consultation"
+                        FieldName: ="App_setting_AutorouteConsultatio"
+                        FieldType: ="b"
+                        Order: =12
+                  - Dark mode2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Dark mode"
+                        FieldName: ="Darkmode"
+                        FieldType: ="b"
+                        Order: =13
+                  - Auto create Outlook folder/rule1:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Auto create Outlook folder/rule"
+                        FieldName: ="AutocreateOutlookfolder_x002f_ru"
+                        FieldType: ="b"
+                        Order: =14
+                  - Debugging mode1:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Debugging mode"
+                        FieldName: ="Testingmode"
+                        FieldType: ="b"
+                        Order: =15
+                  - Leave_admin1:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Leave_admin"
+                        FieldName: ="Leave_admin"
+                        FieldType: ="b"
+                        Order: =16
+                  - Leave_approver1:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Leave_approver"
+                        FieldName: ="Leave_approver"
+                        FieldType: ="b"
+                        Order: =17
+                  - Attachments8:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Attachments"
+                        FieldName: ="{Attachments}"
+                        FieldType: ="r*"
+                        Order: =18
+            - TextCanvas16_5:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =202
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    ="- Type of Compensation - WR will add 1 day leave for engineer, leave will be expired in 30 days from when it's added.
+
+                    - Type of Compensation - PH will add 1 day leave for engineer, leave will be expired at the end of the year.
+
+                    - Monthly AL is added automatically every 15th, manual assignment is not supported."
+                  VerticalAlign: =VerticalAlign.Top
+                  Visible: =leave_active="add"
+                  Width: =Parent.Width-DropdownCanvas5.Width-50
+                  X: =TextInputCanvas6_1.X
+      - Container3_1:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Height: =Parent.Height/3
+            Visible: =leave_loadmode=true
+            Width: =Parent.Width-40
+            X: =20
+            Y: =20
+          Children:
+            - TextCanvas14_1:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(184, 0, 0, 1)
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="Details"
+                  Weight: ='TextCanvas.Weight'.Semibold
+            - TextCanvas14_2:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("Engineer: ", Table3_1.Selected.Engineer.DisplayName)
+                  Weight: ='TextCanvas.Weight'.Regular
+                  Width: =Parent.Width/2-20
+                  Y: =30
+            - TextCanvas14_3:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("MTD applied leave: ", Sum(Filter('TKE P&C Leave requests', Engineer.Email=Table3_1.Selected.Engineer.Email, Status.Value="Taken", Month(Date)=Month(Today())), 'Leave count'))
+                  Weight: ='TextCanvas.Weight'.Regular
+                  Width: =Parent.Width/2-20
+                  Y: =60
+            - TextCanvas14_4:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("Balance: ", Sum(Filter('TKE P&C Leave requests', Engineer.Email=Table3_1.Selected.Engineer.Email, Status.Value="Added"), 'Leave count')
+                            -Sum(Filter('TKE P&C Leave requests', Engineer.Email=Table3_1.Selected.Engineer.Email, Status.Value="Approved"), 'Leave count')
+                            -Sum(Filter('TKE P&C Leave requests', Engineer.Email=Table3_1.Selected.Engineer.Email, Status.Value="Taken"), 'Leave count')
+                            -Sum(Filter('TKE P&C Leave requests', Engineer.Email=Table3_1.Selected.Engineer.Email, Status.Value="Under review"), 'Leave count'))
+                  Weight: ='TextCanvas.Weight'.Regular
+                  Width: =Parent.Width/2-20
+                  Y: =90
+            - TextCanvas14_5:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("MTD urgent leave: ", Sum(Filter('TKE P&C Leave requests', Engineer.Email=Table3_1.Selected.Engineer.Email, Status.Value="Taken", 'Urgent leave'=true, Month(Date)=Month(Today())), 'Leave count'))
+                  Weight: ='TextCanvas.Weight'.Regular
+                  Width: =Parent.Width/2-20
+                  Y: =120
+            - TextCanvas14_6:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(163, 145, 90, 1)
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("Pending review: ", CountRows(Filter('TKE P&C Leave requests', Status.Value="Under review")))
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =Parent.Width/2-20
+                  X: =Parent.Width-Self.Width
+                  Y: =30
+            - TextCanvas14_7:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(52, 152, 47, 1)
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("Approved: ", CountRows(Filter('TKE P&C Leave requests', Status.Value="Approved")))
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =Parent.Width/2-20
+                  X: =Parent.Width-Self.Width
+                  Y: =60
+            - TextCanvas14_8:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(184, 0, 0, 1)
+                  Height: =30
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: |-
+                    =Concatenate("Rejected: ", CountRows(Filter('TKE P&C Leave requests', Status.Value="Rejected")))
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =Parent.Width/2-20
+                  X: =Parent.Width-Self.Width
+                  Y: =90
