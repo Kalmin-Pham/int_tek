@@ -16,6 +16,122 @@
             Visible: =listvisi
             Width: =Parent.Width
           Children:
+            - Gallery_icm:
+                Control: DataTable@1.0.3
+                Properties:
+                  HeadingColor: =RGBA(184, 0, 0, 1)
+                  HeadingFill: =
+                  HeadingFontWeight: =FontWeight.Semibold
+                  HeadingSize: =10.5
+                  Height: =Parent.Height-36
+                  Items: |-
+                    =If(IsBlank(glb_search.Value)=false, 
+                    Filter('TKE P&C ICM approval requests', 'Case number'=glb_search.Value), 
+                    If(ICM_filterview.Selected.Value="Active requests",
+                    Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                    If(ICM_filterview.Selected.Value="My requests",
+                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                    If(ICM_filterview.Selected.Value="(Engineer) Pending request",
+                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing")),
+                    If(ICM_filterview.Selected.Value="(Reviewer) Pending request",
+                    Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation")),
+                    'TKE P&C ICM approval requests'
+                    )
+                    )
+                    )
+                    )
+                    )
+                  Size: =10.5
+                  Width: =Parent.Width
+                  Y: =36
+                Children:
+                  - Case number_Column4:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Case number"
+                        FieldName: ="Title"
+                        IsHyperlink: =true
+                        OnSelect: |-
+                          =UpdateContext({formvisi: true});
+                          UpdateContext({listvisi: false});
+                          ViewForm(Form1_5)
+                        Order: =1
+                        Text: =ThisItem.'Case number'
+                  - Status_Column4:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Status"
+                        FieldName: ="Status"
+                        Order: =7
+                        Text: =ThisItem.Status.Value
+                  - Service level_Column2:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Service level"
+                        FieldName: ="Servicelevel"
+                        Order: =3
+                        Text: =ThisItem.'Service level'.Value
+                  - Case age_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Number
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Case age"
+                        FieldName: ="Caseage"
+                        Order: =4
+                        Text: =ThisItem.'Case age'
+                  - Pod_Column3:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Pod"
+                        FieldName: ="Pod"
+                        Order: =5
+                        Text: =ThisItem.Pod.Value
+                  - Issue description_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Issue description"
+                        FieldName: ="Issuedescription"
+                        Order: =8
+                        Text: =ThisItem.'Issue description'
+                  - Reviewer_Column2:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Reviewer"
+                        FieldName: ="Reviewer"
+                        Order: =6
+                        Text: =ThisItem.Reviewer.DisplayName
+                  - Teams conversation_Column2:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Url
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Teams conversation"
+                        FieldName: ="Teamsconversation"
+                        IsHyperlink: =true
+                        Order: =11
+                        Text: =ThisItem.'Teams conversation'
+                  - Created By_Column4:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Created By"
+                        FieldName: ="Author"
+                        Order: =2
+                        Text: =ThisItem.'Created By'.DisplayName
             - ICM_filterview:
                 Control: DropDown@0.0.45
                 Properties:
@@ -652,122 +768,6 @@
                     Refresh('TKE P&C ICM approval requests')
                     )
                   Padding: ='Toolbar.Padding'.Small
-            - Gallery_icm:
-                Control: DataTable@1.0.3
-                Properties:
-                  HeadingColor: =RGBA(184, 0, 0, 1)
-                  HeadingFill: =
-                  HeadingFontWeight: =FontWeight.Semibold
-                  HeadingSize: =10.5
-                  Height: =Parent.Height-36
-                  Items: |-
-                    =If(IsBlank(glb_search.Value)=false, 
-                    Filter('TKE P&C ICM approval requests', 'Case number'=glb_search.Value), 
-                    If(ICM_filterview.Selected.Value="Active requests",
-                    Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected")),
-                    If(ICM_filterview.Selected.Value="My requests",
-                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected")),
-                    If(ICM_filterview.Selected.Value="(Engineer) Pending request",
-                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing")),
-                    If(ICM_filterview.Selected.Value="(Reviewer) Pending request",
-                    Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation")),
-                    'TKE P&C ICM approval requests'
-                    )
-                    )
-                    )
-                    )
-                    )
-                  Size: =10.5
-                  Width: =Parent.Width
-                  Y: =36
-                Children:
-                  - Case number_Column4:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Case number"
-                        FieldName: ="Title"
-                        IsHyperlink: =true
-                        OnSelect: |-
-                          =UpdateContext({formvisi: true});
-                          UpdateContext({listvisi: false});
-                          ViewForm(Form1_5)
-                        Order: =1
-                        Text: =ThisItem.'Case number'
-                  - Status_Column4:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Status"
-                        FieldName: ="Status"
-                        Order: =7
-                        Text: =ThisItem.Status.Value
-                  - Service level_Column2:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Service level"
-                        FieldName: ="Servicelevel"
-                        Order: =3
-                        Text: =ThisItem.'Service level'.Value
-                  - Case age_Column1:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Number
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Case age"
-                        FieldName: ="Caseage"
-                        Order: =4
-                        Text: =ThisItem.'Case age'
-                  - Pod_Column3:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Pod"
-                        FieldName: ="Pod"
-                        Order: =5
-                        Text: =ThisItem.Pod.Value
-                  - Issue description_Column1:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Issue description"
-                        FieldName: ="Issuedescription"
-                        Order: =8
-                        Text: =ThisItem.'Issue description'
-                  - Reviewer_Column2:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Reviewer"
-                        FieldName: ="Reviewer"
-                        Order: =6
-                        Text: =ThisItem.Reviewer.DisplayName
-                  - Teams conversation_Column2:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Url
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Teams conversation"
-                        FieldName: ="Teamsconversation"
-                        IsHyperlink: =true
-                        Order: =11
-                        Text: =ThisItem.'Teams conversation'
-                  - Created By_Column4:
-                      Control: DataTableColumn@1.0.1
-                      Variant: Textual
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Created By"
-                        FieldName: ="Author"
-                        Order: =2
-                        Text: =ThisItem.'Created By'.DisplayName
       - Form_3:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
