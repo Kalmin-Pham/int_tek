@@ -53,6 +53,7 @@
                   Size: =12
                   Text: =Day(ThisItem.Value)
                   VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Semibold
                   Width: =20
                   X: =3
                   Y: =3
@@ -62,7 +63,13 @@
                 Properties:
                   Height: =Gallery10.TemplateHeight-30
                   Items: =Filter('TKE PC - Schedule', Date=ThisItem.Value, If(DropdownCanvas6.Selected.Value="All", 'Task Type'.Value<>"None", 'Task Type'.Value=DropdownCanvas6.Selected.Value), If(DropdownCanvas6_1.Selected.Value="Me", Agent.Email=User().Email, Agent.Email<>"None"))
-                  OnSelect: =
+                  OnSelect: |-
+                    =If(LookUp('TKE P&C Engineers', Email=User().Email).Scheduler=true,
+                        UpdateContext({currentday: Date(Year(ThisItem.Date), Month(ThisItem.Date), Day(ThisItem.Date))});
+                        UpdateContext({scevent_popup: true});
+                        ,
+                        false
+                    )
                   TemplateSize: =Self.Height/4
                   Width: =Gallery10.TemplateWidth
                   Y: =30
@@ -72,7 +79,8 @@
                       Properties:
                         AutoHeight: =true
                         BorderRadius: =5
-                        Fill: =If(ThisItem.'Task Type'.Value="Out-of-office", RGBA(255, 184, 174, 1), ThisItem.'Task Type'.Value="Chat", RGBA(166, 215, 153, 1), ThisItem.'Task Type'.Value="Queue monitor", RGBA(180, 214, 250, 1), ThisItem.'Task Type'.Value="Project", RGBA(205, 165, 240, 1), RGBA(255, 255, 0, 1))
+                        Fill: =If(ThisItem.'Task Type'.Value="Out-of-office", RGBA(252, 160, 150, 0.25), ThisItem.'Task Type'.Value="Chat", RGBA(126, 227, 120, 0.25), ThisItem.'Task Type'.Value="Queue monitor", RGBA(180, 214, 250, 0.25), ThisItem.'Task Type'.Value="Project", RGBA(161, 109, 207, 0.25), RGBA(240, 240, 41, 0.24))
+                        FontColor: =If(ThisItem.'Task Type'.Value="Out-of-office", RGBA(189, 32, 11, 1), ThisItem.'Task Type'.Value="Chat", RGBA(11, 77, 8, 1), ThisItem.'Task Type'.Value="Queue monitor", RGBA(6, 77, 153, 1), ThisItem.'Task Type'.Value="Project", RGBA(81, 17, 138, 1), RGBA(92, 92, 29, 1))
                         Height: =Gallery5.Height
                         PaddingBottom: =0
                         PaddingLeft: =5
@@ -81,6 +89,7 @@
                         Size: =13
                         Text: =Concatenate(Left(ThisItem.Agent.DisplayName, Len(ThisItem.Agent.DisplayName) - 25), " - ", ThisItem.Task.Value)
                         VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
                         Width: =Gallery5.TemplateWidth
                         Wrap: =false
       - TextCanvas15:
@@ -269,3 +278,287 @@
             Width: =Parent.Width/7
             X: =Parent.Width/7*6
             Y: =40
+      - Container6:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.ExtraBold
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =230
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            Visible: =scevent_popup
+            Width: =480
+            X: =(Parent.Width/2)-(Self.Width/2)
+            Y: =(Parent.Height/2)-(Self.Height/2)
+          Children:
+            - TextCanvas19:
+                Control: Text@0.0.51
+                Properties:
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Text: ="New event"
+                  Weight: ='TextCanvas.Weight'.Semibold
+            - DatePickerCanvas3:
+                Control: DatePicker@0.0.46
+                Properties:
+                  DisplayMode: =DisplayMode.View
+                  SelectedDate: =currentday
+                  X: =114
+                  Y: =32
+            - TextCanvas21:
+                Control: Text@0.0.51
+                Properties:
+                  Text: ="Date"
+                  VerticalAlign: =VerticalAlign.Middle
+                  X: =18
+                  Y: =32
+            - TextCanvas21_1:
+                Control: Text@0.0.51
+                Properties:
+                  Text: ="Engineer"
+                  VerticalAlign: =VerticalAlign.Middle
+                  X: =18
+                  Y: =74
+            - DropdownCanvas7:
+                Control: DropDown@0.0.45
+                Properties:
+                  Items: ='TKE P&C Engineers'
+                  X: =114
+                  Y: =74
+                Children:
+                  - Engineer14:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Engineer"
+                        FieldName: ="Engineer"
+                        FieldType: ="E"
+                        Order: =1
+                  - Email12:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Email"
+                        FieldName: ="Email"
+                        FieldType: ="s"
+                        Order: =2
+                  - Role12:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Role"
+                        FieldName: ="Role"
+                        FieldType: ="E"
+                        Order: =3
+                  - AAD ID2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="AAD ID"
+                        FieldName: ="AADID"
+                        FieldType: ="s"
+                        Order: =4
+                  - Billable status2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Billable status"
+                        FieldName: ="Billablestatus"
+                        FieldType: ="E"
+                        Order: =5
+                  - AA Skill12:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="AA Skill"
+                        FieldName: ="AASkill"
+                        FieldType: ="E"
+                        Order: =6
+                  - Working shift12:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Working shift"
+                        FieldName: ="Workingshift"
+                        FieldType: ="E"
+                        Order: =7
+                  - App_setting_Enable admin mode11:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Enable admin mode"
+                        FieldName: ="App_setting_Enableadminmode"
+                        FieldType: ="b"
+                        Order: =8
+                  - App_setting_Teams notification11:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Teams notification"
+                        FieldName: ="App_setting_Teamsnotification"
+                        FieldType: ="b"
+                        Order: =9
+                  - App_setting_Auto route ICM_Plat3:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Auto route ICM_Plat"
+                        FieldName: ="App_setting_AutorouteICM"
+                        FieldType: ="b"
+                        Order: =10
+                  - App_setting_Auto route ICM_Cust3:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Auto route ICM_Cust"
+                        FieldName: ="App_setting_AutorouteICM_Cust"
+                        FieldType: ="b"
+                        Order: =11
+                  - App_setting_Auto route Consultation11:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="App_setting_Auto route Consultation"
+                        FieldName: ="App_setting_AutorouteConsultatio"
+                        FieldType: ="b"
+                        Order: =12
+                  - Dark mode3:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Dark mode"
+                        FieldName: ="Darkmode"
+                        FieldType: ="b"
+                        Order: =13
+                  - Auto create Outlook folder/rule2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Auto create Outlook folder/rule"
+                        FieldName: ="AutocreateOutlookfolder_x002f_ru"
+                        FieldType: ="b"
+                        Order: =14
+                  - Debugging mode2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Debugging mode"
+                        FieldName: ="Testingmode"
+                        FieldType: ="b"
+                        Order: =15
+                  - Leave_admin2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Leave_admin"
+                        FieldName: ="Leave_admin"
+                        FieldType: ="b"
+                        Order: =16
+                  - Leave_approver2:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Leave_approver"
+                        FieldName: ="Leave_approver"
+                        FieldType: ="b"
+                        Order: =17
+                  - Attachments12:
+                      Control: DropDownDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Attachments"
+                        FieldName: ="{Attachments}"
+                        FieldType: ="r*"
+                        Order: =18
+            - TextCanvas21_2:
+                Control: Text@0.0.51
+                Properties:
+                  Text: ="Event"
+                  VerticalAlign: =VerticalAlign.Middle
+                  X: =18
+                  Y: =118
+            - DropdownCanvas9:
+                Control: DropDown@0.0.45
+                Properties:
+                  Items: |-
+                    =[
+                        "Weekend cover",
+                        "Chat - Morning",
+                        "Chat - Afternoon",
+                        "Queue monitor",
+                        "Off - Full day",
+                        "Off - Morning",
+                        "Off - Afternoon",
+                        "Project - Full day",
+                        "Project - Morning",
+                        "Project - Afternoon"
+                    ]
+                  X: =114
+                  Y: =118
+            - ButtonCanvas8:
+                Control: Button@0.0.45
+                Properties:
+                  BasePaletteColor: =RGBA(141, 229, 250, 1)
+                  BorderRadius: =10
+                  OnSelect: |-
+                    =Patch('TKE PC - Schedule', Defaults('TKE PC - Schedule'),
+                        {
+                          Date:DatePickerCanvas3.SelectedDate,
+                          Agent: 
+                                {
+                                    '@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                    Claims: Concatenate("i:0#.f|membership|", DropdownCanvas7.Selected.Email),
+                                    Department: "",
+                                    DisplayName: "",
+                                    Email:  DropdownCanvas7.Selected.Email,
+                                    JobTitle: "",
+                                    Picture: ""
+                                },
+                          Task: {Value: DropdownCanvas9.Selected.Value},
+                          'Task Type': {Value: If(DropdownCanvas9.Selected.Value="Chat", "Chat", DropdownCanvas9.Selected.Value="Weekend cover", "Weekend coverage", DropdownCanvas9.Selected.Value="Queue monitor", "Queue monitor", Or(DropdownCanvas9.Selected.Value="Off - Full day", DropdownCanvas9.Selected.Value="Off - Morning", DropdownCanvas9.Selected.Value="Off - Afternoon"), "Out-of-office", "Project")}
+
+                        }
+                    );
+                    UpdateContext({scevent_popup: false});
+                    Reset(DropdownCanvas9);
+                    Reset(DropdownCanvas7);
+                    Reset(DatePickerCanvas3)
+                  Text: ="Create"
+                  X: =Parent.Width/5
+                  Y: =180
+            - ButtonCanvas8_1:
+                Control: Button@0.0.45
+                Properties:
+                  BasePaletteColor: =RGBA(141, 229, 250, 1)
+                  BorderRadius: =10
+                  OnSelect: |-
+                    =UpdateContext({scevent_popup: false});
+                    Reset(DropdownCanvas9);
+                    Reset(DropdownCanvas7);
+                    Reset(DatePickerCanvas3)
+                  Text: ="Cancel"
+                  X: =Parent.Width/5*3
+                  Y: =180
