@@ -17,7 +17,7 @@
               =ForAll(
                   Sequence(42),
                   varFirstDayOfMonth
-                  +Value-Weekday(varFirstDayOfMonth, StartOfWeek.Sunday)
+                  +Value-Weekday(varFirstDayOfMonth, StartOfWeek.Monday)
               )
             TemplateSize: =Self.Height/6
             Width: =Parent.Width
@@ -62,7 +62,8 @@
                 Properties:
                   Height: =Gallery10.TemplateHeight-30
                   Items: =Filter('TKE PC - Schedule', Date=ThisItem.Value, If(DropdownCanvas6.Selected.Value="All", 'Task Type'.Value<>"None", 'Task Type'.Value=DropdownCanvas6.Selected.Value), If(DropdownCanvas6_1.Selected.Value="Me", Agent.Email=User().Email, Agent.Email<>"None"))
-                  TemplateSize: =Self.Height/3
+                  OnSelect: =
+                  TemplateSize: =Self.Height/4
                   Width: =Gallery10.TemplateWidth
                   Y: =30
                 Children:
@@ -71,7 +72,7 @@
                       Properties:
                         AutoHeight: =true
                         BorderRadius: =5
-                        Fill: =If(ThisItem.'Task Type'.Value="Out-of-office", RGBA(255, 184, 174, 1), ThisItem.'Task Type'.Value="Chat", RGBA(166, 215, 153, 1), ThisItem.'Task Type'.Value="Queue monitor", RGBA(180, 214, 250, 1), RGBA(255, 255, 0, 1))
+                        Fill: =If(ThisItem.'Task Type'.Value="Out-of-office", RGBA(255, 184, 174, 1), ThisItem.'Task Type'.Value="Chat", RGBA(166, 215, 153, 1), ThisItem.'Task Type'.Value="Queue monitor", RGBA(180, 214, 250, 1), ThisItem.'Task Type'.Value="Project", RGBA(205, 165, 240, 1), RGBA(255, 255, 0, 1))
                         Height: =Gallery5.Height
                         PaddingBottom: =0
                         PaddingLeft: =5
@@ -104,7 +105,7 @@
             DefaultSelectedItems: |-
               ={Value: "All"}
             Height: =30
-            Items: =["All", "Chat", "Out-of-office", "Queue monitor", "Weekend coverage"]
+            Items: =["All", "Chat", "Out-of-office", "Queue monitor", "Weekend coverage", "Project"]
             Width: =180
             X: =210
             Y: =5
@@ -161,7 +162,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Sunday"
+            Text: ="Monday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
@@ -177,7 +178,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Monday"
+            Text: ="Tuesday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
@@ -194,7 +195,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Tuesday"
+            Text: ="Wednesday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
@@ -211,7 +212,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Wednesday"
+            Text: ="Thursday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
@@ -228,7 +229,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Thursday"
+            Text: ="Friday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
@@ -245,7 +246,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Friday"
+            Text: ="Saturday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
@@ -262,7 +263,7 @@
             PaddingLeft: =5
             PaddingRight: =5
             PaddingTop: =5
-            Text: ="Saturday"
+            Text: ="Sunday"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =Parent.Width/7
