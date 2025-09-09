@@ -1438,62 +1438,6 @@
                               Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
                               Width: =30
                               Y: =DataCardKey154.Y
-                  - Case age_DataCard7:
-                      Control: TypedDataCard@1.0.7
-                      Variant: NumberEdit
-                      Properties:
-                        DataField: ="Caseage"
-                        Default: =ThisItem.'Case age'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Recovery tracking'],DataSourceInfo.DisplayName,'Case age')
-                        Required: =true
-                        Update: =Value(DataCardValue155.Value)
-                        Width: =430
-                        X: =1
-                        Y: =3
-                      Children:
-                        - DataCardKey155:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              Height: =22
-                              Text: =Parent.DisplayName
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue155:
-                            Control: TextInput@0.0.54
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =Parent.DisplayName
-                              DisplayMode: =DisplayMode.View
-                              Required: =Parent.Required
-                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                              Value: =Int(DateDiff(Gallery_recovery.Selected.Created, Today())+Gallery_recovery.Selected.'Case age')
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey155.Y + DataCardKey155.Height + 4
-                        - ErrorMessage153:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue155.Y + DataCardValue155.Height
-                        - StarVisible153:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey155.Y
                   - Next contact date (for reviewer only)_DataCard1:
                       Control: TypedDataCard@1.0.7
                       Variant: DateEdit
@@ -1505,8 +1449,8 @@
                         Required: =false
                         Update: =DataCardValue159.SelectedDate
                         Width: =430
-                        X: =0
-                        Y: =4
+                        X: =1
+                        Y: =3
                       Children:
                         - DataCardKey159:
                             Control: Text@0.0.51
@@ -1563,7 +1507,7 @@
                         Required: =false
                         Update: =DataCardValue160.Selected
                         Width: =430
-                        X: =1
+                        X: =0
                         Y: =4
                       Children:
                         - DataCardKey160:
@@ -1610,6 +1554,43 @@
                               Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
                               Width: =30
                               Y: =DataCardKey160.Y
+                  - Modified_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: TextualView
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Modified"
+                        Default: =ThisItem.Modified
+                        DisplayName: =DataSourceInfo([@'TKE P&C Recovery tracking'],DataSourceInfo.DisplayName,'Modified')
+                        Required: =false
+                        Width: =411
+                        X: =1
+                        Y: =4
+                      Children:
+                        - DataCardKey79:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue79:
+                            Control: TextInput@0.0.54
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DisplayMode: =DisplayMode.View
+                              Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Value: =Parent.Default
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey79.Y + DataCardKey79.Height + 4
                   - Reason for recovery_DataCard3:
                       Control: TypedDataCard@1.0.7
                       Variant: TextualEdit
