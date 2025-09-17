@@ -8,7 +8,7 @@ Screens:
       - glb_header:
           Control: Header@0.0.44
           Properties:
-            BasePaletteColor: =If(st_darkmode.Checked=true, RGBA(0, 0, 0, 1), RGBA(141, 229, 250, 1))
+            BasePaletteColor: =RGBA(141, 229, 250, 1)
             Height: =35
             IsLogoVisible: =false
             IsProfilePictureVisible: =false
@@ -18,7 +18,7 @@ Screens:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
           Properties:
-            Fill: =If(st_darkmode.Checked=true, RGBA(0, 0, 0, 1), RGBA(0, 0, 0, 0))
+            Fill: =RGBA(240, 240, 240, 15)
             Height: |+
               =Parent.Height-35
             Width: =9*Len(mn_icmapproval.Text)
@@ -175,6 +175,12 @@ Screens:
                     =UpdateContext({activescreen: "recovery"});
                     UpdateContext({listvisi: true});
                     UpdateContext({formvisi: false});
+                    UpdateContext({recovery_filter: false});
+                    Reset(DropdownCanvas10);
+                    Reset(DropdownCanvas10_1);
+                    Reset(DropdownCanvas10_2);
+                    Reset(DropdownCanvas10_3);
+                    Reset(DropdownCanvas10_4);
                     Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Recovery tracking')
                   Text: ="Recovery requests"
@@ -415,7 +421,6 @@ Screens:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
           Properties:
-            Fill: =If(st_darkmode.Checked=true, RGBA(53, 61, 63, 1), RGBA(0, 0, 0, 0))
             Height: =Parent.Height-35
             Visible: =If(activescreen="checkday", true, false)
             Width: =Parent.Width-glb_menu.Width
@@ -1441,6 +1446,7 @@ Screens:
                           Refresh('TKE P&C Backlog Management')
                           )
                         Padding: ='Toolbar.Padding'.Small
+                        Width: =500
             - Form:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -6235,7 +6241,7 @@ Screens:
                                   ItemAppearance: "Subtle", 
                                   ItemIconStyle: "Regular", 
                                   ItemDisabled: false,
-                                  ItemVisible: If(Form1_1.Mode=FormMode.View, false, true),
+                                  ItemVisible: true,
                                   ItemTooltip: "Refresh"
                               }
                           )
@@ -6249,6 +6255,7 @@ Screens:
                               Refresh('TKE P&C Backup tracking')
                           )
                         Padding: ='Toolbar.Padding'.Small
+                        Width: =500
             - Form_1:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -8709,6 +8716,7 @@ Screens:
                           Refresh('TKE P&C Consultation requests')
                           )
                         Padding: ='Toolbar.Padding'.Small
+                        Width: =500
             - Form_2:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -10708,16 +10716,16 @@ Screens:
                           =If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C Recovery tracking', 'Case number'=glb_search.Value), 
                           If(Recover_filterview.Selected.Value="Active requests",
-                          Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled")),
+                          Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value) ),
                           If(Recover_filterview.Selected.Value="My requests",
-                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed"),
+                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                           If(Recover_filterview.Selected.Value="Ready to close requests",
-                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed"),
+                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                           If(Recover_filterview.Selected.Value="(Reviewer) Pending requests",
-                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed")),
+                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                           If(Recover_filterview.Selected.Value="(Reviewer) Follow up today",
-                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today()),
-                          'TKE P&C Recovery tracking'
+                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today(), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
+                          Filter('TKE P&C Recovery tracking', If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value))
                           )
                           )
                           )
@@ -10728,7 +10736,7 @@ Screens:
                         Width: =Parent.Width
                         Y: =36
                       Children:
-                        - Created_Column2:
+                        - CreatedOn:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10737,7 +10745,7 @@ Screens:
                               FieldName: ="Created"
                               Order: =12
                               Text: =ThisItem.Created
-                        - Next contact date (for reviewer only)_Column1:
+                        - NCD:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10746,7 +10754,7 @@ Screens:
                               FieldName: ="Nextcontactdate_x0028_forreviewe"
                               Order: =15
                               Text: =Text(DateValue(ThisItem.'Next contact date (for reviewer only)'), "dddd, mmmm d")
-                        - Approved closure date (For reviewer only)_Column1:
+                        - ClosureDate:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10755,7 +10763,7 @@ Screens:
                               FieldName: ="Approvedclosuredate"
                               Order: =14
                               Text: =Text(DateValue(ThisItem.'Approved closure date (For reviewer only)'), "dddd, mmmm d")
-                        - Owner (for reviewer only)_Column1:
+                        - Reviewer:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10764,7 +10772,7 @@ Screens:
                               FieldName: ="Reviewer"
                               Order: =13
                               Text: =ThisItem.'Owner (for reviewer only)'.DisplayName
-                        - Status_Column5:
+                        - Status:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10773,7 +10781,7 @@ Screens:
                               FieldName: ="Status"
                               Order: =11
                               Text: =ThisItem.Status.Value
-                        - Case age_Column2:
+                        - Age:
                             Control: DataTableColumn@1.0.1
                             Variant: Number
                             IsLocked: true
@@ -10782,7 +10790,7 @@ Screens:
                               FieldName: ="Caseage"
                               Order: =10
                               Text: =Int(DateDiff(ThisItem.Created, Today())+ThisItem.'Case age')
-                        - Risk_Column1:
+                        - Risk:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10791,7 +10799,7 @@ Screens:
                               FieldName: ="Risk"
                               Order: =5
                               Text: =ThisItem.Risk.Value
-                        - Service level_Column3:
+                        - ServiceLevel:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10800,7 +10808,7 @@ Screens:
                               FieldName: ="Servicelevel"
                               Order: =4
                               Text: =ThisItem.'Service level'.Value
-                        - Recovery type_Column1:
+                        - Type:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10809,7 +10817,7 @@ Screens:
                               FieldName: ="Recoverytype"
                               Order: =2
                               Text: =ThisItem.'Recovery type'.Value
-                        - Case number_Column5:
+                        - CaseNumber:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10823,7 +10831,7 @@ Screens:
                                 ViewForm(Form1_7)
                               Order: =1
                               Text: =ThisItem.'Case number'
-                        - Author_Column2:
+                        - Owner:
                             Control: DataTableColumn@1.0.1
                             Variant: Textual
                             IsLocked: true
@@ -10848,21 +10856,22 @@ Screens:
                           =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C Recovery tracking', 'Case number'=glb_search.Value), 
                           If(Recover_filterview.Selected.Value="Active requests",
-                          Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled")),
+                          Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value) ),
                           If(Recover_filterview.Selected.Value="My requests",
-                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed"),
+                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                           If(Recover_filterview.Selected.Value="Ready to close requests",
-                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed"),
+                          Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                           If(Recover_filterview.Selected.Value="(Reviewer) Pending requests",
-                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed")),
+                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                           If(Recover_filterview.Selected.Value="(Reviewer) Follow up today",
-                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today()),
-                          'TKE P&C Recovery tracking'
+                          Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today(), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
+                          Filter('TKE P&C Recovery tracking', If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value))
                           )
                           )
                           )
                           )
-                          ))))
+                          )
+                          )))
                         Width: =100
                         X: =Parent.Width-420
                   - quickcreateform_4:
@@ -11233,64 +11242,6 @@ Screens:
                                           Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
                                           Width: =30
                                           Y: =DataCardKey142.Y
-                              - Good to close without MREC_DataCard2:
-                                  Control: TypedDataCard@1.0.7
-                                  Variant: ToggleEdit
-                                  Properties:
-                                    DataField: ="GoodtoclosewithoutMREC"
-                                    Default: =ThisItem.'Good to close without MREC'
-                                    DisplayName: =DataSourceInfo([@'TKE P&C Recovery tracking'],DataSourceInfo.DisplayName,'Good to close without MREC')
-                                    Required: =false
-                                    Update: =DataCardValue145.Checked
-                                    Width: =550
-                                    X: =0
-                                    Y: =5
-                                  Children:
-                                    - DataCardKey145:
-                                        Control: Text@0.0.51
-                                        MetadataKey: FieldName
-                                        Properties:
-                                          Height: =22
-                                          Text: =Parent.DisplayName
-                                          Weight: ='TextCanvas.Weight'.Semibold
-                                          Width: =Parent.Width - 48
-                                          Wrap: =false
-                                          X: =24
-                                          Y: =10
-                                    - DataCardValue145:
-                                        Control: Toggle@1.1.5
-                                        MetadataKey: FieldValue
-                                        Properties:
-                                          AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                                          Checked: =Parent.Default
-                                          DisplayMode: =Parent.DisplayMode
-                                          Height: =32
-                                          Label: =""
-                                          OnCheck: =
-                                          OnUncheck: =
-                                          Width: =Parent.Width - 48
-                                          X: =24
-                                          Y: =DataCardKey145.Y + DataCardKey145.Height + 4
-                                    - ErrorMessage143:
-                                        Control: Text@0.0.51
-                                        MetadataKey: ErrorMessage
-                                        Properties:
-                                          Height: =30
-                                          Text: =Parent.Error
-                                          Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                                          Width: =Parent.Width - 48
-                                          X: =24
-                                          Y: =DataCardValue145.Y + DataCardValue145.Height
-                                    - StarVisible143:
-                                        Control: Text@0.0.51
-                                        MetadataKey: FieldRequired
-                                        Properties:
-                                          Align: ='TextCanvas.Align'.Center
-                                          Height: =30
-                                          Text: ="*"
-                                          Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                                          Width: =30
-                                          Y: =DataCardKey145.Y
                               - Bug / By Design / Unsupported / Auto-solved / Cx-solved_DataCard2:
                                   Control: TypedDataCard@1.0.7
                                   Variant: ComboBoxEdit
@@ -11303,7 +11254,7 @@ Screens:
                                     Update: =DataCardValue143.Selected
                                     Width: =550
                                     X: =0
-                                    Y: =6
+                                    Y: =5
                                   Children:
                                     - DataCardKey143:
                                         Control: Text@0.0.51
@@ -11361,7 +11312,7 @@ Screens:
                                     Update: =Value(DataCardValue144.Value)
                                     Width: =550
                                     X: =0
-                                    Y: =7
+                                    Y: =6
                                   Children:
                                     - DataCardKey144:
                                         Control: Text@0.0.51
@@ -11420,7 +11371,7 @@ Screens:
                                     Update: =DataCardValue146.Value
                                     Width: =550
                                     X: =0
-                                    Y: =8
+                                    Y: =7
                                   Children:
                                     - DataCardKey146:
                                         Control: Text@0.0.51
@@ -11479,7 +11430,7 @@ Screens:
                                     Update: =DataCardValue147.Selected.Engineer
                                     Width: =550
                                     X: =0
-                                    Y: =9
+                                    Y: =8
                                   Children:
                                     - DataCardKey147:
                                         Control: Text@0.0.51
@@ -11628,7 +11579,7 @@ Screens:
                                     Update: =DataCardValue148.Selected
                                     Width: =550
                                     X: =0
-                                    Y: =10
+                                    Y: =9
                                   Children:
                                     - DataCardKey148:
                                         Control: Text@0.0.51
@@ -11647,7 +11598,7 @@ Screens:
                                         Properties:
                                           AccessibleLabel: =Parent.DisplayName
                                           DefaultSelectedItems: |-
-                                            =If(DataCardValue145.Checked=true, {Value: "Closed"}, {Value: "Pending"})
+                                            ={Value: "Pending"}
                                           DisplayMode: =Parent.DisplayMode
                                           Items: =Choices([@'TKE P&C Recovery tracking'].Status)
                                           Required: =Parent.Required
@@ -11711,6 +11662,495 @@ Screens:
                               Refresh('TKE P&C Recovery tracking')
                           )
                         Padding: ='Toolbar.Padding'.Small
+                        Width: =Container8.X
+                  - Container8:
+                      Control: GroupContainer@1.3.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =If(recovery_filter=true, DropShadow.Semibold, DropShadow.None)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =If(recovery_filter=true, 280, 36)
+                        Width: =If(recovery_filter=true, 400, 150)
+                        X: =TextInputCanvas1_4.X-Self.Width
+                      Children:
+                        - ButtonCanvas11:
+                            Control: Button@0.0.45
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Subtle
+                              FontColor: =RGBA(15, 108, 189, 1)
+                              OnSelect: |-
+                                =UpdateContext({recovery_filter: If(recovery_filter=true, false, true)})
+                              Text: =If(recovery_filter=true, "Collapse filter", "Expand filter")
+                              Width: =150
+                              X: =Parent.Width-Self.Width
+                        - TextCanvas8:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Recovery type"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =38
+                        - DropdownCanvas10:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "TREC", "MREC"]
+                              Width: =270
+                              X: =120
+                              Y: =38
+                        - TextCanvas8_1:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Owner"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =75
+                        - TextCanvas8_2:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Reviewer"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =112
+                        - TextCanvas8_3:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Service level"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =149
+                        - TextCanvas8_4:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Status"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =186
+                        - DropdownCanvas10_1:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All"]
+                              Width: =270
+                              X: =120
+                              Y: =75
+                            Children:
+                              - Engineer16:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Engineer"
+                                    FieldName: ="Engineer"
+                                    FieldType: ="E"
+                                    Order: =1
+                              - Email14:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Email"
+                                    FieldName: ="Email"
+                                    FieldType: ="s"
+                                    Order: =2
+                              - Role14:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Role"
+                                    FieldName: ="Role"
+                                    FieldType: ="E"
+                                    Order: =3
+                              - AAD ID4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="AAD ID"
+                                    FieldName: ="AADID"
+                                    FieldType: ="s"
+                                    Order: =4
+                              - Billable status4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Billable status"
+                                    FieldName: ="Billablestatus"
+                                    FieldType: ="E"
+                                    Order: =5
+                              - AA Skill14:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="AA Skill"
+                                    FieldName: ="AASkill"
+                                    FieldType: ="E"
+                                    Order: =6
+                              - Working shift14:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Working shift"
+                                    FieldName: ="Workingshift"
+                                    FieldType: ="E"
+                                    Order: =7
+                              - App_setting_Enable admin mode13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Enable admin mode"
+                                    FieldName: ="App_setting_Enableadminmode"
+                                    FieldType: ="b"
+                                    Order: =8
+                              - App_setting_Teams notification13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Teams notification"
+                                    FieldName: ="App_setting_Teamsnotification"
+                                    FieldType: ="b"
+                                    Order: =9
+                              - App_setting_Auto route ICM_Plat5:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Auto route ICM_Plat"
+                                    FieldName: ="App_setting_AutorouteICM"
+                                    FieldType: ="b"
+                                    Order: =10
+                              - App_setting_Auto route ICM_Cust5:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Auto route ICM_Cust"
+                                    FieldName: ="App_setting_AutorouteICM_Cust"
+                                    FieldType: ="b"
+                                    Order: =11
+                              - App_setting_Auto route Consultation13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Auto route Consultation"
+                                    FieldName: ="App_setting_AutorouteConsultatio"
+                                    FieldType: ="b"
+                                    Order: =12
+                              - Dark mode5:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Dark mode"
+                                    FieldName: ="Darkmode"
+                                    FieldType: ="b"
+                                    Order: =13
+                              - Auto create Outlook folder/rule4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Auto create Outlook folder/rule"
+                                    FieldName: ="AutocreateOutlookfolder_x002f_ru"
+                                    FieldType: ="b"
+                                    Order: =14
+                              - Debugging mode4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Debugging mode"
+                                    FieldName: ="Testingmode"
+                                    FieldType: ="b"
+                                    Order: =15
+                              - Leave_admin4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Leave_admin"
+                                    FieldName: ="Leave_admin"
+                                    FieldType: ="b"
+                                    Order: =16
+                              - Leave_approver4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Leave_approver"
+                                    FieldName: ="Leave_approver"
+                                    FieldType: ="b"
+                                    Order: =17
+                              - Scheduler2:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Scheduler"
+                                    FieldName: ="Scheduler"
+                                    FieldType: ="b"
+                                    Order: =18
+                              - Attachments14:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Attachments"
+                                    FieldName: ="{Attachments}"
+                                    FieldType: ="r*"
+                                    Order: =19
+                        - DropdownCanvas10_2:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All"]
+                              Width: =270
+                              X: =120
+                              Y: =112
+                            Children:
+                              - Engineer15:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Engineer"
+                                    FieldName: ="Engineer"
+                                    FieldType: ="E"
+                                    Order: =1
+                              - Email13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Email"
+                                    FieldName: ="Email"
+                                    FieldType: ="s"
+                                    Order: =2
+                              - Role13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Role"
+                                    FieldName: ="Role"
+                                    FieldType: ="E"
+                                    Order: =3
+                              - AAD ID3:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="AAD ID"
+                                    FieldName: ="AADID"
+                                    FieldType: ="s"
+                                    Order: =4
+                              - Billable status3:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Billable status"
+                                    FieldName: ="Billablestatus"
+                                    FieldType: ="E"
+                                    Order: =5
+                              - AA Skill13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="AA Skill"
+                                    FieldName: ="AASkill"
+                                    FieldType: ="E"
+                                    Order: =6
+                              - Working shift13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Working shift"
+                                    FieldName: ="Workingshift"
+                                    FieldType: ="E"
+                                    Order: =7
+                              - App_setting_Enable admin mode12:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Enable admin mode"
+                                    FieldName: ="App_setting_Enableadminmode"
+                                    FieldType: ="b"
+                                    Order: =8
+                              - App_setting_Teams notification12:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Teams notification"
+                                    FieldName: ="App_setting_Teamsnotification"
+                                    FieldType: ="b"
+                                    Order: =9
+                              - App_setting_Auto route ICM_Plat4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Auto route ICM_Plat"
+                                    FieldName: ="App_setting_AutorouteICM"
+                                    FieldType: ="b"
+                                    Order: =10
+                              - App_setting_Auto route ICM_Cust4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Auto route ICM_Cust"
+                                    FieldName: ="App_setting_AutorouteICM_Cust"
+                                    FieldType: ="b"
+                                    Order: =11
+                              - App_setting_Auto route Consultation12:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="App_setting_Auto route Consultation"
+                                    FieldName: ="App_setting_AutorouteConsultatio"
+                                    FieldType: ="b"
+                                    Order: =12
+                              - Dark mode4:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Dark mode"
+                                    FieldName: ="Darkmode"
+                                    FieldType: ="b"
+                                    Order: =13
+                              - Auto create Outlook folder/rule3:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Auto create Outlook folder/rule"
+                                    FieldName: ="AutocreateOutlookfolder_x002f_ru"
+                                    FieldType: ="b"
+                                    Order: =14
+                              - Debugging mode3:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Debugging mode"
+                                    FieldName: ="Testingmode"
+                                    FieldType: ="b"
+                                    Order: =15
+                              - Leave_admin3:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Leave_admin"
+                                    FieldName: ="Leave_admin"
+                                    FieldType: ="b"
+                                    Order: =16
+                              - Leave_approver3:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Leave_approver"
+                                    FieldName: ="Leave_approver"
+                                    FieldType: ="b"
+                                    Order: =17
+                              - Scheduler1:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Scheduler"
+                                    FieldName: ="Scheduler"
+                                    FieldType: ="b"
+                                    Order: =18
+                              - Attachments13:
+                                  Control: DropDownDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Attachments"
+                                    FieldName: ="{Attachments}"
+                                    FieldType: ="r*"
+                                    Order: =19
+                        - DropdownCanvas10_3:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Pro", "Pro S500", "Prem", "Prem S500", "Pro Direct"]
+                              Width: =270
+                              X: =120
+                              Y: =149
+                        - DropdownCanvas10_4:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Pending", "In progress", "Completed", "Closed", "Cancelled"]
+                              Width: =270
+                              X: =120
+                              Y: =186
+                        - ButtonCanvas12:
+                            Control: Button@0.0.45
+                            Properties:
+                              BasePaletteColor: =RGBA(141, 229, 250, 1)
+                              OnSelect: |-
+                                =Reset(DropdownCanvas10);
+                                Reset(DropdownCanvas10_1);
+                                Reset(DropdownCanvas10_2);
+                                Reset(DropdownCanvas10_3);
+                                Reset(DropdownCanvas10_4)
+                              Text: ="Remove filter"
+                              Width: =150
+                              X: =180
+                              Y: =230
             - Form_4:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -15429,6 +15869,7 @@ Screens:
                           ["Engineer view", "Manager view"]
                           )
                         OnChange: =
+                        Visible: =rpt_sec1=true
                         Width: =200
                         X: =Parent.Width-DropdownCanvas4.Width
                   - TextCanvas2_45:
@@ -15456,22 +15897,6 @@ Screens:
                         Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                         Width: =90
                         X: =502
-                  - Icon6:
-                      Control: Classic/Icon@2.5.0
-                      Properties:
-                        Height: =32
-                        Icon: =Icon.Sort
-                        OnSelect: |-
-                          =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
-                          UpdateContext({rpt_sec2: If(rpt_sec2=true, false, true)})
-                        PaddingBottom: =7
-                        PaddingLeft: =7
-                        PaddingRight: =7
-                        PaddingTop: =7
-                        Tooltip: ="Switch report"
-                        Visible: =LookUp('TKE P&C Engineers', Email=User().Email).Role.Value<>"Engineer"
-                        Width: =32
-                        X: =DropdownCanvas4.X-Icon6.Width
                   - CheckboxCanvas1_2:
                       Control: CheckBox@0.0.30
                       Properties:
@@ -15495,7 +15920,7 @@ Screens:
                           =UpdateContext({activemonthkpi: If(activemonthkpi=true,  false, true)})
                         Text: =If(activemonthkpi=true, "Current month", "Previous month")
                         Width: =160
-                        X: =Parent.Width-Icon6.Width-DropdownCanvas4.Width-Self.Width
+                        X: =If(rpt_sec1=true, Parent.Width-ButtonCanvas1.Width-DropdownCanvas4.Width-Self.Width, ButtonCanvas1.X-Self.Width)
                   - TextCanvas13:
                       Control: Text@0.0.51
                       Properties:
@@ -15503,6 +15928,17 @@ Screens:
                         Visible: =false
                         Width: =120
                         X: =302
+                  - ButtonCanvas1:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Subtle
+                        Icon: ="ArrowSort"
+                        OnSelect: |-
+                          =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
+                          UpdateContext({rpt_sec2: If(rpt_sec2=true, false, true)})
+                        Text: =If(rpt_sec2=true, "Engineer level report", "Overall report")
+                        Width: =200
+                        X: =If(rpt_sec1=true, DropdownCanvas4.X-Self.Width, Parent.Width-Self.Width)
             - Gallery3:
                 Control: Gallery@2.15.0
                 Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
@@ -15791,7 +16227,7 @@ Screens:
             FontColor: =RGBA(255, 255, 255, 1)
             Height: =glb_header.Height
             PaddingRight: =10
-            Text: ="v1.1.4.0"
+            Text: ="v1.1.5.0"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Bold
             Width: =150
@@ -15859,7 +16295,7 @@ Screens:
                 Properties:
                   Appearance: ='ButtonCanvas.Appearance'.Secondary
                   DisplayMode: =If(And(Or(DropdownCanvas2.Selected.Value="Onboard new user", DropdownCanvas2.Selected.Value="Offboard user"), LookUp('TKE P&C Engineers', Email=User().Email).'App_setting_Enable admin mode'=false), DisplayMode.Disabled, DisplayMode.Edit)
-                  OnSelect: "=UpdateContext({s1_visi: false});\r\nUpdateContext({s2_visi: false});\r\nUpdateContext({s3_visi: false});\r\nUpdateContext({s4_visi: false});\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Reopen case/request\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Searching for case ID...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(Or(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=TextInputCanvas4.Value))>0, CountRows(Filter('TKE P&C Recovery tracking', 'Case number'=TextInputCanvas4.Value))>0),\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Found matched object\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n        \r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Executing request...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        'TKEPC-Selfserve1'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Request has been executed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Updating database...\"});\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Reopen case/request\",\r\n                'Case ID': TextInputCanvas4.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Updated database\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"No matched object\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Enable/Disable feature flag\",\r\n    If(DropdownCanvas3.Selected.Value=\"Outlook - Auto create new folder/Rule\",\r\n        UpdateContext({s1_visi: true});\r\n        UpdateContext({s1_icon: \"ArrowSync\"});\r\n        UpdateContext({s1_text: \"Retrieving user setting...\"});\r\n        UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, \"Current value is On\", \"Current value if Off\")});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Updating user setting...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', LookUp('TKE P&C Engineers', Email=User().Email),\r\n            {\r\n                'Auto create Outlook folder/rule': If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, false, true)\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"User setting has been updated\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Success\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Reopen case/request\",\r\n                'Case ID': DropdownCanvas3.Selected.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        ,\r\n        false\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Onboard new user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Configuring SharePoint and App profile...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Set(intstatus, 'TKEPC-Onboarduser'.Run(TextInputCanvas4.Value).status);\r\n    If(intstatus=\"Request has been completed\",\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Internal profile has been configured\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Configuring Engineer database...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', Defaults('TKE P&C Engineers'),\r\n            {\r\n                Email: TextInputCanvas4.Value,\r\n                Role: {Value: \"Engineer\"},\r\n                Engineer: \r\n                    {\r\n                        '@odata.type':\"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser\",\r\n                        Claims: Concatenate(\"i:0#.f|membership|\", TextInputCanvas4.Value),\r\n                        Department: \"\",\r\n                        DisplayName: \"\",\r\n                        Email: TextInputCanvas4.Value,\r\n                        JobTitle: \"\",\r\n                        Picture: \"\"\r\n                    },\r\n                'AA Skill': {Value: \"Professional Only\"},\r\n                'Working shift': {Value: \"8 AM - 5 PM\"},\r\n                'App_setting_Teams notification': true,\r\n                'Billable status': {Value: \"Non-billable\"},\r\n                'AAD ID': Office365Users.UserProfile(TextInputCanvas4.Value).Id\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Database has been configured\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Sending AAD to queue for flow config...\"});\r\n        UpdateContext({AADID: Office365Users.UserProfile(TextInputCanvas4.Value).Id});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Queue has been updated\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: intstatus});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    );\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Offboard user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Scanning assigned records...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(CountRows(Filter('TKE P&C Recovery tracking', And('Created By'.Email=TextInputCanvas4.Value, Status.Value<>\"Closed\", Status.Value<>\"Cancelled\")))=0,\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"User is ready to be removed\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Removing core records...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Backlog Management', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C ICM approval requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Consultation requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Recovery tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Backup tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing log...\"});\r\n        RemoveIf(Int_App_SelfService, 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backlog_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Recovery_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backup_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Consultation_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_ICM_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing notification...\"});\r\n        RemoveIf('Internal_ App_Notifications', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Notifications', Recipient.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"All associated records have been removed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Removing user in database...\"});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Engineers', Email=TextInputCanvas4.Value);\r\n        UpdateContext({s3_text: \"Removing user Sharepoint group...\"});\r\n        'TKEPC-Offboarduser'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"User has been successfully removed\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Completed\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"Cannot proceed: Found active record from this user\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Check customer history\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Retrieving CXID details...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n        {\r\n            'SS Request': \"Check customer history\",\r\n            Status: {Value: \"Completed\"},\r\n            Details: TextInputCanvas4_1.Value\r\n        }\r\n    );\r\n    UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s1_text: \"ID has been saved\"});\r\n    UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n    UpdateContext({s2_visi: true});\r\n    UpdateContext({s2_icon: \"ArrowSync\"});\r\n    UpdateContext({s2_text: \"Sending the request to queue...\"});\r\n    UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n    Patch(Internal_App_Cxhistory, Defaults(Internal_App_Cxhistory),\r\n        {\r\n            'Cx ID': TextInputCanvas4.Value\r\n        }\r\n    );\r\n    UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s2_text: \"Request has been submitted, you will receive Teams notification soon\"});\r\n    UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n    ,\r\n    false\r\n)"
+                  OnSelect: "=UpdateContext({s1_visi: false});\r\nUpdateContext({s2_visi: false});\r\nUpdateContext({s3_visi: false});\r\nUpdateContext({s4_visi: false});\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Reopen case/request\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Searching for case ID...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(Or(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=TextInputCanvas4.Value))>0, CountRows(Filter('TKE P&C Recovery tracking', 'Case number'=TextInputCanvas4.Value))>0),\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Found matched object\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n        \r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Executing request...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        'TKEPC-Selfserve1'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Request has been executed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Updating database...\"});\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Reopen case/request\",\r\n                'Case ID': TextInputCanvas4.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Updated database\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"No matched object\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Enable/Disable feature flag\",\r\n    If(DropdownCanvas3.Selected.Value=\"Outlook - Auto create new folder/Rule\",\r\n        UpdateContext({s1_visi: true});\r\n        UpdateContext({s1_icon: \"ArrowSync\"});\r\n        UpdateContext({s1_text: \"Retrieving user setting...\"});\r\n        UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, \"Current value is On\", \"Current value if Off\")});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Updating user setting...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', LookUp('TKE P&C Engineers', Email=User().Email),\r\n            {\r\n                'Auto create Outlook folder/rule': If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, false, true)\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"User setting has been updated\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Success\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Enable/Disable feature flag\",\r\n                'Case ID': DropdownCanvas3.Selected.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        ,\r\n        false\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Onboard new user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Configuring SharePoint and App profile...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Set(intstatus, 'TKEPC-Onboarduser'.Run(TextInputCanvas4.Value).status);\r\n    If(intstatus=\"Request has been completed\",\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Internal profile has been configured\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Configuring Engineer database...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', Defaults('TKE P&C Engineers'),\r\n            {\r\n                Email: TextInputCanvas4.Value,\r\n                Role: {Value: \"Engineer\"},\r\n                Engineer: \r\n                    {\r\n                        '@odata.type':\"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser\",\r\n                        Claims: Concatenate(\"i:0#.f|membership|\", TextInputCanvas4.Value),\r\n                        Department: \"\",\r\n                        DisplayName: \"\",\r\n                        Email: TextInputCanvas4.Value,\r\n                        JobTitle: \"\",\r\n                        Picture: \"\"\r\n                    },\r\n                'AA Skill': {Value: \"Professional Only\"},\r\n                'Working shift': {Value: \"8 AM - 5 PM\"},\r\n                'App_setting_Teams notification': true,\r\n                'Billable status': {Value: \"Non-billable\"},\r\n                'AAD ID': Office365Users.UserProfile(TextInputCanvas4.Value).Id\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Database has been configured\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Sending AAD to queue for flow config...\"});\r\n        UpdateContext({AADID: Office365Users.UserProfile(TextInputCanvas4.Value).Id});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Queue has been updated\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: intstatus});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    );\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Offboard user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Scanning assigned records...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(CountRows(Filter('TKE P&C Recovery tracking', And('Created By'.Email=TextInputCanvas4.Value, Status.Value<>\"Closed\", Status.Value<>\"Cancelled\")))=0,\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"User is ready to be removed\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Removing core records...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Backlog Management', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C ICM approval requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Consultation requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Recovery tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Backup tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing log...\"});\r\n        RemoveIf(Int_App_SelfService, 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backlog_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Recovery_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backup_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Consultation_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_ICM_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing notification...\"});\r\n        RemoveIf('Internal_ App_Notifications', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Notifications', Recipient.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing leave and event...\"});\r\n        RemoveIf('TKE P&C Leave requests', Engineer.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE PC - Schedule', Agent.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"All associated records have been removed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Removing user in database...\"});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Engineers', Email=TextInputCanvas4.Value);\r\n        UpdateContext({s3_text: \"Removing user Sharepoint group...\"});\r\n        'TKEPC-Offboarduser'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"User has been successfully removed\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Completed\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"Cannot proceed: Found active record from this user\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Check customer history\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Retrieving CXID details...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n        {\r\n            'SS Request': \"Check customer history\",\r\n            Status: {Value: \"Completed\"},\r\n            Details: TextInputCanvas4_1.Value\r\n        }\r\n    );\r\n    UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s1_text: \"ID has been saved\"});\r\n    UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n    UpdateContext({s2_visi: true});\r\n    UpdateContext({s2_icon: \"ArrowSync\"});\r\n    UpdateContext({s2_text: \"Sending the request to queue...\"});\r\n    UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n    Patch(Internal_App_Cxhistory, Defaults(Internal_App_Cxhistory),\r\n        {\r\n            'Cx ID': TextInputCanvas4.Value\r\n        }\r\n    );\r\n    UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s2_text: \"Request has been submitted, you will receive Teams notification soon\"});\r\n    UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n    ,\r\n    false\r\n)"
                   Text: ="Run"
                   X: =136
                   Y: =338
@@ -15954,44 +16390,50 @@ Screens:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
           Properties:
-            Fill: =If(st_darkmode.Checked=true, RGBA(53, 61, 63, 1), RGBA(0, 0, 0, 0))
             Height: =Parent.Height-35
             Visible: =If(activescreen="setting", true, false)
             Width: =Parent.Width-glb_menu.Width
             X: =glb_menu.Width
             Y: =35
           Children:
+            - TabList3:
+                Control: TabList@2.2.31
+                Properties:
+                  Items: =["Personal configuration", "Security roles", "Features"]
+                  Size: ='TabList.Size'.Medium
+                  Width: =Parent.Width
             - Form4:
                 Control: Form@2.4.4
                 Layout: Vertical
                 Properties:
                   DataSource: ='TKE P&C Engineers'
                   DefaultMode: =FormMode.View
-                  Height: =Parent.Height-(TextCanvas8.Height+st_box_app.Height+TextCanvas8_1.Height)
+                  Height: =Parent.Height-55
                   Item: =LookUp('TKE P&C Engineers', Email=User().Email)
+                  NumberOfColumns: =4
+                  Visible: =TabList3.Selected.Value="Personal configuration"
                   Width: =Parent.Width
-                  Y: =TextCanvas8.Height+st_box_app.Height+TextCanvas8_1.Height
+                  Y: =55
                 Children:
-                  - Email_DataCard2:
+                  - Email_DataCard1:
                       Control: TypedDataCard@1.0.7
                       Variant: TextualEdit
                       IsLocked: true
                       Properties:
                         DataField: ="Email"
                         Default: =ThisItem.Email
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,Email)
-                        MaxLength: =DataSourceInfo([@'TKE P&C Engineers'], DataSourceInfo.MaxLength, Email)
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Email')
+                        MaxLength: =DataSourceInfo([@'TKE P&C Engineers'], DataSourceInfo.MaxLength, 'Email')
                         Required: =false
-                        Update: =DataCardValue67.Value
-                        Width: =392
+                        Update: =DataCardValue23.Value
+                        Width: =294
                         X: =0
                         Y: =0
                       Children:
-                        - DataCardKey67:
+                        - DataCardKey23:
                             Control: Text@0.0.51
                             MetadataKey: FieldName
                             Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
                               Height: =22
                               Text: =Parent.DisplayName
                               Weight: ='TextCanvas.Weight'.Semibold
@@ -15999,7 +16441,7 @@ Screens:
                               Wrap: =false
                               X: =24
                               Y: =10
-                        - DataCardValue67:
+                        - DataCardValue23:
                             Control: TextInput@0.0.54
                             MetadataKey: FieldValue
                             Properties:
@@ -16009,526 +16451,6 @@ Screens:
                               Required: =Parent.Required
                               ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
                               Value: =Parent.Default
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey67.Y + DataCardKey67.Height + 4
-                        - ErrorMessage66:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue67.Y + DataCardValue67.Height
-                        - StarVisible66:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey67.Y
-                  - Role_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ComboBoxEdit
-                      IsLocked: true
-                      Properties:
-                        DataField: ="Role"
-                        Default: =ThisItem.Role
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,Role)
-                        Required: =false
-                        Update: =DataCardValue30.Selected
-                        Width: =392
-                        X: =1
-                        Y: =0
-                      Children:
-                        - DataCardKey30:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: =Parent.DisplayName
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue30:
-                            Control: ComboBox@0.0.51
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =Parent.DisplayName
-                              DefaultSelectedItems: =[Parent.Default]
-                              DisplayMode: =Parent.DisplayMode
-                              Items: =Choices([@'TKE P&C Engineers'].Role)
-                              Required: =Parent.Required
-                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey30.Y + DataCardKey30.Height + 4
-                        - ErrorMessage30:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue30.Y + DataCardValue30.Height
-                        - StarVisible30:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =20
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey30.Y
-                  - AA Skill_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ComboBoxEdit
-                      IsLocked: true
-                      Properties:
-                        DataField: ="AASkill"
-                        Default: =ThisItem.'AA Skill'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'AA Skill')
-                        Required: =false
-                        Update: =DataCardValue32.Selected
-                        Width: =392
-                        X: =2
-                        Y: =0
-                      Children:
-                        - DataCardKey32:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: =Parent.DisplayName
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue32:
-                            Control: ComboBox@0.0.51
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =Parent.DisplayName
-                              DefaultSelectedItems: =[Parent.Default]
-                              DisplayMode: =Parent.DisplayMode
-                              Items: =Choices([@'TKE P&C Engineers'].'AA Skill')
-                              Required: =Parent.Required
-                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey32.Y + DataCardKey32.Height + 4
-                        - ErrorMessage32:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue32.Y + DataCardValue32.Height
-                        - StarVisible32:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =20
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey32.Y
-                  - Working shift_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ComboBoxEdit
-                      IsLocked: true
-                      Properties:
-                        DataField: ="Workingshift"
-                        Default: =ThisItem.'Working shift'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Working shift')
-                        Required: =false
-                        Update: =DataCardValue39.Selected
-                        Width: =392
-                        X: =0
-                        Y: =1
-                      Children:
-                        - DataCardKey39:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: =Parent.DisplayName
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue39:
-                            Control: ComboBox@0.0.51
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =Parent.DisplayName
-                              DefaultSelectedItems: =[Parent.Default]
-                              DisplayMode: =Parent.DisplayMode
-                              Items: =Choices([@'TKE P&C Engineers'].'Working shift')
-                              Required: =Parent.Required
-                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey39.Y + DataCardKey39.Height + 4
-                        - ErrorMessage38:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue39.Y + DataCardValue39.Height
-                        - StarVisible38:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =20
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey39.Y
-                  - App_setting_Enable admin mode_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ToggleEdit
-                      Properties:
-                        DataField: ="App_setting_Enableadminmode"
-                        Default: =ThisItem.'App_setting_Enable admin mode'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Enable admin mode')
-                        Required: =false
-                        Update: =DataCardValue50.Checked
-                        Width: =392
-                        X: =1
-                        Y: =1
-                      Children:
-                        - DataCardKey50:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: ="Admin mode"
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue50:
-                            Control: Toggle@1.1.5
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                              Checked: =Parent.Default
-                              DisplayMode: =Parent.DisplayMode
-                              Height: =32
-                              Label: =""
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey50.Y + DataCardKey50.Height + 4
-                        - ErrorMessage49:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue50.Y + DataCardValue50.Height
-                        - StarVisible49:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey50.Y
-                  - App_setting_Teams notification_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ToggleEdit
-                      Properties:
-                        DataField: ="App_setting_Teamsnotification"
-                        Default: =ThisItem.'App_setting_Teams notification'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Teams notification')
-                        Required: =false
-                        Update: =DataCardValue57.Checked
-                        Width: =392
-                        X: =2
-                        Y: =1
-                      Children:
-                        - DataCardKey57:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: ="Teams notification"
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue57:
-                            Control: Toggle@1.1.5
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                              Checked: =Parent.Default
-                              DisplayMode: =Parent.DisplayMode
-                              Height: =32
-                              Label: =""
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey57.Y + DataCardKey57.Height + 4
-                        - ErrorMessage56:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue57.Y + DataCardValue57.Height
-                        - StarVisible56:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey57.Y
-                  - App_setting_Auto route ICM_Plat_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ToggleEdit
-                      Properties:
-                        DataField: ="App_setting_AutorouteICM"
-                        Default: =ThisItem.'App_setting_Auto route ICM_Plat'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Auto route ICM_Plat')
-                        Required: =false
-                        Update: =DataCardValue58.Checked
-                        Width: =392
-                        X: =0
-                        Y: =2
-                      Children:
-                        - DataCardKey58:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: ="Auto assign Platform ICM request"
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue58:
-                            Control: Toggle@1.1.5
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                              Checked: =Parent.Default
-                              DisplayMode: =Parent.DisplayMode
-                              Height: =32
-                              Label: =""
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey58.Y + DataCardKey58.Height + 4
-                        - ErrorMessage57:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue58.Y + DataCardValue58.Height
-                        - StarVisible57:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey58.Y
-                  - App_setting_Auto route ICM_Cust_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ToggleEdit
-                      Properties:
-                        DataField: ="App_setting_AutorouteICM_Cust"
-                        Default: =ThisItem.'App_setting_Auto route ICM_Cust'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Auto route ICM_Cust')
-                        Required: =false
-                        Update: =DataCardValue59.Checked
-                        Width: =392
-                        X: =1
-                        Y: =2
-                      Children:
-                        - DataCardKey59:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: ="Auto assign Customization ICM request"
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue59:
-                            Control: Toggle@1.1.5
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                              Checked: =Parent.Default
-                              DisplayMode: =Parent.DisplayMode
-                              Height: =32
-                              Label: =""
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey59.Y + DataCardKey59.Height + 4
-                        - ErrorMessage58:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue59.Y + DataCardValue59.Height
-                        - StarVisible58:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey59.Y
-                  - App_setting_Auto route Consultation_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ToggleEdit
-                      Properties:
-                        DataField: ="App_setting_AutorouteConsultatio"
-                        Default: =ThisItem.'App_setting_Auto route Consultation'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Auto route Consultation')
-                        Required: =false
-                        Update: =DataCardValue21.Checked
-                        Width: =392
-                        X: =2
-                        Y: =2
-                      Children:
-                        - DataCardKey21:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: ="Auto assign Consultation request"
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue21:
-                            Control: Toggle@1.1.5
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                              Checked: =Parent.Default
-                              DisplayMode: =Parent.DisplayMode
-                              Height: =32
-                              Label: =""
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardKey21.Y + DataCardKey21.Height + 4
-                        - ErrorMessage21:
-                            Control: Text@0.0.51
-                            MetadataKey: ErrorMessage
-                            Properties:
-                              Height: =30
-                              Text: =Parent.Error
-                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =Parent.Width - 48
-                              X: =24
-                              Y: =DataCardValue21.Y + DataCardValue21.Height
-                        - StarVisible21:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldRequired
-                            Properties:
-                              Align: ='TextCanvas.Align'.Center
-                              Height: =30
-                              Text: ="*"
-                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                              Width: =30
-                              Y: =DataCardKey21.Y
-                  - Auto create Outlook folder/rule_DataCard1:
-                      Control: TypedDataCard@1.0.7
-                      Variant: ToggleEdit
-                      IsLocked: true
-                      Properties:
-                        DataField: ="AutocreateOutlookfolder_x002f_ru"
-                        Default: =ThisItem.'Auto create Outlook folder/rule'
-                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Auto create Outlook folder/rule')
-                        Required: =false
-                        Update: =DataCardValue23.Checked
-                        Width: =392
-                        X: =0
-                        Y: =3
-                      Children:
-                        - DataCardKey23:
-                            Control: Text@0.0.51
-                            MetadataKey: FieldName
-                            Properties:
-                              FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                              Height: =22
-                              Text: =Parent.DisplayName
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =Parent.Width - 48
-                              Wrap: =false
-                              X: =24
-                              Y: =10
-                        - DataCardValue23:
-                            Control: Toggle@1.1.5
-                            MetadataKey: FieldValue
-                            Properties:
-                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                              Checked: =Parent.Default
-                              DisplayMode: =Parent.DisplayMode
-                              Height: =32
-                              Label: =""
                               Width: =Parent.Width - 48
                               X: =24
                               Y: =DataCardKey23.Y + DataCardKey23.Height + 4
@@ -16552,62 +16474,886 @@ Screens:
                               Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
                               Width: =30
                               Y: =DataCardKey23.Y
-            - st_box_app:
-                Control: GroupContainer@1.3.0
-                Variant: AutoLayout
-                Properties:
-                  DropShadow: =DropShadow.None
-                  Height: =68
-                  LayoutDirection: =LayoutDirection.Vertical
-                  Width: =Parent.Width
-                  Y: =30
-                Children:
-                  - st_darkmode:
-                      Control: Toggle@1.1.5
+                  - Role_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
                       Properties:
-                        FontColor: =If(theme="Light", RGBA(0,0,0,1), RGBA(255,255,255,1))
-                        Height: =32
-                        Label: ="Dark mode (preview)"
-                        OnCheck: |-
-                          =UpdateContext({theme: "Dark"})
-                        OnUncheck: |-
-                          =UpdateContext({theme: "Light"})
-                        Width: |
-                          =250
-                        Y: =24
-            - TextCanvas8:
-                Control: Text@0.0.51
+                        DataField: ="Role"
+                        Default: =ThisItem.Role
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Role')
+                        Required: =false
+                        Update: =DataCardValue30.Selected
+                        Width: =294
+                        X: =1
+                        Y: =0
+                      Children:
+                        - DataCardKey30:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue30:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Engineers'].'Role')
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey30.Y + DataCardKey30.Height + 4
+                        - ErrorMessage24:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue30.Y + DataCardValue30.Height
+                        - StarVisible24:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey30.Y
+                  - Billable status_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Billablestatus"
+                        Default: =ThisItem.'Billable status'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Billablestatus')
+                        Required: =false
+                        Update: =DataCardValue32.Selected
+                        Width: =294
+                        X: =2
+                        Y: =0
+                      Children:
+                        - DataCardKey32:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue32:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Engineers'].'Billablestatus')
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey32.Y + DataCardKey32.Height + 4
+                        - ErrorMessage30:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue32.Y + DataCardValue32.Height
+                        - StarVisible30:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey32.Y
+                  - AA Skill_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="AASkill"
+                        Default: =ThisItem.'AA Skill'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'AASkill')
+                        Required: =false
+                        Update: =DataCardValue39.Selected
+                        Width: =294
+                        X: =3
+                        Y: =0
+                      Children:
+                        - DataCardKey39:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue39:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Engineers'].'AASkill')
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey39.Y + DataCardKey39.Height + 4
+                        - ErrorMessage32:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue39.Y + DataCardValue39.Height
+                        - StarVisible32:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey39.Y
+                  - Working shift_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ComboBoxEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Workingshift"
+                        Default: =ThisItem.'Working shift'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Workingshift')
+                        Required: =false
+                        Update: =DataCardValue50.Selected
+                        Width: =294
+                        X: =0
+                        Y: =1
+                      Children:
+                        - DataCardKey50:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue50:
+                            Control: ComboBox@0.0.51
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =Parent.DisplayName
+                              DefaultSelectedItems: =[Parent.Default]
+                              DisplayMode: =Parent.DisplayMode
+                              Items: =Choices([@'TKE P&C Engineers'].'Workingshift')
+                              Required: =Parent.Required
+                              ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey50.Y + DataCardKey50.Height + 4
+                        - ErrorMessage38:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue50.Y + DataCardValue50.Height
+                        - StarVisible38:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =20
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey50.Y
+            - Form4_1:
+                Control: Form@2.4.4
+                Layout: Vertical
                 Properties:
-                  FontColor: =RGBA(215, 58, 60, 1)
-                  Height: =36
-                  PaddingBottom: =10
-                  PaddingLeft: =10
-                  Size: =18
-                  Text: ="Application settings"
-                  Weight: ='TextCanvas.Weight'.Bold
-                  Width: =236
-                  Wrap: =false
-            - TextCanvas8_1:
-                Control: Text@0.0.51
+                  DataSource: ='TKE P&C Engineers'
+                  DefaultMode: =FormMode.View
+                  Height: =Parent.Height-55
+                  Item: =LookUp('TKE P&C Engineers', Email=User().Email)
+                  NumberOfColumns: =4
+                  Visible: =TabList3.Selected.Value="Security roles"
+                  Width: =Parent.Width
+                  Y: =55
+                Children:
+                  - App_setting_Auto route Consultation_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      Properties:
+                        DataField: ="App_setting_AutorouteConsultatio"
+                        Default: =ThisItem.'App_setting_Auto route Consultation'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_AutorouteConsultatio')
+                        Required: =false
+                        Update: =DataCardValue67.Checked
+                        Width: =294
+                        X: =0
+                        Y: =0
+                      Children:
+                        - DataCardKey67:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: ="Consultation reviewer"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue67:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey67.Y + DataCardKey67.Height + 4
+                        - ErrorMessage64:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue67.Y + DataCardValue67.Height
+                        - StarVisible64:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey67.Y
+                  - App_setting_Auto route ICM_Cust_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      Properties:
+                        DataField: ="App_setting_AutorouteICM_Cust"
+                        Default: =ThisItem.'App_setting_Auto route ICM_Cust'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_AutorouteICM_Cust')
+                        Required: =false
+                        Update: =DataCardValue77.Checked
+                        Width: =294
+                        X: =1
+                        Y: =0
+                      Children:
+                        - DataCardKey77:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: ="Customization ICM reviewer"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue77:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey77.Y + DataCardKey77.Height + 4
+                        - ErrorMessage66:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue77.Y + DataCardValue77.Height
+                        - StarVisible66:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey77.Y
+                  - App_setting_Auto route ICM_Plat_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      Properties:
+                        DataField: ="App_setting_AutorouteICM"
+                        Default: =ThisItem.'App_setting_Auto route ICM_Plat'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_AutorouteICM')
+                        Required: =false
+                        Update: =DataCardValue88.Checked
+                        Width: =294
+                        X: =2
+                        Y: =0
+                      Children:
+                        - DataCardKey88:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: ="Platform ICM reviewer"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue88:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey88.Y + DataCardKey88.Height + 4
+                        - ErrorMessage76:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue88.Y + DataCardValue88.Height
+                        - StarVisible76:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey88.Y
+                  - Scheduler_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Scheduler"
+                        Default: =ThisItem.Scheduler
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Scheduler')
+                        Required: =false
+                        Update: =DataCardValue109.Checked
+                        Width: =294
+                        X: =3
+                        Y: =0
+                      Children:
+                        - DataCardKey109:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue109:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey109.Y + DataCardKey109.Height + 4
+                        - ErrorMessage78:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue109.Y + DataCardValue109.Height
+                        - StarVisible78:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey109.Y
+                  - Leave_admin_DataCard2:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Leave_admin"
+                        Default: =ThisItem.Leave_admin
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Leave_admin')
+                        Required: =false
+                        Update: =DataCardValue112.Checked
+                        Width: =294
+                        X: =0
+                        Y: =1
+                      Children:
+                        - DataCardKey112:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue112:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey112.Y + DataCardKey112.Height + 4
+                        - ErrorMessage87:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue112.Y + DataCardValue112.Height
+                        - StarVisible87:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey112.Y
+                  - Leave_approver_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Leave_approver"
+                        Default: =ThisItem.Leave_approver
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Leave_approver')
+                        Required: =false
+                        Update: =DataCardValue118.Checked
+                        Width: =294
+                        X: =1
+                        Y: =1
+                      Children:
+                        - DataCardKey118:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue118:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey118.Y + DataCardKey118.Height + 4
+                        - ErrorMessage108:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue118.Y + DataCardValue118.Height
+                        - StarVisible108:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey118.Y
+            - Form4_2:
+                Control: Form@2.4.4
+                Layout: Vertical
                 Properties:
-                  FontColor: =RGBA(215, 58, 60, 1)
-                  Height: =36
-                  PaddingBottom: =10
-                  PaddingLeft: =10
-                  Size: =18
-                  Text: ="Personal settings"
-                  Weight: ='TextCanvas.Weight'.Bold
-                  Width: =236
-                  Wrap: =false
-                  Y: =TextCanvas8.Height+st_box_app.Height
-            - ButtonCanvas1:
-                Control: Button@0.0.45
-                Properties:
-                  Appearance: ='ButtonCanvas.Appearance'.Secondary
-                  Text: ="Request changes"
-                  Width: =150
-                  X: =236
-                  Y: =TextCanvas8.Height+st_box_app.Height
+                  DataSource: ='TKE P&C Engineers'
+                  DefaultMode: =FormMode.View
+                  Height: =Parent.Height-55
+                  Item: =LookUp('TKE P&C Engineers', Email=User().Email)
+                  NumberOfColumns: =4
+                  Visible: =TabList3.Selected.Value="Features"
+                  Width: =Parent.Width
+                  Y: =55
+                Children:
+                  - Dark mode_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Darkmode"
+                        Default: =ThisItem.'Dark mode'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Darkmode')
+                        Required: =false
+                        Update: =DataCardValue119.Checked
+                        Width: =294
+                        X: =0
+                        Y: =0
+                      Children:
+                        - DataCardKey119:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue119:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey119.Y + DataCardKey119.Height + 4
+                        - ErrorMessage111:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue119.Y + DataCardValue119.Height
+                        - StarVisible111:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey119.Y
+                  - Debugging mode_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="Testingmode"
+                        Default: =ThisItem.'Debugging mode'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'Testingmode')
+                        Required: =false
+                        Update: =DataCardValue120.Checked
+                        Width: =294
+                        X: =1
+                        Y: =0
+                      Children:
+                        - DataCardKey120:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue120:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey120.Y + DataCardKey120.Height + 4
+                        - ErrorMessage116:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue120.Y + DataCardValue120.Height
+                        - StarVisible116:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey120.Y
+                  - App_setting_Enable admin mode_DataCard2:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      Properties:
+                        DataField: ="App_setting_Enableadminmode"
+                        Default: =ThisItem.'App_setting_Enable admin mode'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Enableadminmode')
+                        Required: =false
+                        Update: =DataCardValue121.Checked
+                        Width: =294
+                        X: =2
+                        Y: =0
+                      Children:
+                        - DataCardKey121:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: ="Admin mode"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue121:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey121.Y + DataCardKey121.Height + 4
+                        - ErrorMessage117:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue121.Y + DataCardValue121.Height
+                        - StarVisible117:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey121.Y
+                  - App_setting_Teams notification_DataCard2:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      Properties:
+                        DataField: ="App_setting_Teamsnotification"
+                        Default: =ThisItem.'App_setting_Teams notification'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'App_setting_Teamsnotification')
+                        Required: =false
+                        Update: =DataCardValue122.Checked
+                        Width: =294
+                        X: =3
+                        Y: =0
+                      Children:
+                        - DataCardKey122:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: ="Teams notification"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue122:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey122.Y + DataCardKey122.Height + 4
+                        - ErrorMessage118:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue122.Y + DataCardValue122.Height
+                        - StarVisible118:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey122.Y
+                  - Auto create Outlook folder/rule_DataCard1:
+                      Control: TypedDataCard@1.0.7
+                      Variant: ToggleEdit
+                      IsLocked: true
+                      Properties:
+                        DataField: ="AutocreateOutlookfolder_x002f_ru"
+                        Default: =ThisItem.'Auto create Outlook folder/rule'
+                        DisplayName: =DataSourceInfo([@'TKE P&C Engineers'],DataSourceInfo.DisplayName,'AutocreateOutlookfolder_x002f_ru')
+                        Required: =false
+                        Update: =DataCardValue128.Checked
+                        Width: =294
+                        X: =0
+                        Y: =1
+                      Children:
+                        - DataCardKey128:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldName
+                            Properties:
+                              Height: =22
+                              Text: =Parent.DisplayName
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - DataCardValue128:
+                            Control: Toggle@1.1.5
+                            MetadataKey: FieldValue
+                            Properties:
+                              AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                              Checked: =Parent.Default
+                              DisplayMode: =Parent.DisplayMode
+                              Height: =32
+                              Label: =""
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardKey128.Y + DataCardKey128.Height + 4
+                        - ErrorMessage119:
+                            Control: Text@0.0.51
+                            MetadataKey: ErrorMessage
+                            Properties:
+                              Height: =30
+                              Text: =Parent.Error
+                              Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =Parent.Width - 48
+                              X: =24
+                              Y: =DataCardValue128.Y + DataCardValue128.Height
+                        - StarVisible119:
+                            Control: Text@0.0.51
+                            MetadataKey: FieldRequired
+                            Properties:
+                              Align: ='TextCanvas.Align'.Center
+                              Height: =30
+                              Text: ="*"
+                              Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                              Width: =30
+                              Y: =DataCardKey128.Y
       - sub_leave:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
@@ -17016,7 +17762,8 @@ Screens:
                           "reject",
                           Patch('TKE P&C Leave requests', Table3.Selected,
                               {
-                                  Status: {Value: "Rejected"}
+                                  Status: {Value: "Rejected"},
+                                  'Leave count': 0
                               }
                           ),
                           "urgent",
@@ -18997,6 +19744,7 @@ Screens:
                           Refresh('TKE P&C ICM approval requests')
                           )
                         Padding: ='Toolbar.Padding'.Small
+                        Width: =500
             - Form_3:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
