@@ -28,16 +28,16 @@
                     =If(IsBlank(glb_search.Value)=false, 
                     Filter('TKE P&C Recovery tracking', 'Case number'=glb_search.Value), 
                     If(Recover_filterview.Selected.Value="Active requests",
-                    Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled")),
+                    Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value) ),
                     If(Recover_filterview.Selected.Value="My requests",
-                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed"),
+                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                     If(Recover_filterview.Selected.Value="Ready to close requests",
-                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed"),
+                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                     If(Recover_filterview.Selected.Value="(Reviewer) Pending requests",
-                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed")),
+                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                     If(Recover_filterview.Selected.Value="(Reviewer) Follow up today",
-                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today()),
-                    'TKE P&C Recovery tracking'
+                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today(), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
+                    Filter('TKE P&C Recovery tracking', If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value))
                     )
                     )
                     )
@@ -48,7 +48,7 @@
                   Width: =Parent.Width
                   Y: =36
                 Children:
-                  - Created_Column2:
+                  - CreatedOn:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -57,7 +57,7 @@
                         FieldName: ="Created"
                         Order: =12
                         Text: =ThisItem.Created
-                  - Next contact date (for reviewer only)_Column1:
+                  - NCD:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -66,7 +66,7 @@
                         FieldName: ="Nextcontactdate_x0028_forreviewe"
                         Order: =15
                         Text: =Text(DateValue(ThisItem.'Next contact date (for reviewer only)'), "dddd, mmmm d")
-                  - Approved closure date (For reviewer only)_Column1:
+                  - ClosureDate:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -75,7 +75,7 @@
                         FieldName: ="Approvedclosuredate"
                         Order: =14
                         Text: =Text(DateValue(ThisItem.'Approved closure date (For reviewer only)'), "dddd, mmmm d")
-                  - Owner (for reviewer only)_Column1:
+                  - Reviewer:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -84,7 +84,7 @@
                         FieldName: ="Reviewer"
                         Order: =13
                         Text: =ThisItem.'Owner (for reviewer only)'.DisplayName
-                  - Status_Column5:
+                  - Status:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -93,7 +93,7 @@
                         FieldName: ="Status"
                         Order: =11
                         Text: =ThisItem.Status.Value
-                  - Case age_Column2:
+                  - Age:
                       Control: DataTableColumn@1.0.1
                       Variant: Number
                       IsLocked: true
@@ -102,7 +102,7 @@
                         FieldName: ="Caseage"
                         Order: =10
                         Text: =Int(DateDiff(ThisItem.Created, Today())+ThisItem.'Case age')
-                  - Risk_Column1:
+                  - Risk:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -111,7 +111,7 @@
                         FieldName: ="Risk"
                         Order: =5
                         Text: =ThisItem.Risk.Value
-                  - Service level_Column3:
+                  - ServiceLevel:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -120,7 +120,7 @@
                         FieldName: ="Servicelevel"
                         Order: =4
                         Text: =ThisItem.'Service level'.Value
-                  - Recovery type_Column1:
+                  - Type:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -129,7 +129,7 @@
                         FieldName: ="Recoverytype"
                         Order: =2
                         Text: =ThisItem.'Recovery type'.Value
-                  - Case number_Column5:
+                  - CaseNumber:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -143,7 +143,7 @@
                           ViewForm(Form1_7)
                         Order: =1
                         Text: =ThisItem.'Case number'
-                  - Author_Column2:
+                  - Owner:
                       Control: DataTableColumn@1.0.1
                       Variant: Textual
                       IsLocked: true
@@ -168,21 +168,22 @@
                     =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
                     Filter('TKE P&C Recovery tracking', 'Case number'=glb_search.Value), 
                     If(Recover_filterview.Selected.Value="Active requests",
-                    Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled")),
+                    Filter('TKE P&C Recovery tracking', And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value) ),
                     If(Recover_filterview.Selected.Value="My requests",
-                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed"),
+                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, 'Internal status 2'<>"Closed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                     If(Recover_filterview.Selected.Value="Ready to close requests",
-                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed"),
+                    Filter('TKE P&C Recovery tracking', 'Created By'.Email=User().Email, Status.Value="Completed", If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                     If(Recover_filterview.Selected.Value="(Reviewer) Pending requests",
-                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed")),
+                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
                     If(Recover_filterview.Selected.Value="(Reviewer) Follow up today",
-                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today()),
-                    'TKE P&C Recovery tracking'
+                    Filter('TKE P&C Recovery tracking', 'Owner (for reviewer only)'.Email=User().Email, And('Internal status 2'<>"Closed", 'Internal status 2'<>"Cancelled", 'Internal status 2'<>"Completed"), 'Next contact date (for reviewer only)'<=Today(), If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value)),
+                    Filter('TKE P&C Recovery tracking', If(DropdownCanvas10.Selected.Value="All", 'Recovery type'.Value<>"Unknown", 'Recovery type'.Value=DropdownCanvas10.Selected.Value), If(DropdownCanvas10_4.Selected.Value="All", 'Status'.Value<>"Unknown", 'Status'.Value=DropdownCanvas10_4.Selected.Value), If(DropdownCanvas10_3.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_3.Selected.Value))
                     )
                     )
                     )
                     )
-                    ))))
+                    )
+                    )))
                   Width: =100
                   X: =Parent.Width-420
             - quickcreateform_4:
@@ -553,64 +554,6 @@
                                     Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
                                     Width: =30
                                     Y: =DataCardKey142.Y
-                        - Good to close without MREC_DataCard2:
-                            Control: TypedDataCard@1.0.7
-                            Variant: ToggleEdit
-                            Properties:
-                              DataField: ="GoodtoclosewithoutMREC"
-                              Default: =ThisItem.'Good to close without MREC'
-                              DisplayName: =DataSourceInfo([@'TKE P&C Recovery tracking'],DataSourceInfo.DisplayName,'Good to close without MREC')
-                              Required: =false
-                              Update: =DataCardValue145.Checked
-                              Width: =550
-                              X: =0
-                              Y: =5
-                            Children:
-                              - DataCardKey145:
-                                  Control: Text@0.0.51
-                                  MetadataKey: FieldName
-                                  Properties:
-                                    Height: =22
-                                    Text: =Parent.DisplayName
-                                    Weight: ='TextCanvas.Weight'.Semibold
-                                    Width: =Parent.Width - 48
-                                    Wrap: =false
-                                    X: =24
-                                    Y: =10
-                              - DataCardValue145:
-                                  Control: Toggle@1.1.5
-                                  MetadataKey: FieldValue
-                                  Properties:
-                                    AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
-                                    Checked: =Parent.Default
-                                    DisplayMode: =Parent.DisplayMode
-                                    Height: =32
-                                    Label: =""
-                                    OnCheck: =
-                                    OnUncheck: =
-                                    Width: =Parent.Width - 48
-                                    X: =24
-                                    Y: =DataCardKey145.Y + DataCardKey145.Height + 4
-                              - ErrorMessage143:
-                                  Control: Text@0.0.51
-                                  MetadataKey: ErrorMessage
-                                  Properties:
-                                    Height: =30
-                                    Text: =Parent.Error
-                                    Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                                    Width: =Parent.Width - 48
-                                    X: =24
-                                    Y: =DataCardValue145.Y + DataCardValue145.Height
-                              - StarVisible143:
-                                  Control: Text@0.0.51
-                                  MetadataKey: FieldRequired
-                                  Properties:
-                                    Align: ='TextCanvas.Align'.Center
-                                    Height: =30
-                                    Text: ="*"
-                                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                                    Width: =30
-                                    Y: =DataCardKey145.Y
                         - Bug / By Design / Unsupported / Auto-solved / Cx-solved_DataCard2:
                             Control: TypedDataCard@1.0.7
                             Variant: ComboBoxEdit
@@ -623,7 +566,7 @@
                               Update: =DataCardValue143.Selected
                               Width: =550
                               X: =0
-                              Y: =6
+                              Y: =5
                             Children:
                               - DataCardKey143:
                                   Control: Text@0.0.51
@@ -681,7 +624,7 @@
                               Update: =Value(DataCardValue144.Value)
                               Width: =550
                               X: =0
-                              Y: =7
+                              Y: =6
                             Children:
                               - DataCardKey144:
                                   Control: Text@0.0.51
@@ -740,7 +683,7 @@
                               Update: =DataCardValue146.Value
                               Width: =550
                               X: =0
-                              Y: =8
+                              Y: =7
                             Children:
                               - DataCardKey146:
                                   Control: Text@0.0.51
@@ -799,7 +742,7 @@
                               Update: =DataCardValue147.Selected.Engineer
                               Width: =550
                               X: =0
-                              Y: =9
+                              Y: =8
                             Children:
                               - DataCardKey147:
                                   Control: Text@0.0.51
@@ -948,7 +891,7 @@
                               Update: =DataCardValue148.Selected
                               Width: =550
                               X: =0
-                              Y: =10
+                              Y: =9
                             Children:
                               - DataCardKey148:
                                   Control: Text@0.0.51
@@ -967,7 +910,7 @@
                                   Properties:
                                     AccessibleLabel: =Parent.DisplayName
                                     DefaultSelectedItems: |-
-                                      =If(DataCardValue145.Checked=true, {Value: "Closed"}, {Value: "Pending"})
+                                      ={Value: "Pending"}
                                     DisplayMode: =Parent.DisplayMode
                                     Items: =Choices([@'TKE P&C Recovery tracking'].Status)
                                     Required: =Parent.Required
@@ -1031,6 +974,495 @@
                         Refresh('TKE P&C Recovery tracking')
                     )
                   Padding: ='Toolbar.Padding'.Small
+                  Width: =Container8.X
+            - Container8:
+                Control: GroupContainer@1.3.0
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =If(recovery_filter=true, DropShadow.Semibold, DropShadow.None)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(recovery_filter=true, 280, 36)
+                  Width: =If(recovery_filter=true, 400, 150)
+                  X: =TextInputCanvas1_4.X-Self.Width
+                Children:
+                  - ButtonCanvas11:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Subtle
+                        FontColor: =RGBA(15, 108, 189, 1)
+                        OnSelect: |-
+                          =UpdateContext({recovery_filter: If(recovery_filter=true, false, true)})
+                        Text: =If(recovery_filter=true, "Collapse filter", "Expand filter")
+                        Width: =150
+                        X: =Parent.Width-Self.Width
+                  - TextCanvas8:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Recovery type"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =38
+                  - DropdownCanvas10:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "TREC", "MREC"]
+                        Width: =270
+                        X: =120
+                        Y: =38
+                  - TextCanvas8_1:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Owner"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =75
+                  - TextCanvas8_2:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Reviewer"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =112
+                  - TextCanvas8_3:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Service level"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =149
+                  - TextCanvas8_4:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Status"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =186
+                  - DropdownCanvas10_1:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All"]
+                        Width: =270
+                        X: =120
+                        Y: =75
+                      Children:
+                        - Engineer16:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Engineer"
+                              FieldName: ="Engineer"
+                              FieldType: ="E"
+                              Order: =1
+                        - Email14:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Email"
+                              FieldName: ="Email"
+                              FieldType: ="s"
+                              Order: =2
+                        - Role14:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Role"
+                              FieldName: ="Role"
+                              FieldType: ="E"
+                              Order: =3
+                        - AAD ID4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="AAD ID"
+                              FieldName: ="AADID"
+                              FieldType: ="s"
+                              Order: =4
+                        - Billable status4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Billable status"
+                              FieldName: ="Billablestatus"
+                              FieldType: ="E"
+                              Order: =5
+                        - AA Skill14:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="AA Skill"
+                              FieldName: ="AASkill"
+                              FieldType: ="E"
+                              Order: =6
+                        - Working shift14:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Working shift"
+                              FieldName: ="Workingshift"
+                              FieldType: ="E"
+                              Order: =7
+                        - App_setting_Enable admin mode13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Enable admin mode"
+                              FieldName: ="App_setting_Enableadminmode"
+                              FieldType: ="b"
+                              Order: =8
+                        - App_setting_Teams notification13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Teams notification"
+                              FieldName: ="App_setting_Teamsnotification"
+                              FieldType: ="b"
+                              Order: =9
+                        - App_setting_Auto route ICM_Plat5:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Auto route ICM_Plat"
+                              FieldName: ="App_setting_AutorouteICM"
+                              FieldType: ="b"
+                              Order: =10
+                        - App_setting_Auto route ICM_Cust5:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Auto route ICM_Cust"
+                              FieldName: ="App_setting_AutorouteICM_Cust"
+                              FieldType: ="b"
+                              Order: =11
+                        - App_setting_Auto route Consultation13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Auto route Consultation"
+                              FieldName: ="App_setting_AutorouteConsultatio"
+                              FieldType: ="b"
+                              Order: =12
+                        - Dark mode5:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Dark mode"
+                              FieldName: ="Darkmode"
+                              FieldType: ="b"
+                              Order: =13
+                        - Auto create Outlook folder/rule4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Auto create Outlook folder/rule"
+                              FieldName: ="AutocreateOutlookfolder_x002f_ru"
+                              FieldType: ="b"
+                              Order: =14
+                        - Debugging mode4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Debugging mode"
+                              FieldName: ="Testingmode"
+                              FieldType: ="b"
+                              Order: =15
+                        - Leave_admin4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Leave_admin"
+                              FieldName: ="Leave_admin"
+                              FieldType: ="b"
+                              Order: =16
+                        - Leave_approver4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Leave_approver"
+                              FieldName: ="Leave_approver"
+                              FieldType: ="b"
+                              Order: =17
+                        - Scheduler2:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Scheduler"
+                              FieldName: ="Scheduler"
+                              FieldType: ="b"
+                              Order: =18
+                        - Attachments14:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Attachments"
+                              FieldName: ="{Attachments}"
+                              FieldType: ="r*"
+                              Order: =19
+                  - DropdownCanvas10_2:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All"]
+                        Width: =270
+                        X: =120
+                        Y: =112
+                      Children:
+                        - Engineer15:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Engineer"
+                              FieldName: ="Engineer"
+                              FieldType: ="E"
+                              Order: =1
+                        - Email13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Email"
+                              FieldName: ="Email"
+                              FieldType: ="s"
+                              Order: =2
+                        - Role13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Role"
+                              FieldName: ="Role"
+                              FieldType: ="E"
+                              Order: =3
+                        - AAD ID3:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="AAD ID"
+                              FieldName: ="AADID"
+                              FieldType: ="s"
+                              Order: =4
+                        - Billable status3:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Billable status"
+                              FieldName: ="Billablestatus"
+                              FieldType: ="E"
+                              Order: =5
+                        - AA Skill13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="AA Skill"
+                              FieldName: ="AASkill"
+                              FieldType: ="E"
+                              Order: =6
+                        - Working shift13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Working shift"
+                              FieldName: ="Workingshift"
+                              FieldType: ="E"
+                              Order: =7
+                        - App_setting_Enable admin mode12:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Enable admin mode"
+                              FieldName: ="App_setting_Enableadminmode"
+                              FieldType: ="b"
+                              Order: =8
+                        - App_setting_Teams notification12:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Teams notification"
+                              FieldName: ="App_setting_Teamsnotification"
+                              FieldType: ="b"
+                              Order: =9
+                        - App_setting_Auto route ICM_Plat4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Auto route ICM_Plat"
+                              FieldName: ="App_setting_AutorouteICM"
+                              FieldType: ="b"
+                              Order: =10
+                        - App_setting_Auto route ICM_Cust4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Auto route ICM_Cust"
+                              FieldName: ="App_setting_AutorouteICM_Cust"
+                              FieldType: ="b"
+                              Order: =11
+                        - App_setting_Auto route Consultation12:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="App_setting_Auto route Consultation"
+                              FieldName: ="App_setting_AutorouteConsultatio"
+                              FieldType: ="b"
+                              Order: =12
+                        - Dark mode4:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Dark mode"
+                              FieldName: ="Darkmode"
+                              FieldType: ="b"
+                              Order: =13
+                        - Auto create Outlook folder/rule3:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Auto create Outlook folder/rule"
+                              FieldName: ="AutocreateOutlookfolder_x002f_ru"
+                              FieldType: ="b"
+                              Order: =14
+                        - Debugging mode3:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Debugging mode"
+                              FieldName: ="Testingmode"
+                              FieldType: ="b"
+                              Order: =15
+                        - Leave_admin3:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Leave_admin"
+                              FieldName: ="Leave_admin"
+                              FieldType: ="b"
+                              Order: =16
+                        - Leave_approver3:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Leave_approver"
+                              FieldName: ="Leave_approver"
+                              FieldType: ="b"
+                              Order: =17
+                        - Scheduler1:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Scheduler"
+                              FieldName: ="Scheduler"
+                              FieldType: ="b"
+                              Order: =18
+                        - Attachments13:
+                            Control: DropDownDataField@1.5.0
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="Attachments"
+                              FieldName: ="{Attachments}"
+                              FieldType: ="r*"
+                              Order: =19
+                  - DropdownCanvas10_3:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Pro", "Pro S500", "Prem", "Prem S500", "Pro Direct"]
+                        Width: =270
+                        X: =120
+                        Y: =149
+                  - DropdownCanvas10_4:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Pending", "In progress", "Completed", "Closed", "Cancelled"]
+                        Width: =270
+                        X: =120
+                        Y: =186
+                  - ButtonCanvas12:
+                      Control: Button@0.0.45
+                      Properties:
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        OnSelect: |-
+                          =Reset(DropdownCanvas10);
+                          Reset(DropdownCanvas10_1);
+                          Reset(DropdownCanvas10_2);
+                          Reset(DropdownCanvas10_3);
+                          Reset(DropdownCanvas10_4)
+                        Text: ="Remove filter"
+                        Width: =150
+                        X: =180
+                        Y: =230
       - Form_4:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
