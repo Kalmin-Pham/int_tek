@@ -406,7 +406,8 @@
                     "reject",
                     Patch('TKE P&C Leave requests', Table3.Selected,
                         {
-                            Status: {Value: "Rejected"}
+                            Status: {Value: "Rejected"},
+                            'Leave count': 0
                         }
                     ),
                     "urgent",
