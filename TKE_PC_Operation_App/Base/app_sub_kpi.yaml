@@ -847,16 +847,7 @@
                         FieldDisplayName: ="Service level"
                         FieldName: ="Servicelevel"
                         FieldType: ="s"
-                        Order: =4
-                  - S5001:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="S500"
-                        FieldName: ="Channel"
-                        FieldType: ="s"
-                        Order: =7
+                        Order: =3
                   - Closed date1:
                       Control: TableDataField@1.5.0
                       Variant: textualColumn
@@ -866,6 +857,16 @@
                         FieldName: ="Closeddate"
                         FieldType: ="D"
                         Order: =8
+                  - Channel1:
+                      Control: TableDataField@1.5.0
+                      Variant: textualColumn
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="Channel"
+                        FieldName: ="Channel"
+                        FieldType: ="s"
+                        HeaderText: ="S500"
+                        Order: =7
                   - Engineer8:
                       Control: TableDataField@1.5.0
                       Variant: textualColumn
@@ -967,6 +968,7 @@
                     ["Engineer view", "Manager view"]
                     )
                   OnChange: =
+                  Visible: =rpt_sec1=true
                   Width: =200
                   X: =Parent.Width-DropdownCanvas4.Width
             - TextCanvas2_45:
@@ -994,22 +996,6 @@
                   Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                   Width: =90
                   X: =502
-            - Icon6:
-                Control: Classic/Icon@2.5.0
-                Properties:
-                  Height: =32
-                  Icon: =Icon.Sort
-                  OnSelect: |-
-                    =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
-                    UpdateContext({rpt_sec2: If(rpt_sec2=true, false, true)})
-                  PaddingBottom: =7
-                  PaddingLeft: =7
-                  PaddingRight: =7
-                  PaddingTop: =7
-                  Tooltip: ="Switch report"
-                  Visible: =LookUp('TKE P&C Engineers', Email=User().Email).Role.Value<>"Engineer"
-                  Width: =32
-                  X: =DropdownCanvas4.X-Icon6.Width
             - CheckboxCanvas1_2:
                 Control: CheckBox@0.0.30
                 Properties:
@@ -1033,7 +1019,7 @@
                     =UpdateContext({activemonthkpi: If(activemonthkpi=true,  false, true)})
                   Text: =If(activemonthkpi=true, "Current month", "Previous month")
                   Width: =160
-                  X: =Parent.Width-Icon6.Width-DropdownCanvas4.Width-Self.Width
+                  X: =If(rpt_sec1=true, Parent.Width-ButtonCanvas1.Width-DropdownCanvas4.Width-Self.Width, ButtonCanvas1.X-Self.Width)
             - TextCanvas13:
                 Control: Text@0.0.51
                 Properties:
@@ -1041,6 +1027,17 @@
                   Visible: =false
                   Width: =120
                   X: =302
+            - ButtonCanvas1:
+                Control: Button@0.0.45
+                Properties:
+                  Appearance: ='ButtonCanvas.Appearance'.Subtle
+                  Icon: ="ArrowSort"
+                  OnSelect: |-
+                    =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
+                    UpdateContext({rpt_sec2: If(rpt_sec2=true, false, true)})
+                  Text: =If(rpt_sec2=true, "Engineer level report", "Overall report")
+                  Width: =200
+                  X: =If(rpt_sec1=true, DropdownCanvas4.X-Self.Width, Parent.Width-Self.Width)
       - Gallery3:
           Control: Gallery@2.15.0
           Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
