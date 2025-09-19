@@ -3488,11 +3488,6 @@
                             ,
                             false
                         );
-                        Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                            {
-                                Status: {Value: "Closed"}
-                            }
-                        );
                         If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                             Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                             {
@@ -3501,12 +3496,17 @@
                             }),
                             false
                             );
-                            Patch('Internal_ App_Backlog_Comment', Defaults('Internal_ App_Backlog_Comment'),
-                                {
-                                    Comment: "The request is closed",
-                                    Recipient: Gallery_recovery.Selected.'Created By',
-                                    'Case number': Gallery_recovery.Selected.'Case number'
-                                }
+                        Patch('Internal_ App_Backlog_Comment', Defaults('Internal_ App_Backlog_Comment'),
+                            {
+                                Comment: "The request is closed",
+                                Recipient: Gallery_recovery.Selected.'Created By',
+                                'Case number': Gallery_recovery.Selected.'Case number'
+                            }
+                        );
+                        Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
+                            {
+                                Status: {Value: "Closed"}
+                            }
                         );
                         Refresh('TKE P&C Recovery tracking'),
                         "approve",
