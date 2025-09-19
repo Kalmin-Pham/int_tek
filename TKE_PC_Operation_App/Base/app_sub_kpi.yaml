@@ -1031,6 +1031,7 @@
                 Control: Button@0.0.45
                 Properties:
                   Appearance: ='ButtonCanvas.Appearance'.Subtle
+                  DisplayMode: =If(LookUp('TKE P&C Engineers', Email=User().Email).Role.Value="Engineer", DisplayMode.Disabled, DisplayMode.Edit)
                   Icon: ="ArrowSort"
                   OnSelect: |-
                     =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
