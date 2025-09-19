@@ -115,6 +115,10 @@ Screens:
                     =UpdateContext({activescreen: "backlog"});
                     UpdateContext({listvisi: true});
                     UpdateContext({formvisi: false});
+                    UpdateContext({backlog_filter: false});
+                    Reset(DropdownCanvas10_5);
+                    Reset(DropdownCanvas10_8);
+                    Reset(DropdownCanvas10_9);
                     Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Backlog Management')
                   Text: ="Backlog management"
@@ -145,6 +149,10 @@ Screens:
                     =UpdateContext({activescreen: "consultation"});
                     UpdateContext({listvisi: true});
                     UpdateContext({formvisi: false});
+                    UpdateContext({consult_filter: false});
+                    Reset(DropdownCanvas10_1);
+                    Reset(DropdownCanvas10_6);
+                    Reset(DropdownCanvas10_7);
                     Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Consultation requests')
                   Text: ="Consultation requests"
@@ -160,6 +168,10 @@ Screens:
                     =UpdateContext({activescreen: "icm"});
                     UpdateContext({listvisi: true});
                     UpdateContext({formvisi: false});
+                    UpdateContext({icm_filter: false});
+                    Reset(DropdownCanvas10_2);
+                    Reset(DropdownCanvas10_10);
+                    Reset(DropdownCanvas10_11);
                     Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C ICM approval requests')
                   Text: ="ICM approval requests"
@@ -177,8 +189,6 @@ Screens:
                     UpdateContext({formvisi: false});
                     UpdateContext({recovery_filter: false});
                     Reset(DropdownCanvas10);
-                    Reset(DropdownCanvas10_1);
-                    Reset(DropdownCanvas10_2);
                     Reset(DropdownCanvas10_3);
                     Reset(DropdownCanvas10_4);
                     Refresh('Internal_ App_Notifications');
@@ -762,14 +772,14 @@ Screens:
                           =If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C Backlog Management', 'Case number'=glb_search.Value),
                           If(Backlog_filterview_1.Selected.Value="Active cases", 
-                          SortByColumns(Filter('TKE P&C Backlog Management', Status.Value<>"Resolved"), "Modified_x0020_date", SortOrder.Descending), 
+                          SortByColumns(Filter('TKE P&C Backlog Management', Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
                           If(Backlog_filterview_1.Selected.Value="My cases", 
-                          SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved"), "Modified_x0020_date", SortOrder.Descending),
+                          SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending),
                           If(Backlog_filterview_1.Selected.Value="Follow up today", 
                           SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())), "Modified_x0020_date", SortOrder.Descending), 
+                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
                           SortByColumns(Filter('TKE P&C Backlog Management', And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())), "Modified_x0020_date", SortOrder.Descending)))))
+                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending)))))
                         Size: =10.5
                         Width: =Parent.Width
                         Y: =36
@@ -865,16 +875,16 @@ Screens:
                         Appearance: ='TextInputCanvas.Appearance'.FilledLighter
                         Value: |-
                           =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
-                          Filter('TKE P&C Backlog Management', 'Case number'=glb_search.Value), 
+                          Filter('TKE P&C Backlog Management', 'Case number'=glb_search.Value),
                           If(Backlog_filterview_1.Selected.Value="Active cases", 
-                          Filter('TKE P&C Backlog Management', Status.Value<>"Resolved"), 
+                          SortByColumns(Filter('TKE P&C Backlog Management', Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
                           If(Backlog_filterview_1.Selected.Value="My cases", 
-                          Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved"),
+                          SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending),
                           If(Backlog_filterview_1.Selected.Value="Follow up today", 
-                          Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())), 
-                          Filter('TKE P&C Backlog Management', And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()))))))))
+                          SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
+                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
+                          SortByColumns(Filter('TKE P&C Backlog Management', And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
+                          If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending)))))))
                         Width: =100
                         X: =Parent.Width-420
                   - quickcreateform:
@@ -1446,7 +1456,106 @@ Screens:
                           Refresh('TKE P&C Backlog Management')
                           )
                         Padding: ='Toolbar.Padding'.Small
-                        Width: =500
+                        Width: =Container8_1.X
+                  - Container8_1:
+                      Control: GroupContainer@1.3.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =If(backlog_filter=true, DropShadow.Semibold, DropShadow.None)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =If(backlog_filter=true, 200, 36)
+                        Width: =If(backlog_filter=true, 400, 150)
+                        X: =TextInputCanvas1.X-Self.Width
+                      Children:
+                        - ButtonCanvas11_1:
+                            Control: Button@0.0.45
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Subtle
+                              FontColor: =RGBA(15, 108, 189, 1)
+                              Icon: ="Filter"
+                              OnSelect: |-
+                                =UpdateContext({backlog_filter: If(backlog_filter=true, false, true)})
+                              Text: =If(backlog_filter=true, "Collapse filter", "Expand filter")
+                              Width: =150
+                              X: =Parent.Width-Self.Width
+                        - TextCanvas8_5:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Pod"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =38
+                        - DropdownCanvas10_5:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Pro", "Pro S500", "Prem", "Prem S500", "Pro Direct"]
+                              Width: =270
+                              X: =120
+                              Y: =75
+                        - TextCanvas8_7:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Service level"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =75
+                        - TextCanvas8_8:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Status"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =112
+                        - DropdownCanvas10_8:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Initial contact pending", "Troubleshooting", "Pending customer response", "Waiting for Product team", "Waiting for customer confirmation", "Mitigated", "Resolved", "Monitoring", "Pending recovery", "Pending swarm/ICM approval/Collaboration"]
+                              Width: =270
+                              X: =120
+                              Y: =112
+                        - DropdownCanvas10_9:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Customization", "Platform", "Other"]
+                              Width: =270
+                              X: =120
+                              Y: =38
+                        - ButtonCanvas12_1:
+                            Control: Button@0.0.45
+                            Properties:
+                              BasePaletteColor: =RGBA(141, 229, 250, 1)
+                              OnSelect: |-
+                                =Reset(DropdownCanvas10_5);
+                                Reset(DropdownCanvas10_8);
+                                Reset(DropdownCanvas10_9)
+                              Text: ="Remove filter"
+                              Width: =150
+                              X: =180
+                              Y: =157
             - Form:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -8051,14 +8160,14 @@ Screens:
                           =If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C Consultation requests', 'Case number'=glb_search.Value), 
                           If(Consult_filterview.Selected.Value="Active requests",
-                          Filter('TKE P&C Consultation requests', Status.Value<>"Completed"),
+                          Filter('TKE P&C Consultation requests', Status.Value<>"Completed", If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
                           If(Consult_filterview.Selected.Value="My requests",
-                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, Status.Value<>"Completed"),
+                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, Status.Value<>"Completed", If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
                           If(Consult_filterview.Selected.Value="(Engineer) Pending requests",
-                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing")),
+                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing"), If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
                           If(Consult_filterview.Selected.Value="(Reviewer) Pending request",
-                          Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Pending FTE", Status.Value<>"Requesting more details")),
-                          'TKE P&C Consultation requests'
+                          Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Pending FTE", Status.Value<>"Requesting more details"), If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
+                          Filter('TKE P&C Consultation requests', If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value))
                           )
                           )
                           )
@@ -8152,18 +8261,19 @@ Screens:
                           =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C Consultation requests', 'Case number'=glb_search.Value), 
                           If(Consult_filterview.Selected.Value="Active requests",
-                          Filter('TKE P&C Consultation requests', Status.Value<>"Completed"),
+                          Filter('TKE P&C Consultation requests', Status.Value<>"Completed", If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
                           If(Consult_filterview.Selected.Value="My requests",
-                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, Status.Value<>"Completed"),
+                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, Status.Value<>"Completed", If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
                           If(Consult_filterview.Selected.Value="(Engineer) Pending requests",
-                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing")),
+                          Filter('TKE P&C Consultation requests', 'Created By'.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Pending", Status.Value<>"Reviewing"), If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
                           If(Consult_filterview.Selected.Value="(Reviewer) Pending request",
-                          Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Requesting more details")),
-                          'TKE P&C Consultation requests'
+                          Filter('TKE P&C Consultation requests', Reviewer.Email=User().Email, And(Status.Value<>"Completed", Status.Value<>"Provided information", Status.Value<>"Pending FTE", Status.Value<>"Requesting more details"), If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value)),
+                          Filter('TKE P&C Consultation requests', If(DropdownCanvas10_1.Selected.Value="All", 'Request type'.Value<>"Unknown", 'Request type'.Value=DropdownCanvas10_1.Selected.Value), If(DropdownCanvas10_6.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_6.Selected.Value), If(DropdownCanvas10_7.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_7.Selected.Value))
                           )
                           )
                           )
-                          ))))
+                          )
+                          )))
                         Width: =100
                         X: =Parent.Width-420
                   - quickcreateform_2:
@@ -8717,6 +8827,105 @@ Screens:
                           )
                         Padding: ='Toolbar.Padding'.Small
                         Width: =500
+                  - Container8_2:
+                      Control: GroupContainer@1.3.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =If(consult_filter=true, DropShadow.Semibold, DropShadow.None)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =If(consult_filter=true, 200, 36)
+                        Width: =If(consult_filter=true, 400, 150)
+                        X: =TextInputCanvas1_2.X-Self.Width
+                      Children:
+                        - ButtonCanvas11_2:
+                            Control: Button@0.0.45
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Subtle
+                              FontColor: =RGBA(15, 108, 189, 1)
+                              Icon: ="Filter"
+                              OnSelect: |-
+                                =UpdateContext({consult_filter: If(consult_filter=true, false, true)})
+                              Text: =If(consult_filter=true, "Collapse filter", "Expand filter")
+                              Width: =150
+                              X: =Parent.Width-Self.Width
+                        - TextCanvas8_1:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Request type"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =38
+                        - DropdownCanvas10_1:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Technical consultation", "Follow up email", "Follow up ICM"]
+                              Width: =270
+                              X: =120
+                              Y: =38
+                        - TextCanvas8_6:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Pod"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =75
+                        - TextCanvas8_9:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Status"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =112
+                        - DropdownCanvas10_6:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Platform", "Customization"]
+                              Width: =270
+                              X: =120
+                              Y: =75
+                        - DropdownCanvas10_7:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Pending", "Reviewing", "Provided information", "Requesting more details", "Completed", "Pending FTE"]
+                              Width: =270
+                              X: =120
+                              Y: =112
+                        - ButtonCanvas12_2:
+                            Control: Button@0.0.45
+                            Properties:
+                              BasePaletteColor: =RGBA(141, 229, 250, 1)
+                              OnSelect: |-
+                                =Reset(DropdownCanvas10_1);
+                                Reset(DropdownCanvas10_6);
+                                Reset(DropdownCanvas10_7)
+                              Text: ="Remove filter"
+                              Width: =150
+                              X: =180
+                              Y: =156
             - Form_2:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -11669,7 +11878,7 @@ Screens:
                       Properties:
                         DropShadow: =If(recovery_filter=true, DropShadow.Semibold, DropShadow.None)
                         Fill: =RGBA(255, 255, 255, 1)
-                        Height: =If(recovery_filter=true, 280, 36)
+                        Height: =If(recovery_filter=true, 200, 36)
                         Width: =If(recovery_filter=true, 400, 150)
                         X: =TextInputCanvas1_4.X-Self.Width
                       Children:
@@ -11678,6 +11887,7 @@ Screens:
                             Properties:
                               Appearance: ='ButtonCanvas.Appearance'.Subtle
                               FontColor: =RGBA(15, 108, 189, 1)
+                              Icon: ="Filter"
                               OnSelect: |-
                                 =UpdateContext({recovery_filter: If(recovery_filter=true, false, true)})
                               Text: =If(recovery_filter=true, "Collapse filter", "Expand filter")
@@ -11705,26 +11915,6 @@ Screens:
                               Width: =270
                               X: =120
                               Y: =38
-                        - TextCanvas8_1:
-                            Control: Text@0.0.51
-                            Properties:
-                              Align: ='TextCanvas.Align'.Start
-                              PaddingLeft: =5
-                              Text: ="Owner"
-                              VerticalAlign: =VerticalAlign.Middle
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =120
-                              Y: =75
-                        - TextCanvas8_2:
-                            Control: Text@0.0.51
-                            Properties:
-                              Align: ='TextCanvas.Align'.Start
-                              PaddingLeft: =5
-                              Text: ="Reviewer"
-                              VerticalAlign: =VerticalAlign.Middle
-                              Weight: ='TextCanvas.Weight'.Semibold
-                              Width: =120
-                              Y: =112
                         - TextCanvas8_3:
                             Control: Text@0.0.51
                             Properties:
@@ -11734,7 +11924,7 @@ Screens:
                               VerticalAlign: =VerticalAlign.Middle
                               Weight: ='TextCanvas.Weight'.Semibold
                               Width: =120
-                              Y: =149
+                              Y: =75
                         - TextCanvas8_4:
                             Control: Text@0.0.51
                             Properties:
@@ -11744,375 +11934,7 @@ Screens:
                               VerticalAlign: =VerticalAlign.Middle
                               Weight: ='TextCanvas.Weight'.Semibold
                               Width: =120
-                              Y: =186
-                        - DropdownCanvas10_1:
-                            Control: DropDown@0.0.45
-                            Properties:
-                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
-                              BorderColor: =RGBA(0, 0, 0, 1)
-                              BorderStyle: =BorderStyle.Solid
-                              DefaultSelectedItems: |-
-                                ={Value: "All"}
-                              Items: =["All"]
-                              Width: =270
-                              X: =120
-                              Y: =75
-                            Children:
-                              - Engineer16:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Engineer"
-                                    FieldName: ="Engineer"
-                                    FieldType: ="E"
-                                    Order: =1
-                              - Email14:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Email"
-                                    FieldName: ="Email"
-                                    FieldType: ="s"
-                                    Order: =2
-                              - Role14:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Role"
-                                    FieldName: ="Role"
-                                    FieldType: ="E"
-                                    Order: =3
-                              - AAD ID4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="AAD ID"
-                                    FieldName: ="AADID"
-                                    FieldType: ="s"
-                                    Order: =4
-                              - Billable status4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Billable status"
-                                    FieldName: ="Billablestatus"
-                                    FieldType: ="E"
-                                    Order: =5
-                              - AA Skill14:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="AA Skill"
-                                    FieldName: ="AASkill"
-                                    FieldType: ="E"
-                                    Order: =6
-                              - Working shift14:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Working shift"
-                                    FieldName: ="Workingshift"
-                                    FieldType: ="E"
-                                    Order: =7
-                              - App_setting_Enable admin mode13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Enable admin mode"
-                                    FieldName: ="App_setting_Enableadminmode"
-                                    FieldType: ="b"
-                                    Order: =8
-                              - App_setting_Teams notification13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Teams notification"
-                                    FieldName: ="App_setting_Teamsnotification"
-                                    FieldType: ="b"
-                                    Order: =9
-                              - App_setting_Auto route ICM_Plat5:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Auto route ICM_Plat"
-                                    FieldName: ="App_setting_AutorouteICM"
-                                    FieldType: ="b"
-                                    Order: =10
-                              - App_setting_Auto route ICM_Cust5:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Auto route ICM_Cust"
-                                    FieldName: ="App_setting_AutorouteICM_Cust"
-                                    FieldType: ="b"
-                                    Order: =11
-                              - App_setting_Auto route Consultation13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Auto route Consultation"
-                                    FieldName: ="App_setting_AutorouteConsultatio"
-                                    FieldType: ="b"
-                                    Order: =12
-                              - Dark mode5:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Dark mode"
-                                    FieldName: ="Darkmode"
-                                    FieldType: ="b"
-                                    Order: =13
-                              - Auto create Outlook folder/rule4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Auto create Outlook folder/rule"
-                                    FieldName: ="AutocreateOutlookfolder_x002f_ru"
-                                    FieldType: ="b"
-                                    Order: =14
-                              - Debugging mode4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Debugging mode"
-                                    FieldName: ="Testingmode"
-                                    FieldType: ="b"
-                                    Order: =15
-                              - Leave_admin4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Leave_admin"
-                                    FieldName: ="Leave_admin"
-                                    FieldType: ="b"
-                                    Order: =16
-                              - Leave_approver4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Leave_approver"
-                                    FieldName: ="Leave_approver"
-                                    FieldType: ="b"
-                                    Order: =17
-                              - Scheduler2:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Scheduler"
-                                    FieldName: ="Scheduler"
-                                    FieldType: ="b"
-                                    Order: =18
-                              - Attachments14:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Attachments"
-                                    FieldName: ="{Attachments}"
-                                    FieldType: ="r*"
-                                    Order: =19
-                        - DropdownCanvas10_2:
-                            Control: DropDown@0.0.45
-                            Properties:
-                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
-                              BorderColor: =RGBA(0, 0, 0, 1)
-                              BorderStyle: =BorderStyle.Solid
-                              DefaultSelectedItems: |-
-                                ={Value: "All"}
-                              Items: =["All"]
-                              Width: =270
-                              X: =120
                               Y: =112
-                            Children:
-                              - Engineer15:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Engineer"
-                                    FieldName: ="Engineer"
-                                    FieldType: ="E"
-                                    Order: =1
-                              - Email13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Email"
-                                    FieldName: ="Email"
-                                    FieldType: ="s"
-                                    Order: =2
-                              - Role13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Role"
-                                    FieldName: ="Role"
-                                    FieldType: ="E"
-                                    Order: =3
-                              - AAD ID3:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="AAD ID"
-                                    FieldName: ="AADID"
-                                    FieldType: ="s"
-                                    Order: =4
-                              - Billable status3:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Billable status"
-                                    FieldName: ="Billablestatus"
-                                    FieldType: ="E"
-                                    Order: =5
-                              - AA Skill13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="AA Skill"
-                                    FieldName: ="AASkill"
-                                    FieldType: ="E"
-                                    Order: =6
-                              - Working shift13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Working shift"
-                                    FieldName: ="Workingshift"
-                                    FieldType: ="E"
-                                    Order: =7
-                              - App_setting_Enable admin mode12:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Enable admin mode"
-                                    FieldName: ="App_setting_Enableadminmode"
-                                    FieldType: ="b"
-                                    Order: =8
-                              - App_setting_Teams notification12:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Teams notification"
-                                    FieldName: ="App_setting_Teamsnotification"
-                                    FieldType: ="b"
-                                    Order: =9
-                              - App_setting_Auto route ICM_Plat4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Auto route ICM_Plat"
-                                    FieldName: ="App_setting_AutorouteICM"
-                                    FieldType: ="b"
-                                    Order: =10
-                              - App_setting_Auto route ICM_Cust4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Auto route ICM_Cust"
-                                    FieldName: ="App_setting_AutorouteICM_Cust"
-                                    FieldType: ="b"
-                                    Order: =11
-                              - App_setting_Auto route Consultation12:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="App_setting_Auto route Consultation"
-                                    FieldName: ="App_setting_AutorouteConsultatio"
-                                    FieldType: ="b"
-                                    Order: =12
-                              - Dark mode4:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Dark mode"
-                                    FieldName: ="Darkmode"
-                                    FieldType: ="b"
-                                    Order: =13
-                              - Auto create Outlook folder/rule3:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Auto create Outlook folder/rule"
-                                    FieldName: ="AutocreateOutlookfolder_x002f_ru"
-                                    FieldType: ="b"
-                                    Order: =14
-                              - Debugging mode3:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Debugging mode"
-                                    FieldName: ="Testingmode"
-                                    FieldType: ="b"
-                                    Order: =15
-                              - Leave_admin3:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Leave_admin"
-                                    FieldName: ="Leave_admin"
-                                    FieldType: ="b"
-                                    Order: =16
-                              - Leave_approver3:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Leave_approver"
-                                    FieldName: ="Leave_approver"
-                                    FieldType: ="b"
-                                    Order: =17
-                              - Scheduler1:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Scheduler"
-                                    FieldName: ="Scheduler"
-                                    FieldType: ="b"
-                                    Order: =18
-                              - Attachments13:
-                                  Control: DropDownDataField@1.5.0
-                                  Variant: textualColumn
-                                  IsLocked: true
-                                  Properties:
-                                    FieldDisplayName: ="Attachments"
-                                    FieldName: ="{Attachments}"
-                                    FieldType: ="r*"
-                                    Order: =19
                         - DropdownCanvas10_3:
                             Control: DropDown@0.0.45
                             Properties:
@@ -12124,7 +11946,7 @@ Screens:
                               Items: =["All", "Pro", "Pro S500", "Prem", "Prem S500", "Pro Direct"]
                               Width: =270
                               X: =120
-                              Y: =149
+                              Y: =75
                         - DropdownCanvas10_4:
                             Control: DropDown@0.0.45
                             Properties:
@@ -12136,21 +11958,19 @@ Screens:
                               Items: =["All", "Pending", "In progress", "Completed", "Closed", "Cancelled"]
                               Width: =270
                               X: =120
-                              Y: =186
+                              Y: =112
                         - ButtonCanvas12:
                             Control: Button@0.0.45
                             Properties:
                               BasePaletteColor: =RGBA(141, 229, 250, 1)
                               OnSelect: |-
                                 =Reset(DropdownCanvas10);
-                                Reset(DropdownCanvas10_1);
-                                Reset(DropdownCanvas10_2);
                                 Reset(DropdownCanvas10_3);
                                 Reset(DropdownCanvas10_4)
                               Text: ="Remove filter"
                               Width: =150
                               X: =180
-                              Y: =230
+                              Y: =155
             - Form_4:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
@@ -15932,6 +15752,7 @@ Screens:
                       Control: Button@0.0.45
                       Properties:
                         Appearance: ='ButtonCanvas.Appearance'.Subtle
+                        DisplayMode: =If(LookUp('TKE P&C Engineers', Email=User().Email).Role.Value="Engineer", DisplayMode.Disabled, DisplayMode.Edit)
                         Icon: ="ArrowSort"
                         OnSelect: |-
                           =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
@@ -16227,7 +16048,7 @@ Screens:
             FontColor: =RGBA(255, 255, 255, 1)
             Height: =glb_header.Height
             PaddingRight: =10
-            Text: ="v1.1.5.0"
+            Text: ="v1.1.6.0"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Bold
             Width: =150
@@ -16399,6 +16220,7 @@ Screens:
             - TabList3:
                 Control: TabList@2.2.31
                 Properties:
+                  FontSize: =15
                   Items: =["Personal configuration", "Security roles", "Features"]
                   Size: ='TabList.Size'.Medium
                   Width: =Parent.Width
@@ -19004,14 +18826,14 @@ Screens:
                           =If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C ICM approval requests', 'Case number'=glb_search.Value), 
                           If(ICM_filterview.Selected.Value="Active requests",
-                          Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                          Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                           If(ICM_filterview.Selected.Value="My requests",
-                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                           If(ICM_filterview.Selected.Value="(Engineer) Pending request",
-                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing")),
+                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                           If(ICM_filterview.Selected.Value="(Reviewer) Pending request",
-                          Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation")),
-                          'TKE P&C ICM approval requests'
+                          Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
+                          Filter('TKE P&C ICM approval requests', If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value))
                           )
                           )
                           )
@@ -19124,18 +18946,19 @@ Screens:
                           =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
                           Filter('TKE P&C ICM approval requests', 'Case number'=glb_search.Value), 
                           If(ICM_filterview.Selected.Value="Active requests",
-                          Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                          Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                           If(ICM_filterview.Selected.Value="My requests",
-                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected")),
-                          If(ICM_filterview.Selected.Value="(Engineer) Pending requests",
-                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Reviewing", Status.Value<>"Submitted", Status.Value<>"Pending FTE")),
+                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
+                          If(ICM_filterview.Selected.Value="(Engineer) Pending request",
+                          Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                           If(ICM_filterview.Selected.Value="(Reviewer) Pending request",
-                          Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved internally")),
-                          'TKE P&C ICM approval requests'
+                          Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
+                          Filter('TKE P&C ICM approval requests', If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value))
                           )
                           )
                           )
-                          ))))
+                          )
+                          )))
                         Width: =100
                         X: =Parent.Width-420
                   - quickcreateform_3:
@@ -19745,6 +19568,105 @@ Screens:
                           )
                         Padding: ='Toolbar.Padding'.Small
                         Width: =500
+                  - Container8_3:
+                      Control: GroupContainer@1.3.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =If(icm_filter=true, DropShadow.Semibold, DropShadow.None)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =If(icm_filter=true, 200, 36)
+                        Width: =If(icm_filter=true, 400, 150)
+                        X: =TextInputCanvas1_3.X-Self.Width
+                      Children:
+                        - ButtonCanvas11_3:
+                            Control: Button@0.0.45
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Subtle
+                              FontColor: =RGBA(15, 108, 189, 1)
+                              Icon: ="Filter"
+                              OnSelect: |-
+                                =UpdateContext({icm_filter: If(icm_filter=true, false, true)})
+                              Text: =If(icm_filter=true, "Collapse filter", "Expand filter")
+                              Width: =150
+                              X: =Parent.Width-Self.Width
+                        - TextCanvas8_2:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Service level"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =38
+                        - DropdownCanvas10_2:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Pro", "Prem", "Pro S500", "Prem S500", "Pro Direct"]
+                              Width: =270
+                              X: =120
+                              Y: =38
+                        - TextCanvas8_10:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Pod"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =75
+                        - TextCanvas8_11:
+                            Control: Text@0.0.51
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              PaddingLeft: =5
+                              Text: ="Status"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =120
+                              Y: =112
+                        - DropdownCanvas10_10:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Customization", "Platform"]
+                              Width: =270
+                              X: =120
+                              Y: =75
+                        - DropdownCanvas10_11:
+                            Control: DropDown@0.0.45
+                            Properties:
+                              Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                              BorderColor: =RGBA(0, 0, 0, 1)
+                              BorderStyle: =BorderStyle.Solid
+                              DefaultSelectedItems: |-
+                                ={Value: "All"}
+                              Items: =["All", "Pending", "Reviewing", "Revision required", "Approved", "Rejected", "Approved for creation", "Created"]
+                              Width: =270
+                              X: =120
+                              Y: =112
+                        - ButtonCanvas12_3:
+                            Control: Button@0.0.45
+                            Properties:
+                              BasePaletteColor: =RGBA(141, 229, 250, 1)
+                              OnSelect: |-
+                                =Reset(DropdownCanvas10_2);
+                                Reset(DropdownCanvas10_10);
+                                Reset(DropdownCanvas10_11)
+                              Text: ="Remove filter"
+                              Width: =150
+                              X: =180
+                              Y: =155
             - Form_3:
                 Control: GroupContainer@1.3.0
                 Variant: ManualLayout
