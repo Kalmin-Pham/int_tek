@@ -28,14 +28,14 @@
                     =If(IsBlank(glb_search.Value)=false, 
                     Filter('TKE P&C ICM approval requests', 'Case number'=glb_search.Value), 
                     If(ICM_filterview.Selected.Value="Active requests",
-                    Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                    Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                     If(ICM_filterview.Selected.Value="My requests",
-                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                     If(ICM_filterview.Selected.Value="(Engineer) Pending request",
-                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing")),
+                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                     If(ICM_filterview.Selected.Value="(Reviewer) Pending request",
-                    Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation")),
-                    'TKE P&C ICM approval requests'
+                    Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
+                    Filter('TKE P&C ICM approval requests', If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value))
                     )
                     )
                     )
@@ -148,18 +148,19 @@
                     =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
                     Filter('TKE P&C ICM approval requests', 'Case number'=glb_search.Value), 
                     If(ICM_filterview.Selected.Value="Active requests",
-                    Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected")),
+                    Filter('TKE P&C ICM approval requests', And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                     If(ICM_filterview.Selected.Value="My requests",
-                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected")),
-                    If(ICM_filterview.Selected.Value="(Engineer) Pending requests",
-                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Reviewing", Status.Value<>"Submitted", Status.Value<>"Pending FTE")),
+                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
+                    If(ICM_filterview.Selected.Value="(Engineer) Pending request",
+                    Filter('TKE P&C ICM approval requests', 'Created By'.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Pending", Status.Value<>"Created", Status.Value<>"Reviewing"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
                     If(ICM_filterview.Selected.Value="(Reviewer) Pending request",
-                    Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved internally")),
-                    'TKE P&C ICM approval requests'
+                    Filter('TKE P&C ICM approval requests', Reviewer.Email=User().Email, And(Status.Value<>"Approved", Status.Value<>"Rejected", Status.Value<>"Revision required", Status.Value<>"Approved for creation"), If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value)),
+                    Filter('TKE P&C ICM approval requests', If(DropdownCanvas10_2.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_2.Selected.Value), If(DropdownCanvas10_10.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_10.Selected.Value), If(DropdownCanvas10_11.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_11.Selected.Value))
                     )
                     )
                     )
-                    ))))
+                    )
+                    )))
                   Width: =100
                   X: =Parent.Width-420
             - quickcreateform_3:
@@ -768,6 +769,106 @@
                     Refresh('TKE P&C ICM approval requests')
                     )
                   Padding: ='Toolbar.Padding'.Small
+                  Width: =500
+            - Container8_3:
+                Control: GroupContainer@1.3.0
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =If(icm_filter=true, DropShadow.Semibold, DropShadow.None)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(icm_filter=true, 200, 36)
+                  Width: =If(icm_filter=true, 400, 150)
+                  X: =TextInputCanvas1_3.X-Self.Width
+                Children:
+                  - ButtonCanvas11_3:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Subtle
+                        FontColor: =RGBA(15, 108, 189, 1)
+                        Icon: ="Filter"
+                        OnSelect: |-
+                          =UpdateContext({icm_filter: If(icm_filter=true, false, true)})
+                        Text: =If(icm_filter=true, "Collapse filter", "Expand filter")
+                        Width: =150
+                        X: =Parent.Width-Self.Width
+                  - TextCanvas8_2:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Service level"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =38
+                  - DropdownCanvas10_2:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Pro", "Prem", "Pro S500", "Prem S500", "Pro Direct"]
+                        Width: =270
+                        X: =120
+                        Y: =38
+                  - TextCanvas8_10:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Pod"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =75
+                  - TextCanvas8_11:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Status"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =112
+                  - DropdownCanvas10_10:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Customization", "Platform"]
+                        Width: =270
+                        X: =120
+                        Y: =75
+                  - DropdownCanvas10_11:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Pending", "Reviewing", "Revision required", "Approved", "Rejected", "Approved for creation", "Created"]
+                        Width: =270
+                        X: =120
+                        Y: =112
+                  - ButtonCanvas12_3:
+                      Control: Button@0.0.45
+                      Properties:
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        OnSelect: |-
+                          =Reset(DropdownCanvas10_2);
+                          Reset(DropdownCanvas10_10);
+                          Reset(DropdownCanvas10_11)
+                        Text: ="Remove filter"
+                        Width: =150
+                        X: =180
+                        Y: =155
       - Form_3:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
