@@ -33,18 +33,6 @@ Screens:
                   FontColor: =RGBA(215, 58, 60, 1)
                   Text: ="Engineer"
                   Width: =Parent.Width
-            - mn_notification:
-                Control: Button@0.0.45
-                Properties:
-                  Align: =Align.Left
-                  Appearance: =If(activescreen="notification", 'ButtonCanvas.Appearance'.Primary, 'ButtonCanvas.Appearance'.Subtle)
-                  BasePaletteColor: =RGBA(141, 229, 250, 1)
-                  OnSelect: |-
-                    =UpdateContext({activescreen: "notification"});
-                    Refresh('Internal_ App_Notifications')
-                  Text: =Concatenate("Notification (", CountRows(Filter('Internal_ App_Notifications', Recipient.Email=User().Email)), ")")
-                  Width: =Parent.Width
-                  Y: =32
             - mn_checkday:
                 Control: Button@0.0.45
                 Properties:
@@ -53,7 +41,6 @@ Screens:
                   BasePaletteColor: =RGBA(141, 229, 250, 1)
                   OnSelect: |-
                     =UpdateContext({activescreen: "checkday"});
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Backlog Management');
                     Refresh('TKE P&C Backup tracking');
                     Refresh('TKE P&C Consultation requests');
@@ -79,7 +66,7 @@ Screens:
                     CountRows(Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And('Start date'<=Today(), 'End date'>=Today())))
                     ,")")
                   Width: =Parent.Width
-                  Y: =64
+                  Y: =32
             - mn_kpi:
                 Control: Button@0.0.45
                 Properties:
@@ -91,11 +78,11 @@ Screens:
                     UpdateContext({rpt_sec1: true});
                     UpdateContext({activemonthkpi: true});
                     UpdateContext({rpt_sec2: false});
-                    Refresh('Internal_ App_Notifications');
+                    Set(startMyTimer, false);
                     Refresh(Intenal_App_RawKPI)
                   Text: ="KPI"
                   Width: =Parent.Width
-                  Y: =96
+                  Y: =64
             - hd_task:
                 Control: Button@0.0.45
                 Properties:
@@ -104,7 +91,7 @@ Screens:
                   FontColor: =RGBA(215, 58, 60, 1)
                   Text: ="Daily tasks"
                   Width: =Parent.Width
-                  Y: =192
+                  Y: =160
             - mn_backlog:
                 Control: Button@0.0.45
                 Properties:
@@ -119,11 +106,10 @@ Screens:
                     Reset(DropdownCanvas10_5);
                     Reset(DropdownCanvas10_8);
                     Reset(DropdownCanvas10_9);
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Backlog Management')
                   Text: ="Backlog management"
                   Width: =Parent.Width
-                  Y: =224
+                  Y: =192
             - ButtonCanvas1_6:
                 Control: Button@0.0.45
                 Properties:
@@ -134,11 +120,10 @@ Screens:
                     =UpdateContext({activescreen: "backup"});
                     UpdateContext({listvisi: true});
                     UpdateContext({formvisi: false});
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Backup tracking')
                   Text: ="Backup requests"
                   Width: =Parent.Width
-                  Y: =288
+                  Y: =256
             - mn_consultation:
                 Control: Button@0.0.45
                 Properties:
@@ -153,11 +138,10 @@ Screens:
                     Reset(DropdownCanvas10_1);
                     Reset(DropdownCanvas10_6);
                     Reset(DropdownCanvas10_7);
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Consultation requests')
                   Text: ="Consultation requests"
                   Width: =Parent.Width
-                  Y: =352
+                  Y: =320
             - mn_icmapproval:
                 Control: Button@0.0.45
                 Properties:
@@ -172,11 +156,10 @@ Screens:
                     Reset(DropdownCanvas10_2);
                     Reset(DropdownCanvas10_10);
                     Reset(DropdownCanvas10_11);
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C ICM approval requests')
                   Text: ="ICM approval requests"
                   Width: =Parent.Width
-                  Y: =256
+                  Y: =224
             - mn_recovery:
                 Control: Button@0.0.45
                 Properties:
@@ -191,11 +174,10 @@ Screens:
                     Reset(DropdownCanvas10);
                     Reset(DropdownCanvas10_3);
                     Reset(DropdownCanvas10_4);
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Recovery tracking')
                   Text: ="Recovery requests"
                   Width: =Parent.Width
-                  Y: =320
+                  Y: =288
             - hd_tool:
                 Control: Button@0.0.45
                 Properties:
@@ -205,7 +187,7 @@ Screens:
                   FontColor: =RGBA(215, 58, 60, 1)
                   Text: ="Tools"
                   Width: =Parent.Width
-                  Y: =384
+                  Y: =352
             - mn_codereader:
                 Control: Button@0.0.45
                 Properties:
@@ -213,11 +195,10 @@ Screens:
                   Appearance: =If(activescreen="crmcode", 'ButtonCanvas.Appearance'.Primary, 'ButtonCanvas.Appearance'.Subtle)
                   BasePaletteColor: =RGBA(141, 229, 250, 1)
                   OnSelect: |-
-                    =UpdateContext({activescreen: "crmcode"});
-                    Refresh('Internal_ App_Notifications')
+                    =UpdateContext({activescreen: "crmcode"})
                   Text: ="CRM Code Reader"
                   Width: =Parent.Width
-                  Y: =416
+                  Y: =384
             - mn_podchecker:
                 Control: Button@0.0.45
                 Properties:
@@ -227,11 +208,10 @@ Screens:
                   OnSelect: |-
                     =UpdateContext({activescreen: "podcheck"});
                     UpdateContext({podcheck_popup: false});
-                    Refresh('Internal_ App_Notifications');
                     Refresh(Internal_App_Podchecker)
                   Text: ="Pod checker"
                   Width: =Parent.Width
-                  Y: =448
+                  Y: =416
             - mn_setting:
                 Control: Button@0.0.45
                 Properties:
@@ -244,7 +224,7 @@ Screens:
                     =UpdateContext({activescreen: "setting"})
                   Text: ="Settings"
                   Width: =Parent.Width
-                  Y: =480
+                  Y: =448
             - mn_selfserve:
                 Control: Button@0.0.45
                 Properties:
@@ -262,7 +242,7 @@ Screens:
                     Refresh('TKE P&C Engineers');
                   Text: ="Self-services"
                   Width: =Parent.Width
-                  Y: =512
+                  Y: =480
             - mn_leave:
                 Control: Button@0.0.45
                 Properties:
@@ -271,7 +251,6 @@ Screens:
                   BasePaletteColor: =RGBA(141, 229, 250, 1)
                   OnSelect: |-
                     =UpdateContext({activescreen: "leave"});
-                    Refresh('Internal_ App_Notifications');
                     Refresh('TKE P&C Leave requests');
                     UpdateContext({leave_active: "none"});
                     UpdateContext({leave_loadmode: false});
@@ -281,7 +260,7 @@ Screens:
                     Reset(DropdownCanvas5)
                   Text: ="Time-off"
                   Width: =Parent.Width
-                  Y: =128
+                  Y: =96
             - mn_schedule:
                 Control: Button@0.0.45
                 Properties:
@@ -301,7 +280,7 @@ Screens:
                     )
                   Text: ="Schedule"
                   Width: =Parent.Width
-                  Y: =160
+                  Y: =128
       - glb_search:
           Control: TextInput@0.0.54
           Properties:
@@ -312,121 +291,6 @@ Screens:
             Width: =300
             X: =Parent.Width/2-150
             Y: =5
-      - sub_notification:
-          Control: GroupContainer@1.3.0
-          Variant: ManualLayout
-          Properties:
-            Height: =Parent.Height-35
-            Visible: =If(activescreen="notification", true, false)
-            Width: =Parent.Width-glb_menu.Width
-            X: =glb_menu.Width
-            Y: =35
-          Children:
-            - Gallery1:
-                Control: Gallery@2.15.0
-                Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
-                Properties:
-                  Height: =Parent.Height-36
-                  Items: =Filter('Internal_ App_Notifications', Recipient.Email=User().Email)
-                  TemplateSize: =48
-                  Width: =Parent.Width
-                  Y: =36
-                Children:
-                  - Title1:
-                      Control: Label@2.5.1
-                      Properties:
-                        BorderColor: =RGBA(0, 0, 0, 1)
-                        Color: =RGBA(255, 0, 0, 1)
-                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
-                        Height: =Self.Size * 1.8
-                        OnSelect: =Select(Parent)
-                        PaddingBottom: =1
-                        PaddingRight: =1
-                        PaddingTop: =1
-                        Size: =10
-                        Text: =Concatenate(ThisItem.Channel, " at ", ThisItem.Created)
-                        VerticalAlign: =VerticalAlign.Top
-                        Width: =Parent.Width-30
-                  - Subtitle1:
-                      Control: Label@2.5.1
-                      Properties:
-                        AutoHeight: =true
-                        BorderColor: =RGBA(0, 0, 0, 1)
-                        FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
-                        Height: =Self.Size * 1.8
-                        OnSelect: =Select(Parent)
-                        PaddingBottom: =1
-                        PaddingRight: =1
-                        PaddingTop: =1
-                        Size: =10
-                        Text: =ThisItem.Comment
-                        VerticalAlign: =VerticalAlign.Top
-                        Width: =Parent.Width-30
-                        X: =Title1.X
-                        Y: =Title1.Y + Title1.Height
-                  - NextArrow1:
-                      Control: Classic/Icon@2.5.0
-                      Properties:
-                        AccessibleLabel: =Self.Tooltip
-                        BorderColor: =RGBA(0, 0, 0, 1)
-                        Color: =RGBA(39, 113, 194, 1)
-                        DisabledBorderColor: =RGBA(56, 56, 56, 1)
-                        DisabledColor: =RGBA(119, 119, 119, 1)
-                        Height: =30
-                        Icon: =Icon.Check
-                        OnSelect: =Remove('Internal_ App_Notifications', Gallery1.Selected)
-                        PaddingBottom: =8
-                        PaddingLeft: =8
-                        PaddingRight: =8
-                        PaddingTop: =8
-                        Tooltip: ="Mark as read"
-                        Width: =30
-                        X: =Title1.Width
-                  - Separator1:
-                      Control: Rectangle@2.3.0
-                      Properties:
-                        Fill: =RGBA(255, 255, 255, 1)
-                        Height: =8
-                        OnSelect: =Select(Parent)
-                        Width: =Parent.TemplateWidth
-                        Y: =Parent.TemplateHeight - Self.Height
-            - sub_notification_view_ribbon:
-                Control: Toolbar@2.0.5
-                Properties:
-                  Height: =36
-                  Items: |-
-                    =Table(
-                        {
-                        ItemKey: "refresh", 
-                        ItemDisplayName: "Refresh", 
-                        ItemIconName: "ArrowClockwise", 
-                        ItemAppearance: "Subtle", 
-                        ItemIconStyle: "Regular", 
-                        ItemDisabled: false,
-                        ItemVisible: true,
-                        ItemTooltip: "Refresh notification"
-                        },
-                        {
-                        ItemKey: "deleteall", 
-                        ItemDisplayName: "Delete all notifications", 
-                        ItemIconName: "Delete", 
-                        ItemAppearance: "Subtle",
-                        ItemIconStyle: "Regular",
-                        ItemDisabled: false,
-                        ItemVisible: true,
-                        ItemTooltip: "Delete all notifications"
-                        }
-                    )
-                  OnSelect: |-
-                    =Switch(Self.Selected.ItemKey,
-                    "refresh", 
-                    Refresh('Internal_ App_Notifications'),
-                    "deleteall", 
-                    RemoveIf('Internal_ App_Notifications', Recipient.Email=User().Email);
-                    Refresh('Internal_ App_Notifications')
-                    )
-                  Padding: ='Toolbar.Padding'.Small
-                  Width: =500
       - sub_checkday:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
@@ -3117,13 +2981,6 @@ Screens:
                                         'Case number': tb_backlog.Selected.'Case number'
                                     }
                                 );
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created a recovery request for case ", tb_backlog.Selected.'Case number'),
-                                    Recipient: var_reviewer,
-                                    Channel: "TKE P&C Recovery Requests"
-                                }
-                                );
                                 Patch('TKE P&C Backlog Management', tb_backlog.Selected,
                                 {
                                     Status: {Value: "Pending recovery"}
@@ -3880,13 +3737,6 @@ Screens:
                                         'Case number': tb_backlog.Selected.'Case number'
                                     }
                                 );
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created an ICM approval request for case ", tb_backlog.Selected.'Case number'),
-                                    Recipient: If(tb_backlog.Selected.Pod.Value="Customization", LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Cust'=true).Engineer, LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Plat'=true).Engineer),
-                                    Channel: "TKE P&C ICM Approval Requests"
-                                }
-                                );
                                 ResetForm(Form3_2);
                               Text: ="Create"
                               Width: =32
@@ -4510,13 +4360,6 @@ Screens:
                                         'Case number': tb_backlog.Selected.'Case number'
                                     }
                                 );
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created a consultation request for case ", tb_backlog.Selected.'Case number'),
-                                    Recipient: var_reviewer,
-                                    Channel: "TKE P&C Consultation Requests"
-                                }
-                                );
                                 ResetForm(Form3_1)
                               Text: ="Create"
                               Width: =32
@@ -5024,13 +4867,7 @@ Screens:
                                     Comment: "SYSTEM Audit: The backup request is created"
                                 }
                                 );
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created a backup request for case ", tb_backlog.Selected.'Case number'),
-                                    Recipient: recipient,
-                                    Channel: "TKE P&C Backup Requests"
-                                }
-                                );
+                                'TKE-Generalnotification'.Run(recipient.Email, Concatenate("[TKE PC Backup] ", User().FullName, " created a backup request for case ", tb_backlog.Selected.'Case number'));
                                 ResetForm(Form2)
                               Text: ="Create"
                               Width: =32
@@ -5854,13 +5691,6 @@ Screens:
                                 =SubmitForm(quickcreate_form_1);
                                 UpdateContext({quickcreateformvisi: false});
                                 Refresh('TKE P&C Backup tracking');
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created a backup request for case ", casenum),
-                                    Recipient: recipient,
-                                    Channel: "TKE P&C Backup Requests"
-                                }
-                                );
                                 ResetForm(quickcreate_form_1)
                               Text: ="Create"
                               Width: =32
@@ -8315,13 +8145,6 @@ Screens:
                                 UpdateContext({quickcreateformvisi: false});
                                 Notify("New consultation request has been created");
                                 Refresh('TKE P&C Consultation requests');
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created an ICM approval request for case ", casenum),
-                                    Recipient: var_reviewer,
-                                    Channel: "TKE P&C Backup Requests"
-                                }
-                                );
                                 ResetForm(quickcreate_form_2)
                               Text: ="Create"
                               Width: =32
@@ -10135,44 +9958,26 @@ Screens:
                               "delete",
                               UpdateContext({deleteconfirmvisi: true}),
                               "provideinfor",
+                              'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " provided information for case ", Gallery_consultation.Selected.'Case number'));
                               Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                               {
                                   Status: {Value: "Provided information"}
                               });
-                              Refresh('TKE P&C Consultation requests');
-                              Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                              {
-                                  Comment: Concatenate("Reviewer provided the information for consultation request of case ", Gallery_consultation.Selected.'Case number'),
-                                  Recipient: Gallery_consultation.Selected.'Created By',
-                                  Channel: "TKE P&C Consultation Requests"
-                              }
-                              ),
+                              Refresh('TKE P&C Consultation requests');,
                               "sendtofte",
+                              'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " sent the request of case ", Gallery_consultation.Selected.'Case number', " to FTE, please follow up"));
                               Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                               {
                                   Status: {Value: "Pending FTE"}
                               });
-                              Refresh('TKE P&C Consultation requests');
-                              Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                              {
-                                  Comment: Concatenate("Reviewer has sent consultation request of case ", Gallery_consultation.Selected.'Case number', " to FTE team, please follow up with FTE"),
-                                  Recipient: Gallery_consultation.Selected.'Created By',
-                                  Channel: "TKE P&C Consultation Requests"
-                              }
-                              ),
+                              Refresh('TKE P&C Consultation requests');,
                               "requestdetail",
+                              'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " requested more information for case ", Gallery_consultation.Selected.'Case number'));
                               Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                               {
                                   Status: {Value: "Requesting more details"}
                               });
-                              Refresh('TKE P&C Consultation requests');
-                              Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                              {
-                                  Comment: Concatenate("Reviewer requested more information for consultation request of case ", Gallery_consultation.Selected.'Case number'),
-                                  Recipient: Gallery_consultation.Selected.'Created By',
-                                  Channel: "TKE P&C Consultation Requests"
-                              }
-                              ),
+                              Refresh('TKE P&C Consultation requests');,
                               "complete",
                               Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                               {
@@ -10180,28 +9985,16 @@ Screens:
                               });
                               Refresh('TKE P&C Consultation requests'),
                               "ack",
+                              If(Or(Gallery_consultation.Selected.Status.Value="Requesting more details", Gallery_consultation.Selected.Status.Value="Provided information"),
+                                  'TKE-Generalnotification'.Run(Gallery_consultation.Selected.Reviewer.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " requested assistance for case ", Gallery_consultation.Selected.'Case number'));
+                                  ,
+                                  'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " is checking case ", Gallery_consultation.Selected.'Case number'));
+                              );
                               Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                               {
                                   Status: {Value: "Reviewing"}
                               });
                               Refresh('TKE P&C Consultation requests');
-                              If(Or(Gallery_consultation.Selected.Status.Value="Requesting more details", Gallery_consultation.Selected.Status.Value="Provided information"),
-                              Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                              {
-                                  Comment: Concatenate("Requester requested assistance for consultation request of case ", Gallery_consultation.Selected.'Case number'),
-                                  Recipient: Gallery_consultation.Selected.Reviewer,
-                                  Channel: "TKE P&C Consultation Requests"
-                              }
-                              )
-                              ,
-                              Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                              {
-                                  Comment: Concatenate("Consultation request for case ", Gallery_consultation.Selected.'Case number', " has been acknowledged, reviewer is working on it"),
-                                  Recipient: Gallery_consultation.Selected.'Created By',
-                                  Channel: "TKE P&C Consultation Requests"
-                              }
-                              )
-                              )
                               ,
                               "refresh",
                               Refresh('Internal_ App_Consultation_Comment');
@@ -11121,13 +10914,6 @@ Screens:
                                 =SubmitForm(quickcreate_form_4);
                                 UpdateContext({quickcreateformvisi: false});
                                 Refresh('TKE P&C Recovery tracking');
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created a recovery request for case ", casenum),
-                                    Recipient: var_reviewer,
-                                    Channel: "TKE P&C Recovery Requests"
-                                }
-                                );
                                 If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                                     Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                                         {
@@ -12884,6 +12670,7 @@ Screens:
                                         'Case number': Gallery_recovery.Selected.'Case number'
                                     }
                                 );
+                                'TKE-Generalnotification'.Run(ComboboxCanvas1_1.Selected.Engineer.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " transfered recovery request of case ", Gallery_recovery.Selected.'Case number', " to you with details: ", TextInputCanvas2_1.Value));
                                 Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
                                     {'Next contact date (for reviewer only)': Today()}
                                 );
@@ -13756,19 +13543,8 @@ Screens:
                                     ,
                                     false
                                 );
-                                Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                                {
-                                    Status: {Value: "Cancelled"},
-                                    'Next contact date (for reviewer only)': Blank(),
-                                    'Approved closure date (For reviewer only)': Blank()
-                                });
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " cancelled recovery request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails),
-                                    Recipient: Gallery_recovery.Selected.'Created By',
-                                    Channel: "TKE P&C Recovery Requests"
-                                }
-                                );
+                                'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Created By'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " cancelled the request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails));
+                                'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Owner (for reviewer only)'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " cancelled the request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails));
                                 If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                                 Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                                 {
@@ -13783,6 +13559,12 @@ Screens:
                                         'Case number': Gallery_recovery.Selected.'Case number'
                                     }
                                 );
+                                Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
+                                {
+                                    Status: {Value: "Cancelled"},
+                                    'Next contact date (for reviewer only)': Blank(),
+                                    'Approved closure date (For reviewer only)': Blank()
+                                });
                                 UpdateContext({canceldialogvisi: false});
                                 Reset(TextInputCanvas2_4);
                                 Refresh('TKE P&C Recovery tracking');
@@ -13859,19 +13641,7 @@ Screens:
                                     ,
                                     false
                                 );
-                                Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                                {
-                                    Status: {Value: "In progress"},
-                                    'Next contact date (for reviewer only)': Blank(),
-                                    'Approved closure date (For reviewer only)': Blank()
-                                });
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " reactivated recovery request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails),
-                                    Recipient: Gallery_recovery.Selected.'Owner (for reviewer only)',
-                                    Channel: "TKE P&C Recovery Requests"
-                                }
-                                );
+                                'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Owner (for reviewer only)'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " reactivated the request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails));
                                 If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                                 Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                                 {
@@ -13887,8 +13657,11 @@ Screens:
                                     }
                                 );
                                 Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                                    {'Next contact date (for reviewer only)': Today()}
-                                );
+                                {
+                                    Status: {Value: "In progress"},
+                                    'Next contact date (for reviewer only)': Today(),
+                                    'Approved closure date (For reviewer only)': Blank()
+                                });
                                 UpdateContext({reopendialogvisi: false});
                                 Reset(TextInputCanvas2_5);
                                 Refresh('TKE P&C Recovery tracking')
@@ -13951,19 +13724,7 @@ Screens:
                               Layout: ='ButtonCanvas.Layout'.TextOnly
                               OnSelect: |-
                                 =If(app_selected=true,
-                                Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                                {
-                                    'Approved closure date (For reviewer only)': DatePickerCanvas1.SelectedDate,
-                                    Status: {Value: "Completed"},
-                                    'Next contact date (for reviewer only)': Blank()
-                                });
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate("The recovery request for case ", Gallery_recovery.Selected.'Case number', " has been approved for closure on ", fieldtime),
-                                    Recipient: Gallery_recovery.Selected.'Created By',
-                                    Channel: "TKE P&C Recovery Requests"
-                                }
-                                );
+                                'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Created By'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " approved for case ", Gallery_recovery.Selected.'Case number', " to be closed on ", fieldtime));
                                 Patch('Internal_ App_Recovery_Comment', Defaults('Internal_ App_Recovery_Comment'),
                                     {
                                         Comment: Concatenate("SYSTEM: The request is approved for closure on ", DatePickerCanvas1.SelectedDate),
@@ -13971,6 +13732,12 @@ Screens:
                                         'Case number': Gallery_recovery.Selected.'Case number'
                                     }
                                 );
+                                Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
+                                {
+                                    'Approved closure date (For reviewer only)': DatePickerCanvas1.SelectedDate,
+                                    Status: {Value: "Completed"},
+                                    'Next contact date (for reviewer only)': Blank()
+                                });
                                 UpdateContext({approvedialogvisi: false});
                                 Reset(DatePickerCanvas1);
                                 Refresh('TKE P&C Recovery tracking');
@@ -15518,19 +15285,14 @@ Screens:
                         Height: =Parent.Height
                         Items: |-
                           =If(DropdownCanvas4.Selected.Value="Manager view", 
-                          Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text),
-                          Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text)
+                          Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown")),
+                          Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown"))
                           )
                         NoDataText: ="There's no KPI data"
                         OnSelect: |-
                           =Copy(Table1_1.Selected.'Case number');
                           Notify("Copied case ID to clipboard", NotificationType.Success)
                         ReflowBehavior: ='PowerAppsOneGrid.ReflowBehavior'.Reflow
-                        Visible: |-
-                          =If(DropdownCanvas4.Selected.Value="Manager view", 
-                          CountRows(Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text))>0,
-                          CountRows(Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text))>0
-                          )
                         Width: =Parent.Width
                       Children:
                         - Case number6:
@@ -15708,29 +15470,35 @@ Screens:
                       Control: CheckBox@0.0.30
                       Properties:
                         Label: ="S500"
+                        OnCheck: =Set(startMyTimer, true)
+                        OnUncheck: =Set(startMyTimer, true)
                         Width: =80
-                        X: =422
+                        X: =302
                   - CheckboxCanvas1_1:
                       Control: CheckBox@0.0.30
                       Properties:
                         Label: ="Billable"
+                        OnCheck: =Set(startMyTimer, true)
+                        OnUncheck: =Set(startMyTimer, true)
                         Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                         Width: =90
-                        X: =502
+                        X: =382
                   - CheckboxCanvas1_2:
                       Control: CheckBox@0.0.30
                       Properties:
                         Label: ="Prem"
-                        Visible: =rpt_sec2=true
+                        OnCheck: =Set(startMyTimer, true)
+                        OnUncheck: =Set(startMyTimer, true)
                         Width: =80
-                        X: =502
+                        X: =472
                   - CheckboxCanvas1_3:
                       Control: CheckBox@0.0.30
                       Properties:
                         Label: ="Pro"
-                        Visible: =rpt_sec2=true
+                        OnCheck: =Set(startMyTimer, true)
+                        OnUncheck: =Set(startMyTimer, true)
                         Width: =80
-                        X: =582
+                        X: =552
                   - ButtonCanvas10:
                       Control: Button@0.0.45
                       Properties:
@@ -16041,6 +15809,15 @@ Screens:
                   Width: =90
                   X: =440
                   Y: =77
+            - Timer1:
+                Control: Timer@2.1.0
+                Properties:
+                  Duration: =1500
+                  OnTimerEnd: |-
+                    =Set(startMyTimer, true);
+                    Refresh(Intenal_App_RawKPI)
+                  Start: =startMyTimer
+                  Visible: =false
       - glb_ver:
           Control: Text@0.0.51
           Properties:
@@ -16048,7 +15825,7 @@ Screens:
             FontColor: =RGBA(255, 255, 255, 1)
             Height: =glb_header.Height
             PaddingRight: =10
-            Text: ="v1.1.6.1"
+            Text: ="v1.1.7.0"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Bold
             Width: =150
@@ -16116,7 +15893,7 @@ Screens:
                 Properties:
                   Appearance: ='ButtonCanvas.Appearance'.Secondary
                   DisplayMode: =If(And(Or(DropdownCanvas2.Selected.Value="Onboard new user", DropdownCanvas2.Selected.Value="Offboard user"), LookUp('TKE P&C Engineers', Email=User().Email).'App_setting_Enable admin mode'=false), DisplayMode.Disabled, DisplayMode.Edit)
-                  OnSelect: "=UpdateContext({s1_visi: false});\r\nUpdateContext({s2_visi: false});\r\nUpdateContext({s3_visi: false});\r\nUpdateContext({s4_visi: false});\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Reopen case/request\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Searching for case ID...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(Or(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=TextInputCanvas4.Value))>0, CountRows(Filter('TKE P&C Recovery tracking', 'Case number'=TextInputCanvas4.Value))>0),\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Found matched object\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n        \r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Executing request...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        'TKEPC-Selfserve1'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Request has been executed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Updating database...\"});\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Reopen case/request\",\r\n                'Case ID': TextInputCanvas4.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Updated database\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"No matched object\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Enable/Disable feature flag\",\r\n    If(DropdownCanvas3.Selected.Value=\"Outlook - Auto create new folder/Rule\",\r\n        UpdateContext({s1_visi: true});\r\n        UpdateContext({s1_icon: \"ArrowSync\"});\r\n        UpdateContext({s1_text: \"Retrieving user setting...\"});\r\n        UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, \"Current value is On\", \"Current value if Off\")});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Updating user setting...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', LookUp('TKE P&C Engineers', Email=User().Email),\r\n            {\r\n                'Auto create Outlook folder/rule': If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, false, true)\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"User setting has been updated\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Success\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Enable/Disable feature flag\",\r\n                'Case ID': DropdownCanvas3.Selected.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        ,\r\n        false\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Onboard new user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Configuring SharePoint and App profile...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Set(intstatus, 'TKEPC-Onboarduser'.Run(TextInputCanvas4.Value).status);\r\n    If(intstatus=\"Request has been completed\",\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Internal profile has been configured\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Configuring Engineer database...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', Defaults('TKE P&C Engineers'),\r\n            {\r\n                Email: TextInputCanvas4.Value,\r\n                Role: {Value: \"Engineer\"},\r\n                Engineer: \r\n                    {\r\n                        '@odata.type':\"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser\",\r\n                        Claims: Concatenate(\"i:0#.f|membership|\", TextInputCanvas4.Value),\r\n                        Department: \"\",\r\n                        DisplayName: \"\",\r\n                        Email: TextInputCanvas4.Value,\r\n                        JobTitle: \"\",\r\n                        Picture: \"\"\r\n                    },\r\n                'AA Skill': {Value: \"Professional Only\"},\r\n                'Working shift': {Value: \"8 AM - 5 PM\"},\r\n                'App_setting_Teams notification': true,\r\n                'Billable status': {Value: \"Non-billable\"},\r\n                'AAD ID': Office365Users.UserProfile(TextInputCanvas4.Value).Id\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Database has been configured\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Sending AAD to queue for flow config...\"});\r\n        UpdateContext({AADID: Office365Users.UserProfile(TextInputCanvas4.Value).Id});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Queue has been updated\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: intstatus});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    );\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Offboard user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Scanning assigned records...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(CountRows(Filter('TKE P&C Recovery tracking', And('Created By'.Email=TextInputCanvas4.Value, Status.Value<>\"Closed\", Status.Value<>\"Cancelled\")))=0,\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"User is ready to be removed\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Removing core records...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Backlog Management', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C ICM approval requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Consultation requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Recovery tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Backup tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing log...\"});\r\n        RemoveIf(Int_App_SelfService, 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backlog_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Recovery_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backup_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Consultation_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_ICM_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing notification...\"});\r\n        RemoveIf('Internal_ App_Notifications', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Notifications', Recipient.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing leave and event...\"});\r\n        RemoveIf('TKE P&C Leave requests', Engineer.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE PC - Schedule', Agent.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"All associated records have been removed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Removing user in database...\"});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Engineers', Email=TextInputCanvas4.Value);\r\n        UpdateContext({s3_text: \"Removing user Sharepoint group...\"});\r\n        'TKEPC-Offboarduser'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"User has been successfully removed\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Completed\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"Cannot proceed: Found active record from this user\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Check customer history\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Retrieving CXID details...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n        {\r\n            'SS Request': \"Check customer history\",\r\n            Status: {Value: \"Completed\"},\r\n            Details: TextInputCanvas4_1.Value\r\n        }\r\n    );\r\n    UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s1_text: \"ID has been saved\"});\r\n    UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n    UpdateContext({s2_visi: true});\r\n    UpdateContext({s2_icon: \"ArrowSync\"});\r\n    UpdateContext({s2_text: \"Sending the request to queue...\"});\r\n    UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n    Patch(Internal_App_Cxhistory, Defaults(Internal_App_Cxhistory),\r\n        {\r\n            'Cx ID': TextInputCanvas4.Value\r\n        }\r\n    );\r\n    UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s2_text: \"Request has been submitted, you will receive Teams notification soon\"});\r\n    UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n    ,\r\n    false\r\n)"
+                  OnSelect: "=UpdateContext({s1_visi: false});\r\nUpdateContext({s2_visi: false});\r\nUpdateContext({s3_visi: false});\r\nUpdateContext({s4_visi: false});\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Reopen case/request\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Searching for case ID...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(Or(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=TextInputCanvas4.Value))>0, CountRows(Filter('TKE P&C Recovery tracking', 'Case number'=TextInputCanvas4.Value))>0),\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Found matched object\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n        \r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Executing request...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        'TKEPC-Selfserve1'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Request has been executed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Updating database...\"});\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Reopen case/request\",\r\n                'Case ID': TextInputCanvas4.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Updated database\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"No matched object\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Enable/Disable feature flag\",\r\n    If(DropdownCanvas3.Selected.Value=\"Outlook - Auto create new folder/Rule\",\r\n        UpdateContext({s1_visi: true});\r\n        UpdateContext({s1_icon: \"ArrowSync\"});\r\n        UpdateContext({s1_text: \"Retrieving user setting...\"});\r\n        UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, \"Current value is On\", \"Current value if Off\")});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Updating user setting...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', LookUp('TKE P&C Engineers', Email=User().Email),\r\n            {\r\n                'Auto create Outlook folder/rule': If(LookUp('TKE P&C Engineers', Email=User().Email).'Auto create Outlook folder/rule'=true, false, true)\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"User setting has been updated\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Success\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n            {\r\n                'SS Request': \"Enable/Disable feature flag\",\r\n                'Case ID': DropdownCanvas3.Selected.Value,\r\n                Status: {Value: \"Completed\"},\r\n                Details: TextInputCanvas4_1.Value\r\n            }\r\n        );\r\n        ,\r\n        false\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Onboard new user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Configuring SharePoint and App profile...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Set(intstatus, 'TKEPC-Onboarduser'.Run(TextInputCanvas4.Value).status);\r\n    If(intstatus=\"Request has been completed\",\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"Internal profile has been configured\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Configuring Engineer database...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        Patch('TKE P&C Engineers', Defaults('TKE P&C Engineers'),\r\n            {\r\n                Email: TextInputCanvas4.Value,\r\n                Role: {Value: \"Engineer\"},\r\n                Engineer: \r\n                    {\r\n                        '@odata.type':\"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser\",\r\n                        Claims: Concatenate(\"i:0#.f|membership|\", TextInputCanvas4.Value),\r\n                        Department: \"\",\r\n                        DisplayName: \"\",\r\n                        Email: TextInputCanvas4.Value,\r\n                        JobTitle: \"\",\r\n                        Picture: \"\"\r\n                    },\r\n                'AA Skill': {Value: \"Professional Only\"},\r\n                'Working shift': {Value: \"8 AM - 5 PM\"},\r\n                'App_setting_Teams notification': true,\r\n                'Billable status': {Value: \"Non-billable\"},\r\n                'AAD ID': Office365Users.UserProfile(TextInputCanvas4.Value).Id\r\n            }\r\n        );\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"Database has been configured\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Sending AAD to queue for flow config...\"});\r\n        UpdateContext({AADID: Office365Users.UserProfile(TextInputCanvas4.Value).Id});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"Queue has been updated\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Success\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: intstatus});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    );\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Offboard user\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Scanning assigned records...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    If(CountRows(Filter('TKE P&C Recovery tracking', And('Created By'.Email=TextInputCanvas4.Value, Status.Value<>\"Closed\", Status.Value<>\"Cancelled\")))=0,\r\n        UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s1_text: \"User is ready to be removed\"});\r\n        UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s2_visi: true});\r\n        UpdateContext({s2_icon: \"ArrowSync\"});\r\n        UpdateContext({s2_text: \"Removing core records...\"});\r\n        UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Backlog Management', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C ICM approval requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Consultation requests', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Recovery tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE P&C Backup tracking', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing log...\"});\r\n        RemoveIf(Int_App_SelfService, 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backlog_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Recovery_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Backup_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_Consultation_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        RemoveIf('Internal_ App_ICM_Comment', 'Created By'.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_text: \"Removing notification...\"});\r\n        UpdateContext({s2_text: \"Removing leave and event...\"});\r\n        RemoveIf('TKE P&C Leave requests', Engineer.Email=TextInputCanvas4.Value);\r\n        RemoveIf('TKE PC - Schedule', Agent.Email=TextInputCanvas4.Value);\r\n        UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s2_text: \"All associated records have been removed\"});\r\n        UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s3_visi: true});\r\n        UpdateContext({s3_icon: \"ArrowSync\"});\r\n        UpdateContext({s3_text: \"Removing user in database...\"});\r\n        UpdateContext({s3_color: RGBA(15, 108, 189, 1)});\r\n        RemoveIf('TKE P&C Engineers', Email=TextInputCanvas4.Value);\r\n        UpdateContext({s3_text: \"Removing user Sharepoint group...\"});\r\n        'TKEPC-Offboarduser'.Run(TextInputCanvas4.Value);\r\n        UpdateContext({s3_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s3_text: \"User has been successfully removed\"});\r\n        UpdateContext({s3_color: RGBA(52, 152, 47, 1)});\r\n\r\n        UpdateContext({s4_visi: true});\r\n        UpdateContext({s4_icon: \"CheckmarkCircle\"});\r\n        UpdateContext({s4_text: \"Completed\"});\r\n        UpdateContext({s4_color: RGBA(52, 152, 47, 1)});\r\n        ,\r\n        UpdateContext({s1_icon: \"DismissCircle\"});\r\n        UpdateContext({s1_text: \"Cannot proceed: Found active record from this user\"});\r\n        UpdateContext({s1_color: RGBA(215, 58, 60, 1)});\r\n    )\r\n    ,\r\n    false\r\n);\r\n\r\nIf(DropdownCanvas2.Selected.Value=\"Check customer history\",\r\n    UpdateContext({s1_visi: true});\r\n    UpdateContext({s1_icon: \"ArrowSync\"});\r\n    UpdateContext({s1_text: \"Retrieving CXID details...\"});\r\n    UpdateContext({s1_color: RGBA(15, 108, 189, 1)});\r\n    Patch('Int_App_SelfService', Defaults('Int_App_SelfService'),\r\n        {\r\n            'SS Request': \"Check customer history\",\r\n            Status: {Value: \"Completed\"},\r\n            Details: TextInputCanvas4_1.Value\r\n        }\r\n    );\r\n    UpdateContext({s1_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s1_text: \"ID has been saved\"});\r\n    UpdateContext({s1_color: RGBA(52, 152, 47, 1)});\r\n\r\n    UpdateContext({s2_visi: true});\r\n    UpdateContext({s2_icon: \"ArrowSync\"});\r\n    UpdateContext({s2_text: \"Sending the request to queue...\"});\r\n    UpdateContext({s2_color: RGBA(15, 108, 189, 1)});\r\n    Patch(Internal_App_Cxhistory, Defaults(Internal_App_Cxhistory),\r\n        {\r\n            'Cx ID': TextInputCanvas4.Value\r\n        }\r\n    );\r\n    UpdateContext({s2_icon: \"CheckmarkCircle\"});\r\n    UpdateContext({s2_text: \"Request has been submitted, you will receive Teams notification soon\"});\r\n    UpdateContext({s2_color: RGBA(52, 152, 47, 1)});\r\n    ,\r\n    false\r\n)"
                   Text: ="Run"
                   X: =136
                   Y: =338
@@ -18999,13 +18776,6 @@ Screens:
                                 =SubmitForm(quickcreate_form_3);
                                 UpdateContext({quickcreateformvisi: false});
                                 Refresh('TKE P&C ICM approval requests');
-                                Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                                {
-                                    Comment: Concatenate(User().FullName, " created an ICM approval request for case ", casenum),
-                                    Recipient: If(icm_pod="plat", LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Plat'=true).Engineer, LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Cust'=true).Engineer),
-                                    Channel: "TKE P&C ICM Approval Requests"
-                                }
-                                );
                                 ResetForm(quickcreate_form_3)
                               Text: ="Create"
                               Width: =32
@@ -20950,82 +20720,49 @@ Screens:
                           "delete",
                           UpdateContext({deleteconfirmvisi: true}),
                           "approvefc",
+                          'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " approved for ICM creation of case ", Gallery_icm.Selected.'Case number', " in Unify"));
                           Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                               {
                                   Status: {Value: "Approved for creation"}
                               });
                           Refresh('TKE P&C ICM approval requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been approved for creation on Unify"),
-                              Recipient: Gallery_icm.Selected.'Created By',
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          ),
+                          ,
                           "reject",
+                          'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " rejected the request of case ", Gallery_icm.Selected.'Case number'));
                           Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                           {
                               Status: {Value: "Rejected"}
                           });
                           Refresh('TKE P&C ICM approval requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been rejected"),
-                              Recipient: Gallery_icm.Selected.'Created By',
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          ),
+                          ,
                           "approve",
+                          'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " approved the request of case ", Gallery_icm.Selected.'Case number'));
                           Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                               {
                                   Status: {Value: "Approved"}
                               });
                           Refresh('TKE P&C ICM approval requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been approved"),
-                              Recipient: Gallery_icm.Selected.'Created By',
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          ),
+                          ,
                           "submit",
+                          'TKE-Generalnotification'.Run(Gallery_icm.Selected.Reviewer.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " created the ICM request in Unify for case ", Gallery_icm.Selected.'Case number'));
                           Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                               {
                                   Status: {Value: "Created"}
                               });
                           Refresh('TKE P&C ICM approval requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been created on Unify"),
-                              Recipient: Gallery_icm.Selected.Reviewer,
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          ),
+                          ,
                           "ack",
+                          If(Gallery_icm.Selected.Status.Value="Revision required",
+                              'TKE-Generalnotification'.Run(Gallery_icm.Selected.Reviewer.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " provided information for the request of case ", Gallery_icm.Selected.'Case number'))
+                              ,
+                              'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " is checking the request of case ", Gallery_icm.Selected.'Case number'));
+                          );
                           Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                           {
                               Status: {Value: "Reviewing"}
                           });
                           Refresh('TKE P&C ICM approval requests');
-                          If(Gallery_icm.Selected.Status.Value="Revision required",
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("Requester provided information for ICM approval request of case ", Gallery_icm.Selected.'Case number'),
-                              Recipient: Gallery_icm.Selected.Reviewer,
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          )
                           ,
-                          UpdateContext({notidetails: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been acknowledged, reviewer is checking the case now")});
-                          UpdateContext({notirecipient: Gallery_icm.Selected.'Created By'});
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been acknowledged, reviewer is checking the case now"),
-                              Recipient: Gallery_icm.Selected.'Created By',
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          )
-                          ),
                           "refresh",
                           Refresh('Internal_ App_ICM_Comment');
                           Refresh('TKE P&C ICM approval requests'),
@@ -21039,18 +20776,12 @@ Screens:
                           });
                           Refresh('TKE P&C ICM approval requests'),
                           "revision",
+                          'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " request revision for the request of case ", Gallery_icm.Selected.'Case number'));
                           Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                           {
                               Status: {Value: "Revision required"}
                           });
                           Refresh('TKE P&C ICM approval requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " request revision, please check the case details or reach out to reviewer"),
-                              Recipient: Gallery_icm.Selected.'Created By',
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          )
                           )
                         Padding: ='Toolbar.Padding'.Small
                         Width: =Parent.Width-(Parent.Width-Avatar1_6.X) -50
