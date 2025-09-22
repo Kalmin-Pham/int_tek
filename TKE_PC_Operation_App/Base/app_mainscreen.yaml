@@ -15473,7 +15473,7 @@ Screens:
                         OnCheck: =Set(startMyTimer, true)
                         OnUncheck: =Set(startMyTimer, true)
                         Width: =80
-                        X: =302
+                        X: =422
                   - CheckboxCanvas1_1:
                       Control: CheckBox@0.0.30
                       Properties:
@@ -15482,7 +15482,7 @@ Screens:
                         OnUncheck: =Set(startMyTimer, true)
                         Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                         Width: =90
-                        X: =382
+                        X: =502
                   - CheckboxCanvas1_2:
                       Control: CheckBox@0.0.30
                       Properties:
@@ -15490,7 +15490,7 @@ Screens:
                         OnCheck: =Set(startMyTimer, true)
                         OnUncheck: =Set(startMyTimer, true)
                         Width: =80
-                        X: =472
+                        X: =592
                   - CheckboxCanvas1_3:
                       Control: CheckBox@0.0.30
                       Properties:
@@ -15498,7 +15498,7 @@ Screens:
                         OnCheck: =Set(startMyTimer, true)
                         OnUncheck: =Set(startMyTimer, true)
                         Width: =80
-                        X: =552
+                        X: =672
                   - ButtonCanvas10:
                       Control: Button@0.0.45
                       Properties:
@@ -15825,7 +15825,7 @@ Screens:
             FontColor: =RGBA(255, 255, 255, 1)
             Height: =glb_header.Height
             PaddingRight: =10
-            Text: ="v1.1.7.0"
+            Text: ="v1.1.7.1"
             VerticalAlign: =VerticalAlign.Middle
             Weight: ='TextCanvas.Weight'.Bold
             Width: =150
