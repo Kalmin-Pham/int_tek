@@ -797,19 +797,14 @@
                   Height: =Parent.Height
                   Items: |-
                     =If(DropdownCanvas4.Selected.Value="Manager view", 
-                    Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text),
-                    Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text)
+                    Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown")),
+                    Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown"))
                     )
                   NoDataText: ="There's no KPI data"
                   OnSelect: |-
                     =Copy(Table1_1.Selected.'Case number');
                     Notify("Copied case ID to clipboard", NotificationType.Success)
                   ReflowBehavior: ='PowerAppsOneGrid.ReflowBehavior'.Reflow
-                  Visible: |-
-                    =If(DropdownCanvas4.Selected.Value="Manager view", 
-                    CountRows(Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text))>0,
-                    CountRows(Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text))>0
-                    )
                   Width: =Parent.Width
                 Children:
                   - Case number6:
@@ -987,29 +982,35 @@
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="S500"
+                  OnCheck: =Set(startMyTimer, true)
+                  OnUncheck: =Set(startMyTimer, true)
                   Width: =80
-                  X: =422
+                  X: =302
             - CheckboxCanvas1_1:
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="Billable"
+                  OnCheck: =Set(startMyTimer, true)
+                  OnUncheck: =Set(startMyTimer, true)
                   Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                   Width: =90
-                  X: =502
+                  X: =382
             - CheckboxCanvas1_2:
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="Prem"
-                  Visible: =rpt_sec2=true
+                  OnCheck: =Set(startMyTimer, true)
+                  OnUncheck: =Set(startMyTimer, true)
                   Width: =80
-                  X: =502
+                  X: =472
             - CheckboxCanvas1_3:
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="Pro"
-                  Visible: =rpt_sec2=true
+                  OnCheck: =Set(startMyTimer, true)
+                  OnUncheck: =Set(startMyTimer, true)
                   Width: =80
-                  X: =582
+                  X: =552
             - ButtonCanvas10:
                 Control: Button@0.0.45
                 Properties:
@@ -1320,3 +1321,12 @@
             Width: =90
             X: =440
             Y: =77
+      - Timer1:
+          Control: Timer@2.1.0
+          Properties:
+            Duration: =1500
+            OnTimerEnd: |-
+              =Set(startMyTimer, true);
+              Refresh(Intenal_App_RawKPI)
+            Start: =startMyTimer
+            Visible: =false
