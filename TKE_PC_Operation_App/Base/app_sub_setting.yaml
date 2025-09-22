@@ -11,6 +11,7 @@
       - TabList3:
           Control: TabList@2.2.31
           Properties:
+            FontSize: =15
             Items: =["Personal configuration", "Security roles", "Features"]
             Size: ='TabList.Size'.Medium
             Width: =Parent.Width
