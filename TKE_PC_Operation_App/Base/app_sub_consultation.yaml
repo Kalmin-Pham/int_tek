@@ -183,13 +183,6 @@
                           UpdateContext({quickcreateformvisi: false});
                           Notify("New consultation request has been created");
                           Refresh('TKE P&C Consultation requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created an ICM approval request for case ", casenum),
-                              Recipient: var_reviewer,
-                              Channel: "TKE P&C Backup Requests"
-                          }
-                          );
                           ResetForm(quickcreate_form_2)
                         Text: ="Create"
                         Width: =32
@@ -2003,44 +1996,26 @@
                         "delete",
                         UpdateContext({deleteconfirmvisi: true}),
                         "provideinfor",
+                        'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " provided information for case ", Gallery_consultation.Selected.'Case number'));
                         Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                         {
                             Status: {Value: "Provided information"}
                         });
-                        Refresh('TKE P&C Consultation requests');
-                        Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                        {
-                            Comment: Concatenate("Reviewer provided the information for consultation request of case ", Gallery_consultation.Selected.'Case number'),
-                            Recipient: Gallery_consultation.Selected.'Created By',
-                            Channel: "TKE P&C Consultation Requests"
-                        }
-                        ),
+                        Refresh('TKE P&C Consultation requests');,
                         "sendtofte",
+                        'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " sent the request of case ", Gallery_consultation.Selected.'Case number', " to FTE, please follow up"));
                         Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                         {
                             Status: {Value: "Pending FTE"}
                         });
-                        Refresh('TKE P&C Consultation requests');
-                        Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                        {
-                            Comment: Concatenate("Reviewer has sent consultation request of case ", Gallery_consultation.Selected.'Case number', " to FTE team, please follow up with FTE"),
-                            Recipient: Gallery_consultation.Selected.'Created By',
-                            Channel: "TKE P&C Consultation Requests"
-                        }
-                        ),
+                        Refresh('TKE P&C Consultation requests');,
                         "requestdetail",
+                        'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " requested more information for case ", Gallery_consultation.Selected.'Case number'));
                         Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                         {
                             Status: {Value: "Requesting more details"}
                         });
-                        Refresh('TKE P&C Consultation requests');
-                        Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                        {
-                            Comment: Concatenate("Reviewer requested more information for consultation request of case ", Gallery_consultation.Selected.'Case number'),
-                            Recipient: Gallery_consultation.Selected.'Created By',
-                            Channel: "TKE P&C Consultation Requests"
-                        }
-                        ),
+                        Refresh('TKE P&C Consultation requests');,
                         "complete",
                         Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                         {
@@ -2048,28 +2023,16 @@
                         });
                         Refresh('TKE P&C Consultation requests'),
                         "ack",
+                        If(Or(Gallery_consultation.Selected.Status.Value="Requesting more details", Gallery_consultation.Selected.Status.Value="Provided information"),
+                            'TKE-Generalnotification'.Run(Gallery_consultation.Selected.Reviewer.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " requested assistance for case ", Gallery_consultation.Selected.'Case number'));
+                            ,
+                            'TKE-Generalnotification'.Run(Gallery_consultation.Selected.'Created By'.Email, Concatenate("[TKE PC Consultation] ", User().FullName, " is checking case ", Gallery_consultation.Selected.'Case number'));
+                        );
                         Patch('TKE P&C Consultation requests', Gallery_consultation.Selected,
                         {
                             Status: {Value: "Reviewing"}
                         });
                         Refresh('TKE P&C Consultation requests');
-                        If(Or(Gallery_consultation.Selected.Status.Value="Requesting more details", Gallery_consultation.Selected.Status.Value="Provided information"),
-                        Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                        {
-                            Comment: Concatenate("Requester requested assistance for consultation request of case ", Gallery_consultation.Selected.'Case number'),
-                            Recipient: Gallery_consultation.Selected.Reviewer,
-                            Channel: "TKE P&C Consultation Requests"
-                        }
-                        )
-                        ,
-                        Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                        {
-                            Comment: Concatenate("Consultation request for case ", Gallery_consultation.Selected.'Case number', " has been acknowledged, reviewer is working on it"),
-                            Recipient: Gallery_consultation.Selected.'Created By',
-                            Channel: "TKE P&C Consultation Requests"
-                        }
-                        )
-                        )
                         ,
                         "refresh",
                         Refresh('Internal_ App_Consultation_Comment');
