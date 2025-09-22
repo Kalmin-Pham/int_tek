@@ -201,13 +201,6 @@
                           =SubmitForm(quickcreate_form_3);
                           UpdateContext({quickcreateformvisi: false});
                           Refresh('TKE P&C ICM approval requests');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created an ICM approval request for case ", casenum),
-                              Recipient: If(icm_pod="plat", LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Plat'=true).Engineer, LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Cust'=true).Engineer),
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          );
                           ResetForm(quickcreate_form_3)
                         Text: ="Create"
                         Width: =32
@@ -2152,82 +2145,49 @@
                     "delete",
                     UpdateContext({deleteconfirmvisi: true}),
                     "approvefc",
+                    'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " approved for ICM creation of case ", Gallery_icm.Selected.'Case number', " in Unify"));
                     Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                         {
                             Status: {Value: "Approved for creation"}
                         });
                     Refresh('TKE P&C ICM approval requests');
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been approved for creation on Unify"),
-                        Recipient: Gallery_icm.Selected.'Created By',
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    ),
+                    ,
                     "reject",
+                    'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " rejected the request of case ", Gallery_icm.Selected.'Case number'));
                     Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                     {
                         Status: {Value: "Rejected"}
                     });
                     Refresh('TKE P&C ICM approval requests');
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been rejected"),
-                        Recipient: Gallery_icm.Selected.'Created By',
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    ),
+                    ,
                     "approve",
+                    'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " approved the request of case ", Gallery_icm.Selected.'Case number'));
                     Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                         {
                             Status: {Value: "Approved"}
                         });
                     Refresh('TKE P&C ICM approval requests');
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been approved"),
-                        Recipient: Gallery_icm.Selected.'Created By',
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    ),
+                    ,
                     "submit",
+                    'TKE-Generalnotification'.Run(Gallery_icm.Selected.Reviewer.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " created the ICM request in Unify for case ", Gallery_icm.Selected.'Case number'));
                     Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                         {
                             Status: {Value: "Created"}
                         });
                     Refresh('TKE P&C ICM approval requests');
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been created on Unify"),
-                        Recipient: Gallery_icm.Selected.Reviewer,
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    ),
+                    ,
                     "ack",
+                    If(Gallery_icm.Selected.Status.Value="Revision required",
+                        'TKE-Generalnotification'.Run(Gallery_icm.Selected.Reviewer.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " provided information for the request of case ", Gallery_icm.Selected.'Case number'))
+                        ,
+                        'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " is checking the request of case ", Gallery_icm.Selected.'Case number'));
+                    );
                     Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                     {
                         Status: {Value: "Reviewing"}
                     });
                     Refresh('TKE P&C ICM approval requests');
-                    If(Gallery_icm.Selected.Status.Value="Revision required",
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("Requester provided information for ICM approval request of case ", Gallery_icm.Selected.'Case number'),
-                        Recipient: Gallery_icm.Selected.Reviewer,
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    )
                     ,
-                    UpdateContext({notidetails: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been acknowledged, reviewer is checking the case now")});
-                    UpdateContext({notirecipient: Gallery_icm.Selected.'Created By'});
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " has been acknowledged, reviewer is checking the case now"),
-                        Recipient: Gallery_icm.Selected.'Created By',
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    )
-                    ),
                     "refresh",
                     Refresh('Internal_ App_ICM_Comment');
                     Refresh('TKE P&C ICM approval requests'),
@@ -2241,18 +2201,12 @@
                     });
                     Refresh('TKE P&C ICM approval requests'),
                     "revision",
+                    'TKE-Generalnotification'.Run(Gallery_icm.Selected.'Created By'.Email, Concatenate("[TKE PC ICM Approval] ", User().FullName, " request revision for the request of case ", Gallery_icm.Selected.'Case number'));
                     Patch('TKE P&C ICM approval requests', Gallery_icm.Selected,
                     {
                         Status: {Value: "Revision required"}
                     });
                     Refresh('TKE P&C ICM approval requests');
-                    Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                    {
-                        Comment: Concatenate("ICM approval request for case ", Gallery_icm.Selected.'Case number', " request revision, please check the case details or reach out to reviewer"),
-                        Recipient: Gallery_icm.Selected.'Created By',
-                        Channel: "TKE P&C ICM Approval Requests"
-                    }
-                    )
                     )
                   Padding: ='Toolbar.Padding'.Small
                   Width: =Parent.Width-(Parent.Width-Avatar1_6.X) -50
