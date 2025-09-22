@@ -791,86 +791,92 @@
             X: =30
             Y: =Container1.Y+Container1.Height+20
           Children:
-            - Table1_1:
-                Control: Table@1.0.278
+            - DataTable1:
+                Control: DataTable@1.0.3
                 Properties:
+                  HeadingColor: =RGBA(184, 0, 0, 1)
+                  HeadingFill: =RGBA(255, 255, 255, 1)
+                  HeadingFontWeight: =FontWeight.Semibold
+                  HeadingSize: =12
                   Height: =Parent.Height
                   Items: |-
                     =If(DropdownCanvas4.Selected.Value="Manager view", 
-                    Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown")),
-                    Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown"))
+                    Sort(Filter(Intenal_App_RawKPI, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown")), SAT, SortOrder.Ascending)
+                    ,
+                    Sort(Filter(Intenal_App_RawKPI, Agent=User().Email, Text('Previous month', "mm")=TextCanvas13.Text, If(CheckboxCanvas1.Checked=true, S500="Yes", S500<>"Unknown"), If(CheckboxCanvas1_2.Checked=true, 'Service level'="Premier", 'Service level'<>"Unknown"), If(CheckboxCanvas1_3.Checked=true, 'Service level'="Professional", 'Service level'<>"Unknown")), SAT, SortOrder.Ascending)
                     )
-                  NoDataText: ="There's no KPI data"
-                  OnSelect: |-
-                    =Copy(Table1_1.Selected.'Case number');
-                    Notify("Copied case ID to clipboard", NotificationType.Success)
-                  ReflowBehavior: ='PowerAppsOneGrid.ReflowBehavior'.Reflow
+                  Size: =11
                   Width: =Parent.Width
                 Children:
-                  - Case number6:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
+                  - Case number_Column5:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
                       IsLocked: true
                       Properties:
                         FieldDisplayName: ="Case number"
                         FieldName: ="Casenumber"
-                        FieldType: ="s"
+                        OnSelect: |-
+                          =Copy(DataTable1.Selected.'Case number');
+                          Notify("Case number is coppied to clipboard", NotificationType.Success)
                         Order: =2
-                  - SAT1:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
+                        Text: =ThisItem.'Case number'
+                  - SAT_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Number
                       IsLocked: true
                       Properties:
                         FieldDisplayName: ="SAT"
                         FieldName: ="SAT"
-                        FieldType: ="n"
                         Order: =5
-                  - Verbatim1:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
+                        Text: =ThisItem.SAT
+                  - Verbatim_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
                       IsLocked: true
                       Properties:
                         FieldDisplayName: ="Verbatim"
                         FieldName: ="Verbatim"
-                        FieldType: ="s"
+                        OnSelect: |-
+                          =Copy(DataTable1.Selected.Verbatim);
+                          Notify("Survey verbatim is coppied to clipboard", NotificationType.Success)
                         Order: =6
-                  - Service level1:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
+                        Text: =ThisItem.Verbatim
+                  - Service level_Column3:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
                       IsLocked: true
                       Properties:
                         FieldDisplayName: ="Service level"
                         FieldName: ="Servicelevel"
-                        FieldType: ="s"
-                        Order: =3
-                  - Closed date1:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
+                        Order: =4
+                        Text: =ThisItem.'Service level'
+                  - S500_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
+                      IsLocked: true
+                      Properties:
+                        FieldDisplayName: ="S500"
+                        FieldName: ="Channel"
+                        Order: =7
+                        Text: =ThisItem.S500
+                  - Closed date_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
                       IsLocked: true
                       Properties:
                         FieldDisplayName: ="Closed date"
                         FieldName: ="Closeddate"
-                        FieldType: ="D"
                         Order: =8
-                  - Channel1:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
-                      IsLocked: true
-                      Properties:
-                        FieldDisplayName: ="Channel"
-                        FieldName: ="Channel"
-                        FieldType: ="s"
-                        HeaderText: ="S500"
-                        Order: =7
-                  - Engineer8:
-                      Control: TableDataField@1.5.0
-                      Variant: textualColumn
+                        Text: =ThisItem.'Closed date'
+                  - Engineer_Column1:
+                      Control: DataTableColumn@1.0.1
+                      Variant: Textual
                       IsLocked: true
                       Properties:
                         FieldDisplayName: ="Engineer"
                         FieldName: ="Engineer"
-                        FieldType: ="E"
                         Order: =1
+                        Text: =ThisItem.Engineer.DisplayName
       - Container2_5:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
@@ -982,16 +988,16 @@
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="S500"
-                  OnCheck: =Set(startMyTimer, true)
-                  OnUncheck: =Set(startMyTimer, true)
+                  OnCheck: =
+                  OnUncheck: =
                   Width: =80
                   X: =422
             - CheckboxCanvas1_1:
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="Billable"
-                  OnCheck: =Set(startMyTimer, true)
-                  OnUncheck: =Set(startMyTimer, true)
+                  OnCheck: =
+                  OnUncheck: =
                   Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                   Width: =90
                   X: =502
@@ -999,16 +1005,16 @@
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="Prem"
-                  OnCheck: =Set(startMyTimer, true)
-                  OnUncheck: =Set(startMyTimer, true)
+                  OnCheck: =
+                  OnUncheck: =
                   Width: =80
                   X: =592
             - CheckboxCanvas1_3:
                 Control: CheckBox@0.0.30
                 Properties:
                   Label: ="Pro"
-                  OnCheck: =Set(startMyTimer, true)
-                  OnUncheck: =Set(startMyTimer, true)
+                  OnCheck: =
+                  OnUncheck: =
                   Width: =80
                   X: =672
             - ButtonCanvas10:
@@ -1036,7 +1042,8 @@
                   Icon: ="ArrowSort"
                   OnSelect: |-
                     =UpdateContext({rpt_sec1: If(rpt_sec1=true, false, true)});
-                    UpdateContext({rpt_sec2: If(rpt_sec2=true, false, true)})
+                    UpdateContext({rpt_sec2: If(rpt_sec2=true, false, true)});
+                    Set(startMyTimer, true)
                   Text: =If(rpt_sec2=true, "Engineer level report", "Overall report")
                   Width: =200
                   X: =If(rpt_sec1=true, DropdownCanvas4.X-Self.Width, Parent.Width-Self.Width)
@@ -1321,12 +1328,3 @@
             Width: =90
             X: =440
             Y: =77
-      - Timer1:
-          Control: Timer@2.1.0
-          Properties:
-            Duration: =1500
-            OnTimerEnd: |-
-              =Set(startMyTimer, true);
-              Refresh(Intenal_App_RawKPI)
-            Start: =startMyTimer
-            Visible: =false
