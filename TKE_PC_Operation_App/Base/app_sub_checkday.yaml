@@ -2,7 +2,6 @@
     Control: GroupContainer@1.3.0
     Variant: ManualLayout
     Properties:
-      Fill: =If(st_darkmode.Checked=true, RGBA(53, 61, 63, 1), RGBA(0, 0, 0, 0))
       Height: =Parent.Height-35
       Visible: =If(activescreen="checkday", true, false)
       Width: =Parent.Width-glb_menu.Width
