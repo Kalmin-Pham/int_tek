@@ -985,7 +985,7 @@
                   OnCheck: =Set(startMyTimer, true)
                   OnUncheck: =Set(startMyTimer, true)
                   Width: =80
-                  X: =302
+                  X: =422
             - CheckboxCanvas1_1:
                 Control: CheckBox@0.0.30
                 Properties:
@@ -994,7 +994,7 @@
                   OnUncheck: =Set(startMyTimer, true)
                   Visible: =And(DropdownCanvas4.Selected.Value="Manager view", rpt_sec1=true)
                   Width: =90
-                  X: =382
+                  X: =502
             - CheckboxCanvas1_2:
                 Control: CheckBox@0.0.30
                 Properties:
@@ -1002,7 +1002,7 @@
                   OnCheck: =Set(startMyTimer, true)
                   OnUncheck: =Set(startMyTimer, true)
                   Width: =80
-                  X: =472
+                  X: =592
             - CheckboxCanvas1_3:
                 Control: CheckBox@0.0.30
                 Properties:
@@ -1010,7 +1010,7 @@
                   OnCheck: =Set(startMyTimer, true)
                   OnUncheck: =Set(startMyTimer, true)
                   Width: =80
-                  X: =552
+                  X: =672
             - ButtonCanvas10:
                 Control: Button@0.0.45
                 Properties:
