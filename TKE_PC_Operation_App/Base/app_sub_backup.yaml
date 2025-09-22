@@ -167,13 +167,6 @@
                           =SubmitForm(quickcreate_form_1);
                           UpdateContext({quickcreateformvisi: false});
                           Refresh('TKE P&C Backup tracking');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created a backup request for case ", casenum),
-                              Recipient: recipient,
-                              Channel: "TKE P&C Backup Requests"
-                          }
-                          );
                           ResetForm(quickcreate_form_1)
                         Text: ="Create"
                         Width: =32
@@ -663,7 +656,7 @@
                             ItemAppearance: "Subtle", 
                             ItemIconStyle: "Regular", 
                             ItemDisabled: false,
-                            ItemVisible: If(Form1_1.Mode=FormMode.View, false, true),
+                            ItemVisible: true,
                             ItemTooltip: "Refresh"
                         }
                     )
@@ -677,6 +670,7 @@
                         Refresh('TKE P&C Backup tracking')
                     )
                   Padding: ='Toolbar.Padding'.Small
+                  Width: =500
       - Form_1:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
