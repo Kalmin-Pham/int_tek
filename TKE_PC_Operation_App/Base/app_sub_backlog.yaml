@@ -29,14 +29,14 @@
                     =If(IsBlank(glb_search.Value)=false, 
                     Filter('TKE P&C Backlog Management', 'Case number'=glb_search.Value),
                     If(Backlog_filterview_1.Selected.Value="Active cases", 
-                    SortByColumns(Filter('TKE P&C Backlog Management', Status.Value<>"Resolved"), "Modified_x0020_date", SortOrder.Descending), 
+                    SortByColumns(Filter('TKE P&C Backlog Management', Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
                     If(Backlog_filterview_1.Selected.Value="My cases", 
-                    SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved"), "Modified_x0020_date", SortOrder.Descending),
+                    SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending),
                     If(Backlog_filterview_1.Selected.Value="Follow up today", 
                     SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())), "Modified_x0020_date", SortOrder.Descending), 
+                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
                     SortByColumns(Filter('TKE P&C Backlog Management', And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())), "Modified_x0020_date", SortOrder.Descending)))))
+                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending)))))
                   Size: =10.5
                   Width: =Parent.Width
                   Y: =36
@@ -132,16 +132,16 @@
                   Appearance: ='TextInputCanvas.Appearance'.FilledLighter
                   Value: |-
                     =Concatenate("Count: ", CountRows(If(IsBlank(glb_search.Value)=false, 
-                    Filter('TKE P&C Backlog Management', 'Case number'=glb_search.Value), 
+                    Filter('TKE P&C Backlog Management', 'Case number'=glb_search.Value),
                     If(Backlog_filterview_1.Selected.Value="Active cases", 
-                    Filter('TKE P&C Backlog Management', Status.Value<>"Resolved"), 
+                    SortByColumns(Filter('TKE P&C Backlog Management', Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
                     If(Backlog_filterview_1.Selected.Value="My cases", 
-                    Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved"),
+                    SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, Status.Value<>"Resolved", If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending),
                     If(Backlog_filterview_1.Selected.Value="Follow up today", 
-                    Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today())), 
-                    Filter('TKE P&C Backlog Management', And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
-                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()))))))))
+                    SortByColumns(Filter('TKE P&C Backlog Management', 'Created By'.Email=User().Email, And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
+                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending), 
+                    SortByColumns(Filter('TKE P&C Backlog Management', And(Status.Value<>"Resolved", Status.Value<>"Pending recovery"), 
+                    If(IsBlank('Next follow up')=true, 'Expected Followup'<=Today(), 'Next follow up'<=Today()), If(DropdownCanvas10_9.Selected.Value="All", Pod.Value<>"Unknown", Pod.Value=DropdownCanvas10_9.Selected.Value), If(DropdownCanvas10_5.Selected.Value="All", 'Service level'.Value<>"Unknown", 'Service level'.Value=DropdownCanvas10_5.Selected.Value), If(DropdownCanvas10_8.Selected.Value="All", Status.Value<>"Unknown", Status.Value=DropdownCanvas10_8.Selected.Value)), "Modified_x0020_date", SortOrder.Descending)))))))
                   Width: =100
                   X: =Parent.Width-420
             - quickcreateform:
@@ -713,6 +713,106 @@
                     Refresh('TKE P&C Backlog Management')
                     )
                   Padding: ='Toolbar.Padding'.Small
+                  Width: =Container8_1.X
+            - Container8_1:
+                Control: GroupContainer@1.3.0
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =If(backlog_filter=true, DropShadow.Semibold, DropShadow.None)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(backlog_filter=true, 200, 36)
+                  Width: =If(backlog_filter=true, 400, 150)
+                  X: =TextInputCanvas1.X-Self.Width
+                Children:
+                  - ButtonCanvas11_1:
+                      Control: Button@0.0.45
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Subtle
+                        FontColor: =RGBA(15, 108, 189, 1)
+                        Icon: ="Filter"
+                        OnSelect: |-
+                          =UpdateContext({backlog_filter: If(backlog_filter=true, false, true)})
+                        Text: =If(backlog_filter=true, "Collapse filter", "Expand filter")
+                        Width: =150
+                        X: =Parent.Width-Self.Width
+                  - TextCanvas8_5:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Pod"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =38
+                  - DropdownCanvas10_5:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Pro", "Pro S500", "Prem", "Prem S500", "Pro Direct"]
+                        Width: =270
+                        X: =120
+                        Y: =75
+                  - TextCanvas8_7:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Service level"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =75
+                  - TextCanvas8_8:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        PaddingLeft: =5
+                        Text: ="Status"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =120
+                        Y: =112
+                  - DropdownCanvas10_8:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Initial contact pending", "Troubleshooting", "Pending customer response", "Waiting for Product team", "Waiting for customer confirmation", "Mitigated", "Resolved", "Monitoring", "Pending recovery", "Pending swarm/ICM approval/Collaboration"]
+                        Width: =270
+                        X: =120
+                        Y: =112
+                  - DropdownCanvas10_9:
+                      Control: DropDown@0.0.45
+                      Properties:
+                        Appearance: ='DropdownCanvas.Appearance'.FilledLighter
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DefaultSelectedItems: |-
+                          ={Value: "All"}
+                        Items: =["All", "Customization", "Platform", "Other"]
+                        Width: =270
+                        X: =120
+                        Y: =38
+                  - ButtonCanvas12_1:
+                      Control: Button@0.0.45
+                      Properties:
+                        BasePaletteColor: =RGBA(141, 229, 250, 1)
+                        OnSelect: |-
+                          =Reset(DropdownCanvas10_5);
+                          Reset(DropdownCanvas10_8);
+                          Reset(DropdownCanvas10_9)
+                        Text: ="Remove filter"
+                        Width: =150
+                        X: =180
+                        Y: =157
       - Form:
           Control: GroupContainer@1.3.0
           Variant: ManualLayout
@@ -2274,13 +2374,6 @@
                                   'Case number': tb_backlog.Selected.'Case number'
                               }
                           );
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created a recovery request for case ", tb_backlog.Selected.'Case number'),
-                              Recipient: var_reviewer,
-                              Channel: "TKE P&C Recovery Requests"
-                          }
-                          );
                           Patch('TKE P&C Backlog Management', tb_backlog.Selected,
                           {
                               Status: {Value: "Pending recovery"}
@@ -3037,13 +3130,6 @@
                                   'Case number': tb_backlog.Selected.'Case number'
                               }
                           );
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created an ICM approval request for case ", tb_backlog.Selected.'Case number'),
-                              Recipient: If(tb_backlog.Selected.Pod.Value="Customization", LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Cust'=true).Engineer, LookUp('TKE P&C Engineers', 'App_setting_Auto route ICM_Plat'=true).Engineer),
-                              Channel: "TKE P&C ICM Approval Requests"
-                          }
-                          );
                           ResetForm(Form3_2);
                         Text: ="Create"
                         Width: =32
@@ -3667,13 +3753,6 @@
                                   'Case number': tb_backlog.Selected.'Case number'
                               }
                           );
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created a consultation request for case ", tb_backlog.Selected.'Case number'),
-                              Recipient: var_reviewer,
-                              Channel: "TKE P&C Consultation Requests"
-                          }
-                          );
                           ResetForm(Form3_1)
                         Text: ="Create"
                         Width: =32
@@ -4181,13 +4260,7 @@
                               Comment: "SYSTEM Audit: The backup request is created"
                           }
                           );
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created a backup request for case ", tb_backlog.Selected.'Case number'),
-                              Recipient: recipient,
-                              Channel: "TKE P&C Backup Requests"
-                          }
-                          );
+                          'TKE-Generalnotification'.Run(recipient.Email, Concatenate("[TKE PC Backup] ", User().FullName, " created a backup request for case ", tb_backlog.Selected.'Case number'));
                           ResetForm(Form2)
                         Text: ="Create"
                         Width: =32
