@@ -17,18 +17,6 @@
             FontColor: =RGBA(215, 58, 60, 1)
             Text: ="Engineer"
             Width: =Parent.Width
-      - mn_notification:
-          Control: Button@0.0.45
-          Properties:
-            Align: =Align.Left
-            Appearance: =If(activescreen="notification", 'ButtonCanvas.Appearance'.Primary, 'ButtonCanvas.Appearance'.Subtle)
-            BasePaletteColor: =RGBA(141, 229, 250, 1)
-            OnSelect: |-
-              =UpdateContext({activescreen: "notification"});
-              Refresh('Internal_ App_Notifications')
-            Text: =Concatenate("Notification (", CountRows(Filter('Internal_ App_Notifications', Recipient.Email=User().Email)), ")")
-            Width: =Parent.Width
-            Y: =32
       - mn_checkday:
           Control: Button@0.0.45
           Properties:
@@ -37,7 +25,6 @@
             BasePaletteColor: =RGBA(141, 229, 250, 1)
             OnSelect: |-
               =UpdateContext({activescreen: "checkday"});
-              Refresh('Internal_ App_Notifications');
               Refresh('TKE P&C Backlog Management');
               Refresh('TKE P&C Backup tracking');
               Refresh('TKE P&C Consultation requests');
@@ -63,7 +50,7 @@
               CountRows(Filter('TKE P&C Backup tracking', 'Backup engineer'.Email=User().Email, And('Start date'<=Today(), 'End date'>=Today())))
               ,")")
             Width: =Parent.Width
-            Y: =64
+            Y: =32
       - mn_kpi:
           Control: Button@0.0.45
           Properties:
@@ -75,11 +62,11 @@
               UpdateContext({rpt_sec1: true});
               UpdateContext({activemonthkpi: true});
               UpdateContext({rpt_sec2: false});
-              Refresh('Internal_ App_Notifications');
+              Set(startMyTimer, false);
               Refresh(Intenal_App_RawKPI)
             Text: ="KPI"
             Width: =Parent.Width
-            Y: =96
+            Y: =64
       - hd_task:
           Control: Button@0.0.45
           Properties:
@@ -88,7 +75,7 @@
             FontColor: =RGBA(215, 58, 60, 1)
             Text: ="Daily tasks"
             Width: =Parent.Width
-            Y: =192
+            Y: =160
       - mn_backlog:
           Control: Button@0.0.45
           Properties:
@@ -99,11 +86,14 @@
               =UpdateContext({activescreen: "backlog"});
               UpdateContext({listvisi: true});
               UpdateContext({formvisi: false});
-              Refresh('Internal_ App_Notifications');
+              UpdateContext({backlog_filter: false});
+              Reset(DropdownCanvas10_5);
+              Reset(DropdownCanvas10_8);
+              Reset(DropdownCanvas10_9);
               Refresh('TKE P&C Backlog Management')
             Text: ="Backlog management"
             Width: =Parent.Width
-            Y: =224
+            Y: =192
       - ButtonCanvas1_6:
           Control: Button@0.0.45
           Properties:
@@ -114,11 +104,10 @@
               =UpdateContext({activescreen: "backup"});
               UpdateContext({listvisi: true});
               UpdateContext({formvisi: false});
-              Refresh('Internal_ App_Notifications');
               Refresh('TKE P&C Backup tracking')
             Text: ="Backup requests"
             Width: =Parent.Width
-            Y: =288
+            Y: =256
       - mn_consultation:
           Control: Button@0.0.45
           Properties:
@@ -129,11 +118,14 @@
               =UpdateContext({activescreen: "consultation"});
               UpdateContext({listvisi: true});
               UpdateContext({formvisi: false});
-              Refresh('Internal_ App_Notifications');
+              UpdateContext({consult_filter: false});
+              Reset(DropdownCanvas10_1);
+              Reset(DropdownCanvas10_6);
+              Reset(DropdownCanvas10_7);
               Refresh('TKE P&C Consultation requests')
             Text: ="Consultation requests"
             Width: =Parent.Width
-            Y: =352
+            Y: =320
       - mn_icmapproval:
           Control: Button@0.0.45
           Properties:
@@ -144,11 +136,14 @@
               =UpdateContext({activescreen: "icm"});
               UpdateContext({listvisi: true});
               UpdateContext({formvisi: false});
-              Refresh('Internal_ App_Notifications');
+              UpdateContext({icm_filter: false});
+              Reset(DropdownCanvas10_2);
+              Reset(DropdownCanvas10_10);
+              Reset(DropdownCanvas10_11);
               Refresh('TKE P&C ICM approval requests')
             Text: ="ICM approval requests"
             Width: =Parent.Width
-            Y: =256
+            Y: =224
       - mn_recovery:
           Control: Button@0.0.45
           Properties:
@@ -161,15 +156,12 @@
               UpdateContext({formvisi: false});
               UpdateContext({recovery_filter: false});
               Reset(DropdownCanvas10);
-              Reset(DropdownCanvas10_1);
-              Reset(DropdownCanvas10_2);
               Reset(DropdownCanvas10_3);
               Reset(DropdownCanvas10_4);
-              Refresh('Internal_ App_Notifications');
               Refresh('TKE P&C Recovery tracking')
             Text: ="Recovery requests"
             Width: =Parent.Width
-            Y: =320
+            Y: =288
       - hd_tool:
           Control: Button@0.0.45
           Properties:
@@ -179,7 +171,7 @@
             FontColor: =RGBA(215, 58, 60, 1)
             Text: ="Tools"
             Width: =Parent.Width
-            Y: =384
+            Y: =352
       - mn_codereader:
           Control: Button@0.0.45
           Properties:
@@ -187,11 +179,10 @@
             Appearance: =If(activescreen="crmcode", 'ButtonCanvas.Appearance'.Primary, 'ButtonCanvas.Appearance'.Subtle)
             BasePaletteColor: =RGBA(141, 229, 250, 1)
             OnSelect: |-
-              =UpdateContext({activescreen: "crmcode"});
-              Refresh('Internal_ App_Notifications')
+              =UpdateContext({activescreen: "crmcode"})
             Text: ="CRM Code Reader"
             Width: =Parent.Width
-            Y: =416
+            Y: =384
       - mn_podchecker:
           Control: Button@0.0.45
           Properties:
@@ -201,11 +192,10 @@
             OnSelect: |-
               =UpdateContext({activescreen: "podcheck"});
               UpdateContext({podcheck_popup: false});
-              Refresh('Internal_ App_Notifications');
               Refresh(Internal_App_Podchecker)
             Text: ="Pod checker"
             Width: =Parent.Width
-            Y: =448
+            Y: =416
       - mn_setting:
           Control: Button@0.0.45
           Properties:
@@ -218,7 +208,7 @@
               =UpdateContext({activescreen: "setting"})
             Text: ="Settings"
             Width: =Parent.Width
-            Y: =480
+            Y: =448
       - mn_selfserve:
           Control: Button@0.0.45
           Properties:
@@ -236,7 +226,7 @@
               Refresh('TKE P&C Engineers');
             Text: ="Self-services"
             Width: =Parent.Width
-            Y: =512
+            Y: =480
       - mn_leave:
           Control: Button@0.0.45
           Properties:
@@ -245,7 +235,6 @@
             BasePaletteColor: =RGBA(141, 229, 250, 1)
             OnSelect: |-
               =UpdateContext({activescreen: "leave"});
-              Refresh('Internal_ App_Notifications');
               Refresh('TKE P&C Leave requests');
               UpdateContext({leave_active: "none"});
               UpdateContext({leave_loadmode: false});
@@ -255,7 +244,7 @@
               Reset(DropdownCanvas5)
             Text: ="Time-off"
             Width: =Parent.Width
-            Y: =128
+            Y: =96
       - mn_schedule:
           Control: Button@0.0.45
           Properties:
@@ -275,4 +264,4 @@
               )
             Text: ="Schedule"
             Width: =Parent.Width
-            Y: =160
+            Y: =128
