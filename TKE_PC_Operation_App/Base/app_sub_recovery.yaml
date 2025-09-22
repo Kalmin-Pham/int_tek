@@ -224,13 +224,6 @@
                           =SubmitForm(quickcreate_form_4);
                           UpdateContext({quickcreateformvisi: false});
                           Refresh('TKE P&C Recovery tracking');
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " created a recovery request for case ", casenum),
-                              Recipient: var_reviewer,
-                              Channel: "TKE P&C Recovery Requests"
-                          }
-                          );
                           If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                               Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                                   {
@@ -1987,6 +1980,7 @@
                                   'Case number': Gallery_recovery.Selected.'Case number'
                               }
                           );
+                          'TKE-Generalnotification'.Run(ComboboxCanvas1_1.Selected.Engineer.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " transfered recovery request of case ", Gallery_recovery.Selected.'Case number', " to you with details: ", TextInputCanvas2_1.Value));
                           Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
                               {'Next contact date (for reviewer only)': Today()}
                           );
@@ -2859,19 +2853,8 @@
                               ,
                               false
                           );
-                          Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                          {
-                              Status: {Value: "Cancelled"},
-                              'Next contact date (for reviewer only)': Blank(),
-                              'Approved closure date (For reviewer only)': Blank()
-                          });
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " cancelled recovery request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails),
-                              Recipient: Gallery_recovery.Selected.'Created By',
-                              Channel: "TKE P&C Recovery Requests"
-                          }
-                          );
+                          'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Created By'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " cancelled the request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails));
+                          'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Owner (for reviewer only)'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " cancelled the request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails));
                           If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                           Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                           {
@@ -2886,6 +2869,12 @@
                                   'Case number': Gallery_recovery.Selected.'Case number'
                               }
                           );
+                          Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
+                          {
+                              Status: {Value: "Cancelled"},
+                              'Next contact date (for reviewer only)': Blank(),
+                              'Approved closure date (For reviewer only)': Blank()
+                          });
                           UpdateContext({canceldialogvisi: false});
                           Reset(TextInputCanvas2_4);
                           Refresh('TKE P&C Recovery tracking');
@@ -2962,19 +2951,7 @@
                               ,
                               false
                           );
-                          Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                          {
-                              Status: {Value: "In progress"},
-                              'Next contact date (for reviewer only)': Blank(),
-                              'Approved closure date (For reviewer only)': Blank()
-                          });
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate(User().FullName, " reactivated recovery request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails),
-                              Recipient: Gallery_recovery.Selected.'Owner (for reviewer only)',
-                              Channel: "TKE P&C Recovery Requests"
-                          }
-                          );
+                          'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Owner (for reviewer only)'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " reactivated the request for case ", Gallery_recovery.Selected.'Case number', " with reason: ", fielddetails));
                           If(CountRows(Filter('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'))=1,
                           Patch('TKE P&C Backlog Management', LookUp('TKE P&C Backlog Management', 'Case number'=Gallery_recovery.Selected.'Case number'),
                           {
@@ -2990,8 +2967,11 @@
                               }
                           );
                           Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                              {'Next contact date (for reviewer only)': Today()}
-                          );
+                          {
+                              Status: {Value: "In progress"},
+                              'Next contact date (for reviewer only)': Today(),
+                              'Approved closure date (For reviewer only)': Blank()
+                          });
                           UpdateContext({reopendialogvisi: false});
                           Reset(TextInputCanvas2_5);
                           Refresh('TKE P&C Recovery tracking')
@@ -3054,19 +3034,7 @@
                         Layout: ='ButtonCanvas.Layout'.TextOnly
                         OnSelect: |-
                           =If(app_selected=true,
-                          Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
-                          {
-                              'Approved closure date (For reviewer only)': DatePickerCanvas1.SelectedDate,
-                              Status: {Value: "Completed"},
-                              'Next contact date (for reviewer only)': Blank()
-                          });
-                          Patch('Internal_ App_Notifications', Defaults('Internal_ App_Notifications'),
-                          {
-                              Comment: Concatenate("The recovery request for case ", Gallery_recovery.Selected.'Case number', " has been approved for closure on ", fieldtime),
-                              Recipient: Gallery_recovery.Selected.'Created By',
-                              Channel: "TKE P&C Recovery Requests"
-                          }
-                          );
+                          'TKE-Generalnotification'.Run(Gallery_recovery.Selected.'Created By'.Email, Concatenate("[TKE PC Recovery] ", User().FullName, " approved for case ", Gallery_recovery.Selected.'Case number', " to be closed on ", fieldtime));
                           Patch('Internal_ App_Recovery_Comment', Defaults('Internal_ App_Recovery_Comment'),
                               {
                                   Comment: Concatenate("SYSTEM: The request is approved for closure on ", DatePickerCanvas1.SelectedDate),
@@ -3074,6 +3042,12 @@
                                   'Case number': Gallery_recovery.Selected.'Case number'
                               }
                           );
+                          Patch('TKE P&C Recovery tracking', Gallery_recovery.Selected,
+                          {
+                              'Approved closure date (For reviewer only)': DatePickerCanvas1.SelectedDate,
+                              Status: {Value: "Completed"},
+                              'Next contact date (for reviewer only)': Blank()
+                          });
                           UpdateContext({approvedialogvisi: false});
                           Reset(DatePickerCanvas1);
                           Refresh('TKE P&C Recovery tracking');
