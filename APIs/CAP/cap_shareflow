@@ -1,0 +1,47 @@
+PATCH: /providers/Microsoft.PowerApps/apis/shared_flowmanagement
+
+Auth:
+{
+    "type": "Raw",
+    "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+}
+
+ConnectionName: shared_flowmanagement
+FlowName: <variable>
+Filter: environment eq 'e25ba5ff-b61c-4655-9d49-bd5fb0f57c35'
+Operation: ModifyRunOnlyUsers
+
+Payload:
+{
+    "properties/principal/email": "@triggerBody()['email']",
+    "properties/principal/type": "User",
+    properties/roleName": "CanView"
+}
+
+Raw
+{
+    "inputs": {
+        "host": {
+            "connectionName": "shared_flowmanagement",
+            "operationId": "ModifyRunOnlyUsers",
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_flowmanagement"
+        },
+        "parameters": {
+            "environmentName": "e25ba5ff-b61c-4655-9d49-bd5fb0f57c35",
+            "flowName": "d0226b9b-c4fb-4168-8608-7e74427ced35",
+            "permissions/put": [
+                {
+                    "properties/principal/id": "@triggerBody()['text']",
+                    "properties/principal/type": "User"
+                }
+            ]
+        },
+        "authentication": {
+            "type": "Raw",
+            "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+        }
+    },
+    "metadata": {
+        "operationMetadataId": "8f373cc0-1ad4-4849-9dfd-1bcd26ef7fe0"
+    }
+}

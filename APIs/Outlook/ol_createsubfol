@@ -1,0 +1,43 @@
+POST: https://graph.microsoft.com/v1.0/me/mailFolders/<'Extract_Active_ID'>}/childFolders
+
+Payload:
+{
+  "displayName":  <defined>"
+}
+
+Parse:
+{
+    "type": "object",
+    "properties": {
+        "@@odata.context": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "displayName": {
+            "type": "string"
+        },
+        "parentFolderId": {
+            "type": "string"
+        },
+        "childFolderCount": {
+            "type": "integer"
+        },
+        "unreadItemCount": {
+            "type": "integer"
+        },
+        "totalItemCount": {
+            "type": "integer"
+        },
+        "sizeInBytes": {
+            "type": "integer"
+        },
+        "isHidden": {
+            "type": "boolean"
+        }
+    }
+}
+
+Define:
+body(<Parse>)?['id']

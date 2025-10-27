@@ -1,0 +1,9 @@
+POST: https://graph.microsoft.com/v1.0/me/mailFolders/<source_folid>/move
+
+Header:
+{content-type: application/json}
+
+Payload:
+{
+  "destinationId": "<destination_folid>"
+}

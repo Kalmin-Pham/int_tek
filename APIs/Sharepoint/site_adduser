@@ -1,0 +1,15 @@
+POST: _api/web/siteGroups/GetById(67)/users
+
+Header:
+{
+  "accept": "application/json;odata=verbose",
+  "content-type": "application/json;odata=verbose"
+} 
+
+Payload:
+{
+    "__metadata": {
+        "type": "SP.User"
+    },
+    "LoginName": "i:0#.f|membership|<email>"
+}

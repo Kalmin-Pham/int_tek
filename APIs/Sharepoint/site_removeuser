@@ -1,0 +1,7 @@
+POST: _api/web/sitegroups/getbyname('Team member')/users/RemoveByLoginName('@{encodeUriComponent(concat('i:0#.f|membership|', triggerBody()['email']))}')
+
+Header:
+{
+  "accept": "application/json;odata=verbose",
+  "content-type": "application/json;odata=verbose"
+} 

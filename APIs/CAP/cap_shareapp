@@ -1,0 +1,43 @@
+PATCH: /providers/Microsoft.PowerApps/apis/shared_powerappsforappmakers
+
+Auth: @parameters('$authentication')
+
+ConnectionName: shared_powerappsforappmakers
+App: bd61e1e4-ff84-406a-8f14-6da344fe14a2
+Filter: environment eq 'e25ba5ff-b61c-4655-9d49-bd5fb0f57c35'
+Operation: Edit-AppRoleAssignment
+
+Payload:
+{
+    "properties/principal/email": "@triggerBody()['email']",
+    "properties/principal/type": "User",
+    properties/roleName": "CanView"
+}
+
+Raw
+{
+    "inputs": {
+        "host": {
+            "connectionName": "shared_powerappsforappmakers",
+            "operationId": "Edit-AppRoleAssignment",
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_powerappsforappmakers"
+        },
+        "parameters": {
+            "app": "bd61e1e4-ff84-406a-8f14-6da344fe14a2",
+            "api-version": "2016-11-01",
+            "$filter": "environment eq 'e25ba5ff-b61c-4655-9d49-bd5fb0f57c35'",
+            "Content-Type": "application/json",
+            "body/put": [
+                {
+                    "properties/principal/email": "@triggerBody()['email']",
+                    "properties/principal/type": "User",
+                    "properties/roleName": "CanView"
+                }
+            ]
+        },
+        "authentication": "@parameters('$authentication')"
+    },
+    "metadata": {
+        "operationMetadataId": "e8bbbe69-5a27-4b43-a791-0d24f8438575"
+    }
+}

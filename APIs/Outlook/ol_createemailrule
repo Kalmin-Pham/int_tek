@@ -1,0 +1,62 @@
+POST: https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messageRules
+
+Payload:
+{
+  "displayName": "<defined>",
+  "sequence": 1,
+  "conditions": {
+    "subjectContains": [ "<defined>" ]
+  },
+  "actions": {
+    "moveToFolder": "<sub_folded_id>"
+  },
+  "isEnabled": true,
+  "stopProcessingRules": true
+}
+
+Parse:
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "displayName": {
+            "type": "string"
+        },
+        "sequence": {
+            "type": "integer"
+        },
+        "isEnabled": {
+            "type": "boolean"
+        },
+        "hasError": {
+            "type": "boolean"
+        },
+        "isReadOnly": {
+            "type": "boolean"
+        },
+        "conditions": {
+            "type": "object",
+            "properties": {
+                "subjectContains": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "actions": {
+            "type": "object",
+            "properties": {
+                "moveToFolder": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
+
+Define:
+body(<Parse>)?['id']

@@ -1,0 +1,38 @@
+GET: https://graph.microsoft.com/v1.0/me/mailFolders/inbox/childFolders?$filter=displayName eq 'Active'
+
+Parse:
+{
+    "type": "object",
+    "properties": {
+        "@@odata.context": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "displayName": {
+            "type": "string"
+        },
+        "parentFolderId": {
+            "type": "string"
+        },
+        "childFolderCount": {
+            "type": "integer"
+        },
+        "unreadItemCount": {
+            "type": "integer"
+        },
+        "totalItemCount": {
+            "type": "integer"
+        },
+        "sizeInBytes": {
+            "type": "integer"
+        },
+        "isHidden": {
+            "type": "boolean"
+        }
+    }
+}
+
+Define:
+body(<Parse>)?['value']?[0]?['id']
