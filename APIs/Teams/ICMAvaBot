@@ -1,0 +1,135 @@
+Channel identity
+{
+  "teamId": "e26370b6-4342-442d-a6b8-815263ff8ed5",
+  "channelId": "19:6c8ab79930d340f185d42e9a100eaf51@thread.tacv2"
+}
+
+User identity
+{
+  "reviewer_displayname": defined,
+  "submiter_displayname": defined,
+  "reviewer_AADID": defined,
+  "submiter_AADID": defined
+}
+
+Other identity
+{
+  "ICM_link": defined,
+  "subject": defined
+}
+
+Graph token
+"mentions": [
+    {
+      "id": 0,
+      "mentionText": "Ava 2.0",
+      "mentioned": {
+        "device": null,
+        "user": null,
+        "conversation": null,
+        "tag": null,
+        "application": {
+          "@odata.type": "#microsoft.graph.teamworkApplicationIdentity",
+          "id": "5b393faf-e5dc-4833-bbd4-0366fe97302a",
+          "displayName": "Ava 2.0",
+          "applicationIdentityType": "bot"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "mentionText": "@reviewer_displayname",
+      "mentioned": {
+        "application": null,
+        "device": null,
+        "conversation": null,
+        "tag": null,
+        "user": {
+          "@odata.type": "#microsoft.graph.teamworkUserIdentity",
+          "id": "@reviewer_AADID",
+          "displayName": "@reviewer_displayname",
+          "userIdentityType": "aadUser",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "mentionText": "@submiter_displayname",
+      "mentioned": {
+        "application": null,
+        "device": null,
+        "conversation": null,
+        "tag": null,
+        "user": {
+          "@odata.type": "#microsoft.graph.teamworkUserIdentity",
+          "id": "@submiter_AADID",
+          "displayName": "@submiter_displayname",
+          "userIdentityType": "aadUser",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+      }
+    }
+  ]
+
+POST: https://graph.microsoft.com/v1.0/teams/@teamId/channels/@channelId/messages
+
+{ 
+    "subject": "@subject",
+    "body": {
+              "contentType": "html",
+              "content": "<p><at id=\"0\">Ava 2.0</at>&nbsp;ICMnum</p>\n<p>&nbsp;</p>\n<p>Hi <at id=\"1\">@reviewer_displayname</at>, please help to review and approve this ICM. Thank you.</p>\n<p>&nbsp;</p>\n<p>Unify link: <a href=\"@ICM_link\" target=\"_blank\">Unify ICM Management</a></p>\n<p>&nbsp;</p>\n<p>++ <at id=\"2\">@submiter_displayname</at></p>"
+            },
+    "mentions": [
+    {
+      "id": 0,
+      "mentionText": "Ava 2.0",
+      "mentioned": {
+        "device": null,
+        "user": null,
+        "conversation": null,
+        "tag": null,
+        "application": {
+          "@odata.type": "#microsoft.graph.teamworkApplicationIdentity",
+          "id": "5b393faf-e5dc-4833-bbd4-0366fe97302a",
+          "displayName": "Ava 2.0",
+          "applicationIdentityType": "bot"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "mentionText": "@reviewer_displayname",
+      "mentioned": {
+        "application": null,
+        "device": null,
+        "conversation": null,
+        "tag": null,
+        "user": {
+          "@odata.type": "#microsoft.graph.teamworkUserIdentity",
+          "id": "@reviewer_AADID",
+          "displayName": "@reviewer_displayname",
+          "userIdentityType": "aadUser",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "mentionText": "@submiter_displayname",
+      "mentioned": {
+        "application": null,
+        "device": null,
+        "conversation": null,
+        "tag": null,
+        "user": {
+          "@odata.type": "#microsoft.graph.teamworkUserIdentity",
+          "id": "@submiter_AADID",
+          "displayName": "@submiter_displayname",
+          "userIdentityType": "aadUser",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+      }
+    }
+  ]
+}
