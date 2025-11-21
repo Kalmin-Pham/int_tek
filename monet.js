@@ -1,7 +1,7 @@
 (function () {
   'use strict';
  
-  // Không chạy bên trong iframe (tương đương @noframes)
+  // @noframes
   if (window.top !== window.self) return;
  
   // Helper: run when DOM ready
@@ -14,7 +14,6 @@
   }
  
   onReady(() => {
-    // Tránh khởi tạo lặp
     if (window.autoStatusScriptRunning || document.getElementById('autoStatusBadge')) {
       console.log('⚠️ Auto-status already initialized.');
       return;
@@ -25,8 +24,7 @@
     const MAX_RETRY = 3;
     let lastFiredSlot = null;
     let lastFiredAtMs = 0;
- 
-    // === LỊCH (07:00 → 16:00) ===
+    
     const schedule = {
       "08:00": "01. Available/Case Work",
       "08:05": "02. Break",
@@ -38,12 +36,10 @@
       "16:00": "10. End of shift"
     };
  
-    // === TIỆN ÍCH ===
     const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
     const isWeekday = () => { const d = new Date().getDay(); return d >= 1 && d <= 5; };
     const hhmm = () => new Date().toTimeString().slice(0,5);
  
-    // Tìm controls trong document và iframes (same-origin)
     function findControls(){
       function scan(doc){
         const select = doc.getElementById('statusListCombo') ||
@@ -68,7 +64,6 @@
       return {doc:document, select:null, submit:null, logout:null};
     }
  
-    // Poll chờ controls xuất hiện (tối đa 20s)
     function waitForControls(timeout = 20000){
       return new Promise(resolve => {
         const start = Date.now();
@@ -88,7 +83,6 @@
         const o = opts[i];
         if (norm(o.value) === t || norm(o.textContent) === t){
           selectEl.selectedIndex = i;
-          // Bắn event để UI/SPA nhận thay đổi
           try {
             selectEl.dispatchEvent(new Event('input',  {bubbles:true}));
             selectEl.dispatchEvent(new Event('change', {bubbles:true}));
@@ -116,7 +110,6 @@
         return;
       }
  
-      // Click Submit nếu có (random delay 0–3s cho tự nhiên)
       const btn = controls.submit;
       if (btn){
         setTimeout(() => {
@@ -152,7 +145,6 @@
  
     function shouldFireSlot(slotTime){
       const now = Date.now();
-      // Nếu cùng slot và đã bắn trong vòng 3 phút qua thì bỏ qua (tránh lặp)
       if (lastFiredSlot === slotTime && (now - lastFiredAtMs) < 3 * 60 * 1000) return false;
       lastFiredSlot = slotTime;
       lastFiredAtMs = now;
@@ -181,7 +173,6 @@
       }
     }
  
-    // === Badge điều khiển ===
     const badge = document.createElement('div');
     badge.id = 'autoStatusBadge';
     badge.textContent = '⏳ Auto Status: Waiting...';
@@ -215,7 +206,6 @@
     };
     document.body.appendChild(badge);
  
-    // Đồng bộ đầu phút rồi khởi chạy
     const delay = (60 - new Date().getSeconds()) * 1000;
     console.log(`⏳ Waiting ${Math.round(delay/1000)}s to align with the next full minute...`);
     setTimeout(() => {
