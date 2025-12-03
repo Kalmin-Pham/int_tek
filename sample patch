@@ -1,0 +1,52 @@
+Patch(Internal_App_Dataretention, Defaults(Internal_App_Dataretention),
+        {
+            Source: "Backlog",
+            RecordID: tb_backlog.Selected.ID,
+            ExecutionDate: DateAdd(Today(), 40)
+        }
+    );
+    If(CountRows(Filter('TKE P&C Recovery tracking', 'Case number'=tb_backlog.Selected.'Case number'))>0,
+        Patch('Internal_ App_Recovery_Comment', LookUp('Internal_ App_Recovery_Comment', 'Case number'=tb_backlog.Selected.'Case number'),
+            {
+                'Case number':tb_backlog.Selected.'Case number',
+                CommentType:"SYSTEM",
+                Comment: Concatenate(User().FullName, " closed the request")
+            }
+        );
+        Patch('TKE P&C Recovery tracking', LookUp('TKE P&C Recovery tracking', 'Case number'=tb_backlog.Selected.'Case number'),
+            {
+                Status: {Value: "Closed"}
+            }
+        );
+        Patch(Internal_App_Dataretention, Defaults(Internal_App_Dataretention),
+            {
+                Source: "Recovery",
+                RecordID: LookUp('TKE P&C Recovery tracking', 'Case number'=tb_backlog.Selected.'Case number').ID,
+                ExecutionDate: DateAdd(Today(), 40)
+            }
+        )
+        ,
+        false
+    );
+    If(CountRows(Filter('TKE P&C Consultation requests', 'Case number'=tb_backlog.Selected.'Case number'))>0,
+        With(
+            {Consult: Filter('TKE P&C Consultation requests','Case number'=tb_backlog.Selected.'Case number')}
+            ,
+            ForAll(Consult,
+                Patch('TKE P&C Consultation requests', ThisRecord,
+                    {
+                        Status: {Value: "Completed"}
+                    }
+                );
+                Patch(Internal_App_Dataretention, Defaults(Internal_App_Dataretention),
+                    {
+                        Source: "Consult",
+                        RecordID: ThisRecord.ID,
+                        ExecutionDate: DateAdd(Today(), 40)
+                    }
+                )
+            )
+        )
+        ,
+        false
+    );
