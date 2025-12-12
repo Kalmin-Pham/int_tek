@@ -115,8 +115,8 @@
         setTimeout(() => {
           btn.click();
           console.log(`✅ Status changed to "${target}" at ${hhmm()}`);
-          setTimeout(() => verifyStatus(target, attempt), 3000);
-        }, Math.random() * 3000);
+          setTimeout(() => verifyStatus(target, attempt), 1000);
+        }, Math.random() * 1000);
       } else {
         console.log('ℹ️ No submit button found (maybe auto-save).');
         setTimeout(() => verifyStatus(target, attempt), 2000);
