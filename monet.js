@@ -1,9 +1,7 @@
 (function () {
   'use strict';
- 
-  // @noframes
+  // Không chạy bên trong iframe (tương đương @noframes)
   if (window.top !== window.self) return;
- 
   // Helper: run when DOM ready
   function onReady(fn){
     if (document.readyState === 'loading') {
@@ -12,34 +10,29 @@
       fn();
     }
   }
- 
   onReady(() => {
+    // Tránh khởi tạo lặp
     if (window.autoStatusScriptRunning || document.getElementById('autoStatusBadge')) {
       console.log('⚠️ Auto-status already initialized.');
       return;
     }
     window.autoStatusScriptRunning = true;
- 
     let intervalId = null;
     const MAX_RETRY = 3;
     let lastFiredSlot = null;
     let lastFiredAtMs = 0;
-    
+    // === LỊCH (07:00 → 16:00) ===
     const schedule = {
       "08:00": "01. Available/Case Work",
       "08:05": "02. Break",
-      "08:35": "01. Available/Case Work",
-      "09:00": "03. Lunch",
-      "10:00": "01. Available/Case Work",
-      "14:59": "02. Break",
-      "15:14": "01. Available/Case Work",
-      "16:00": "10. End of shift"
+      "08:35": "03. Lunch",
+      "09:35": "01. Available/Case Work"
     };
- 
+    // === TIỆN ÍCH ===
     const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
     const isWeekday = () => { const d = new Date().getDay(); return d >= 1 && d <= 5; };
     const hhmm = () => new Date().toTimeString().slice(0,5);
- 
+    // Tìm controls trong document và iframes (same-origin)
     function findControls(){
       function scan(doc){
         const select = doc.getElementById('statusListCombo') ||
@@ -52,7 +45,6 @@
       }
       let r = scan(document);
       if (r.select || r.submit || r.logout) return r;
- 
       for (const fr of document.querySelectorAll('iframe')){
         try{
           const d = fr.contentDocument || fr.contentWindow?.document;
@@ -63,7 +55,7 @@
       }
       return {doc:document, select:null, submit:null, logout:null};
     }
- 
+    // Poll chờ controls xuất hiện (tối đa 20s)
     function waitForControls(timeout = 20000){
       return new Promise(resolve => {
         const start = Date.now();
@@ -75,7 +67,6 @@
         })();
       });
     }
- 
     function pickOption(selectEl, target){
       const t = norm(target);
       const opts = Array.from(selectEl.options || []);
@@ -83,6 +74,7 @@
         const o = opts[i];
         if (norm(o.value) === t || norm(o.textContent) === t){
           selectEl.selectedIndex = i;
+          // Bắn event để UI/SPA nhận thay đổi
           try {
             selectEl.dispatchEvent(new Event('input',  {bubbles:true}));
             selectEl.dispatchEvent(new Event('change', {bubbles:true}));
@@ -92,7 +84,6 @@
       }
       return false;
     }
- 
     async function changeStatus(target, attempt = 1){
       const controls = await waitForControls(20000);
       const sel = controls.select;
@@ -100,7 +91,6 @@
         console.log('⚠️ statusListCombo not found (kể cả trong iframe).');
         return;
       }
- 
       const ok = pickOption(sel, target);
       if (!ok){
         console.log(`❌ Status "${target}" not found in dropdown.`);
@@ -109,7 +99,7 @@
         }
         return;
       }
- 
+      // Click Submit nếu có (random delay 0–3s cho tự nhiên)
       const btn = controls.submit;
       if (btn){
         setTimeout(() => {
@@ -122,7 +112,6 @@
         setTimeout(() => verifyStatus(target, attempt), 2000);
       }
     }
- 
     function verifyStatus(expected, attempt = 1){
       const {select: sel} = findControls();
       if (!sel){
@@ -132,9 +121,8 @@
       const curVal  = (sel.options[sel.selectedIndex]?.value || '').trim();
       const curText = (sel.options[sel.selectedIndex]?.textContent || '').trim();
       const ok = norm(curVal) === norm(expected) || norm(curText) === norm(expected);
- 
       if (ok){
-        console.log(`✅ Status verified as "${expected}".`);
+        console.log(`...`);
       } else if (attempt < MAX_RETRY){
         console.log(`🔁 Status mismatch (value="${curVal}", text="${curText}"). Retrying ${attempt+1}/${MAX_RETRY}...`);
         changeStatus(expected, attempt + 1);
@@ -142,21 +130,18 @@
         console.log(`❌ Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
       }
     }
- 
     function shouldFireSlot(slotTime){
       const now = Date.now();
+      // Nếu cùng slot và đã bắn trong vòng 3 phút qua thì bỏ qua (tránh lặp)
       if (lastFiredSlot === slotTime && (now - lastFiredAtMs) < 3 * 60 * 1000) return false;
       lastFiredSlot = slotTime;
       lastFiredAtMs = now;
       return true;
     }
- 
     function tick(){
       if (!isWeekday()) return;
       const now = new Date();
       const nowHHMM = hhmm();
-      console.log(`⏰ Checking schedule at ${nowHHMM}...`);
- 
       for (const time in schedule){
         const [h, m] = time.split(':').map(Number);
         const t = new Date(); t.setHours(h, m, 0, 0);
@@ -172,7 +157,7 @@
         }
       }
     }
- 
+    // === Badge điều khiển ===
     const badge = document.createElement('div');
     badge.id = 'autoStatusBadge';
     badge.textContent = '⏳ Auto Status: Waiting...';
@@ -205,7 +190,7 @@
       }
     };
     document.body.appendChild(badge);
- 
+    // Đồng bộ đầu phút rồi khởi chạy
     const delay = (60 - new Date().getSeconds()) * 1000;
     console.log(`⏳ Waiting ${Math.round(delay/1000)}s to align with the next full minute...`);
     setTimeout(() => {
