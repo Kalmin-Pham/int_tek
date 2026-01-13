@@ -23,10 +23,7 @@
     let lastFiredAtMs = 0;
     // === LỊCH (07:00 → 16:00) ===
     const schedule = {
-      "08:00": "01. Available/Case Work",
-      "08:05": "02. Break",
-      "08:35": "03. Lunch",
-      "09:35": "01. Available/Case Work"
+      "17:00": "10. End of shift"
     };
     // === TIỆN ÍCH ===
     const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
