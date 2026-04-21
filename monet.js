@@ -1,7 +1,6 @@
 (function () {
   'use strict';
-  if (window.top !== window.self) return;
-  
+ 
   function onReady(fn){
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', fn, {once:true});
@@ -9,62 +8,63 @@
       fn();
     }
   }
+ 
   onReady(() => {
     if (window.autoStatusScriptRunning || document.getElementById('autoStatusBadge')) {
       console.log('⚠️ Auto-status already initialized.');
       return;
     }
     window.autoStatusScriptRunning = true;
+ 
     let intervalId = null;
     const MAX_RETRY = 3;
     let lastFiredSlot = null;
     let lastFiredAtMs = 0;
-    
+ 
     const schedule = {
-      "08:00": "01. Available/Case Work",
-      "08:05": "02. Break",
-      "08:35": "03. Lunch",
-      "09:35": "01. Available/Case Work"
+      "08:00": "TK_Cases",
+      "08:05": "TK_Break",
+      "08:35": "TK_Lunch",
+      "09:35": "TK_Cases"
     };
-   
+ 
     const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
     const isWeekday = () => { const d = new Date().getDay(); return d >= 1 && d <= 5; };
     const hhmm = () => new Date().toTimeString().slice(0,5);
-    
+ 
     function findControls(){
       function scan(doc){
-        const select = doc.getElementById('statusListCombo') ||
-                       doc.querySelector('select#statusListCombo, select[name*="status" i], select[id*="status" i]');
-        const submit = doc.getElementById('submitmanualStatusChange') ||
-                       doc.querySelector('#submitmanualStatusChange, button[id*="submit" i][id*="status" i], input[type="submit"][name*="status" i]');
-        const logout = doc.getElementById('btnLogout') ||
-                       doc.querySelector('#btnLogout, [id*="logout" i], [name*="logout" i]');
-        return {doc, select, submit, logout};
+        const select = doc.getElementById('activity');
+        const submit = doc.getElementById('startActivityButton');
+        const selecttype = doc.getElementById('activityType');
+        return {doc, select, submit, selecttype};
       }
       let r = scan(document);
-      if (r.select || r.submit || r.logout) return r;
+      if (r.select || r.submit || r.selecttype) return r;
+ 
       for (const fr of document.querySelectorAll('iframe')){
         try{
           const d = fr.contentDocument || fr.contentWindow?.document;
           if (!d) continue;
           r = scan(d);
-          if (r.select || r.submit || r.logout) return r;
-        }catch(e){/* cross-origin*/}
+          if (r.select || r.submit || r.selecttype) return r;
+        }catch(e){}
       }
-      return {doc:document, select:null, submit:null, logout:null};
+      return {doc:document, select:null, submit:null, selecttype:null};
     }
-    
+ 
     function waitForControls(timeout = 20000){
       return new Promise(resolve => {
         const start = Date.now();
         (function poll(){
           const r = findControls();
-          if (r.select || r.submit || r.logout) return resolve(r);
+          if (r.select || r.submit || r.selecttype) return resolve(r);
           if (Date.now() - start > timeout) return resolve(r);
           setTimeout(poll, 500);
         })();
       });
     }
+ 
     function pickOption(selectEl, target){
       const t = norm(target);
       const opts = Array.from(selectEl.options || []);
@@ -72,7 +72,6 @@
         const o = opts[i];
         if (norm(o.value) === t || norm(o.textContent) === t){
           selectEl.selectedIndex = i;
-          
           try {
             selectEl.dispatchEvent(new Event('input',  {bubbles:true}));
             selectEl.dispatchEvent(new Event('change', {bubbles:true}));
@@ -82,13 +81,15 @@
       }
       return false;
     }
+ 
     async function changeStatus(target, attempt = 1){
       const controls = await waitForControls(20000);
       const sel = controls.select;
       if (!sel){
-        console.log('⚠️ statusListCombo not found (kể cả trong iframe).');
+        console.log('statusListCombo not found');
         return;
       }
+ 
       const ok = pickOption(sel, target);
       if (!ok){
         console.log(`❌ Status "${target}" not found in dropdown.`);
@@ -97,19 +98,20 @@
         }
         return;
       }
-      
+ 
       const btn = controls.submit;
       if (btn){
         setTimeout(() => {
           btn.click();
           console.log(`✅ Status changed to "${target}" at ${hhmm()}`);
-          setTimeout(() => verifyStatus(target, attempt), 1000);
-        }, Math.random() * 1000);
+          setTimeout(() => verifyStatus(target, attempt), 3000);
+        }, Math.random() * 3000);
       } else {
         console.log('ℹ️ No submit button found (maybe auto-save).');
         setTimeout(() => verifyStatus(target, attempt), 2000);
       }
     }
+ 
     function verifyStatus(expected, attempt = 1){
       const {select: sel} = findControls();
       if (!sel){
@@ -119,8 +121,9 @@
       const curVal  = (sel.options[sel.selectedIndex]?.value || '').trim();
       const curText = (sel.options[sel.selectedIndex]?.textContent || '').trim();
       const ok = norm(curVal) === norm(expected) || norm(curText) === norm(expected);
+ 
       if (ok){
-        console.log(`...`);
+        console.log(`✅ Status verified as "${expected}".`);
       } else if (attempt < MAX_RETRY){
         console.log(`🔁 Status mismatch (value="${curVal}", text="${curText}"). Retrying ${attempt+1}/${MAX_RETRY}...`);
         changeStatus(expected, attempt + 1);
@@ -128,18 +131,20 @@
         console.log(`❌ Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
       }
     }
+ 
     function shouldFireSlot(slotTime){
       const now = Date.now();
-      
       if (lastFiredSlot === slotTime && (now - lastFiredAtMs) < 3 * 60 * 1000) return false;
       lastFiredSlot = slotTime;
       lastFiredAtMs = now;
       return true;
     }
+ 
     function tick(){
       if (!isWeekday()) return;
       const now = new Date();
       const nowHHMM = hhmm();
+ 
       for (const time in schedule){
         const [h, m] = time.split(':').map(Number);
         const t = new Date(); t.setHours(h, m, 0, 0);
@@ -155,7 +160,7 @@
         }
       }
     }
-    
+ 
     const badge = document.createElement('div');
     badge.id = 'autoStatusBadge';
     badge.textContent = '⏳ Auto Status: Waiting...';
@@ -188,7 +193,7 @@
       }
     };
     document.body.appendChild(badge);
-    
+ 
     const delay = (60 - new Date().getSeconds()) * 1000;
     console.log(`⏳ Waiting ${Math.round(delay/1000)}s to align with the next full minute...`);
     setTimeout(() => {
