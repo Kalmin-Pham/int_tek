@@ -11,7 +11,7 @@
  
   onReady(() => {
     if (window.autoStatusScriptRunning || document.getElementById('autoStatusBadge')) {
-      console.log('⚠️ Auto-status already initialized.');
+      console.log('Auto-status already initialized.');
       return;
     }
     window.autoStatusScriptRunning = true;
@@ -23,34 +23,35 @@
  
     const schedule = {
       "08:00": "TK_Cases",
-      "08:05": "TK_Break",
-      "08:35": "TK_Lunch",
-      "09:35": "TK_Cases"
+      "10:15": "TK_Break",
+      "10:30": "TK_Cases",
+      "13:00": "TK_Lunch",
+      "14:00": "TK_Cases",
+      "14:45": "TK_Break",
+      "15:00": "TK_Cases"
     };
  
     const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
-    const isWeekday = () => { const d = new Date().getDay(); return d >= 1 && d <= 5; };
     const hhmm = () => new Date().toTimeString().slice(0,5);
  
     function findControls(){
       function scan(doc){
         const select = doc.getElementById('activity');
         const submit = doc.getElementById('startActivityButton');
-        const selecttype = doc.getElementById('activityType');
-        return {doc, select, submit, selecttype};
+        return {doc, select, submit};
       }
       let r = scan(document);
-      if (r.select || r.submit || r.selecttype) return r;
+      if (r.select || r.submit) return r;
  
       for (const fr of document.querySelectorAll('iframe')){
         try{
           const d = fr.contentDocument || fr.contentWindow?.document;
           if (!d) continue;
           r = scan(d);
-          if (r.select || r.submit || r.selecttype) return r;
+          if (r.select || r.submit) return r;
         }catch(e){}
       }
-      return {doc:document, select:null, submit:null, selecttype:null};
+      return {doc:document, select:null, submit:null};
     }
  
     function waitForControls(timeout = 20000){
@@ -58,7 +59,7 @@
         const start = Date.now();
         (function poll(){
           const r = findControls();
-          if (r.select || r.submit || r.selecttype) return resolve(r);
+          if (r.select || r.submit) return resolve(r);
           if (Date.now() - start > timeout) return resolve(r);
           setTimeout(poll, 500);
         })();
@@ -92,9 +93,9 @@
  
       const ok = pickOption(sel, target);
       if (!ok){
-        console.log(`❌ Status "${target}" not found in dropdown.`);
+        console.log(`${hhmm()}: Status "${target}" not found in dropdown.`);
         if (attempt === 1){
-          console.log('📋 Options:', Array.from(sel.options || []).map(o => ({value:o.value, text:o.textContent.trim()})));
+          console.log('Options:', Array.from(sel.options || []).map(o => ({value:o.value, text:o.textContent.trim()})));
         }
         return;
       }
@@ -103,11 +104,11 @@
       if (btn){
         setTimeout(() => {
           btn.click();
-          console.log(`✅ Status changed to "${target}" at ${hhmm()}`);
+          console.log(`${hhmm()}: Status changed to "${target}"`);
           setTimeout(() => verifyStatus(target, attempt), 3000);
-        }, Math.random() * 3000);
+        }, Math.random() * 100);
       } else {
-        console.log('ℹ️ No submit button found (maybe auto-save).');
+        console.log('No submit button found');
         setTimeout(() => verifyStatus(target, attempt), 2000);
       }
     }
@@ -115,7 +116,7 @@
     function verifyStatus(expected, attempt = 1){
       const {select: sel} = findControls();
       if (!sel){
-        console.log('⚠️ Cannot verify status: statusListCombo not found.');
+        console.log(`${hhmm()}: Cannot verify status: statusListCombo not found.`);
         return;
       }
       const curVal  = (sel.options[sel.selectedIndex]?.value || '').trim();
@@ -123,12 +124,12 @@
       const ok = norm(curVal) === norm(expected) || norm(curText) === norm(expected);
  
       if (ok){
-        console.log(`✅ Status verified as "${expected}".`);
+        console.log(`${hhmm()}: Status verified as "${expected}".`);
       } else if (attempt < MAX_RETRY){
-        console.log(`🔁 Status mismatch (value="${curVal}", text="${curText}"). Retrying ${attempt+1}/${MAX_RETRY}...`);
+        console.log(`${hhmm()}: Status mismatch (value="${curVal}", text="${curText}"). Retrying ${attempt+1}/${MAX_RETRY}...`);
         changeStatus(expected, attempt + 1);
       } else {
-        console.log(`❌ Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
+        console.log(`${hhmm()}: Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
       }
     }
  
@@ -141,7 +142,6 @@
     }
  
     function tick(){
-      if (!isWeekday()) return;
       const now = new Date();
       const nowHHMM = hhmm();
  
@@ -149,9 +149,9 @@
         const [h, m] = time.split(':').map(Number);
         const t = new Date(); t.setHours(h, m, 0, 0);
         const diff = Math.abs(now - t) / 60000;
-        if (diff <= 2){
+        if (diff <= 1){ //add delay old value <=2
           if (!shouldFireSlot(time)) {
-            console.log(`⏭️ Already handled slot ${time} recently, skipping.`);
+            //console.log(`${hhmm()}: Already handled slot ${time} recently, skipping.`);
             break;
           }
           const target = schedule[time];
@@ -163,7 +163,7 @@
  
     const badge = document.createElement('div');
     badge.id = 'autoStatusBadge';
-    badge.textContent = '⏳ Auto Status: Waiting...';
+    badge.textContent = 'Auto Status: Waiting...';
     Object.assign(badge.style, {
       position: 'fixed',
       bottom: '10px',
@@ -181,27 +181,27 @@
     badge.onclick = () => {
       if (intervalId){
         clearInterval(intervalId); intervalId = null;
-        badge.textContent = '🔴 Auto Status: OFF';
+        badge.textContent = 'Auto Status: OFF';
         badge.style.color = '#f00';
-        console.log('⛔ Auto-status script stopped.');
+        console.log('Auto-status script stopped.');
       } else {
         tick();
         intervalId = setInterval(tick, 60000);
-        badge.textContent = '🟢 Auto Status: ON';
+        badge.textContent = 'Auto Status: ON';
         badge.style.color = '#0f0';
-        console.log('✅ Auto-status script resumed.');
+        console.log('Auto-status script resumed.');
       }
     };
     document.body.appendChild(badge);
  
     const delay = (60 - new Date().getSeconds()) * 1000;
-    console.log(`⏳ Waiting ${Math.round(delay/1000)}s to align with the next full minute...`);
+    console.log(`Waiting ${Math.round(delay/1000)}s to align with the next full minute`);
     setTimeout(() => {
       tick();
       intervalId = setInterval(tick, 60000);
-      badge.textContent = '🟢 Auto Status: ON';
+      badge.textContent = 'Auto Status: ON';
       badge.style.color = '#0f0';
-      console.log('✅ Auto-status script started and synchronized.');
+      console.log('Auto-status script started and synchronized.');
     }, delay);
   });
 })();
