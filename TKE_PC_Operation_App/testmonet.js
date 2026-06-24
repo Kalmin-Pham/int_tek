@@ -73,7 +73,7 @@
 
     function findEndShiftButton(){
       return scanDocuments((doc, win) => {
-        const button = doc.getElementById('endshiftbutton');
+        const button = doc.getElementById('endShiftButton');
         if (button) return {doc, win, button};
         return null;
       });
