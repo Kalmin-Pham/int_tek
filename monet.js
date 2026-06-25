@@ -1,3 +1,103 @@
+(function () {
+  'use strict';
+ 
+  function onReady(fn){
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn, {once:true});
+    } else {
+      fn();
+    }
+  }
+ 
+  onReady(() => {
+    if (window.autoStatusScriptRunning || document.getElementById('autoStatusBadge')) {
+      console.log('Auto-status already initialized.');
+      return;
+    }
+    window.autoStatusScriptRunning = true;
+ 
+    let intervalId = null;
+    const MAX_RETRY = 3;
+    const END_SHIFT_TIME = '17:00';
+    const END_SHIFT_RETRY_MS = 30 * 1000;
+    let lastFiredSlot = null;
+    let lastFiredAtMs = 0;
+    let endShiftDoneDate = null;
+    let endShiftRetryTimer = null;
+    let endShiftInProgress = false;
+ 
+    const schedule = {
+      "08:00": "TK_Cases",
+      "10:15": "TK_Break",
+      "10:30": "TK_Cases",
+      "12:45": "TK_Lunch",
+      "13:45": "TK_Cases",
+      "14:45": "TK_Break",
+      "15:00": "TK_Cases"
+    };
+ 
+    const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
+    const hhmm = () => new Date().toTimeString().slice(0,5);
+    const ymd = () => {
+      const d = new Date();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${d.getFullYear()}-${mm}-${dd}`;
+    };
+ 
+    function scanDocuments(visitor){
+      const result = visitor(document, window);
+      if (result) return result;
+ 
+      for (const fr of document.querySelectorAll('iframe')){
+        try{
+          const w = fr.contentWindow;
+          const d = fr.contentDocument || w?.document;
+          if (!d) continue;
+          const framedResult = visitor(d, w || d.defaultView || window);
+          if (framedResult) return framedResult;
+        }catch(e){}
+      }
+      return null;
+    }
+ 
+    function findControls(){
+      const found = scanDocuments((doc) => {
+        const select = doc.getElementById('activity');
+        const submit = doc.getElementById('startActivityButton');
+        if (select || submit) return {doc, select, submit};
+        return null;
+      });
+      return found || {doc:document, select:null, submit:null};
+    }
+ 
+    function findEndShiftButton(){
+      return scanDocuments((doc, win) => {
+        const button = doc.getElementById('endShiftButton');
+        if (button) return {doc, win, button};
+        return null;
+      });
+    }
+ 
+    function waitForControls(timeout = 20000){
+      return new Promise(resolve => {
+        const start = Date.now();
+        (function poll(){
+          const r = findControls();
+          if (r.select || r.submit) return resolve(r);
+          if (Date.now() - start > timeout) return resolve(r);
+          setTimeout(poll, 500);
+        })();
+      });
+    }
+ 
+    function pickOption(selectEl, target){
+      const t = norm(target);
+      const opts = Array.from(selectEl.options || []);
+      for (let i=0; i<opts.length; i++){
+        const o = opts[i];
+        if (norm(o.value) === t || norm(o.textContent) === t){
+          selectEl.selectedIndex = i;
           try {
             selectEl.dispatchEvent(new Event('input',  {bubbles:true}));
             selectEl.dispatchEvent(new Event('change', {bubbles:true}));
@@ -7,7 +107,7 @@
       }
       return false;
     }
-
+ 
     async function changeStatus(target, attempt = 1){
       const controls = await waitForControls(20000);
       const sel = controls.select;
@@ -15,7 +115,7 @@
         console.log('statusListCombo not found');
         return;
       }
-
+ 
       const ok = pickOption(sel, target);
       if (!ok){
         console.log(`${hhmm()}: Status "${target}" not found in dropdown.`);
@@ -24,7 +124,7 @@
         }
         return;
       }
-
+ 
       const btn = controls.submit;
       if (btn){
         setTimeout(() => {
@@ -37,7 +137,7 @@
         setTimeout(() => verifyStatus(target, attempt), 2000);
       }
     }
-
+ 
     function verifyStatus(expected, attempt = 1){
       const {select: sel} = findControls();
       if (!sel){
@@ -47,7 +147,7 @@
       const curVal  = (sel.options[sel.selectedIndex]?.value || '').trim();
       const curText = (sel.options[sel.selectedIndex]?.textContent || '').trim();
       const ok = norm(curVal) === norm(expected) || norm(curText) === norm(expected);
-
+ 
       if (ok){
         console.log(`${hhmm()}: Status verified as "${expected}".`);
       } else if (attempt < MAX_RETRY){
@@ -57,7 +157,7 @@
         console.log(`${hhmm()}: Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
       }
     }
-
+ 
     function shouldFireSlot(slotTime){
       const now = Date.now();
       if (lastFiredSlot === slotTime && (now - lastFiredAtMs) < 3 * 60 * 1000) return false;
@@ -65,25 +165,25 @@
       lastFiredAtMs = now;
       return true;
     }
-
+ 
     function clickEndShift(attempt = 1){
       if (endShiftInProgress || endShiftDoneDate === ymd()) return;
       endShiftInProgress = true;
-
+ 
       const controls = findEndShiftButton();
       if (!controls || !controls.button){
         endShiftInProgress = false;
         retryEndShift(`endshiftbutton not found`, attempt);
         return;
       }
-
+ 
       const {win, button} = controls;
       if (button.disabled || button.getAttribute('aria-disabled') === 'true'){
         endShiftInProgress = false;
         retryEndShift('endshiftbutton is disabled', attempt);
         return;
       }
-
+ 
       const originalConfirm = win.confirm;
       try {
         win.confirm = function(message){
@@ -101,37 +201,37 @@
         endShiftInProgress = false;
       }
     }
-
+ 
     function retryEndShift(reason, attempt){
       console.log(`${hhmm()}: ${reason}. Retrying end shift in ${END_SHIFT_RETRY_MS / 1000}s (attempt ${attempt + 1}).`);
       clearEndShiftRetry();
       endShiftRetryTimer = setTimeout(() => clickEndShift(attempt + 1), END_SHIFT_RETRY_MS);
     }
-
+ 
     function clearEndShiftRetry(){
       if (endShiftRetryTimer){
         clearTimeout(endShiftRetryTimer);
         endShiftRetryTimer = null;
       }
     }
-
+ 
     function shouldTryEndShift(now){
       if (endShiftDoneDate === ymd()) return false;
       const [h, m] = END_SHIFT_TIME.split(':').map(Number);
       const t = new Date(); t.setHours(h, m, 0, 0);
       return now >= t;
     }
-
+ 
     function tick(){
       const now = new Date();
       const nowHHMM = hhmm();
-
+ 
       if (shouldTryEndShift(now)){
         clickEndShift();
       }
-
+ 
       for (const time in schedule){
-        if (nowHHMM === time){
+        if(nowHHMM === time){
           if (!shouldFireSlot(time)) {
             break;
           }
@@ -141,7 +241,7 @@
         }
       }
     }
-
+ 
     const badge = document.createElement('div');
     badge.id = 'autoStatusBadge';
     badge.textContent = 'Auto Status: Waiting...';
@@ -175,7 +275,7 @@
       }
     };
     document.body.appendChild(badge);
-
+ 
     const delay = (60 - new Date().getSeconds()) * 1000;
     console.log(`Waiting ${Math.round(delay/1000)}s to align with the next full minute`);
     setTimeout(() => {
