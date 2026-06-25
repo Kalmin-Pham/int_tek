@@ -1,78 +1,3 @@
-(function () {
-  'use strict';
- 
-  function onReady(fn){
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fn, {once:true});
-    } else {
-      fn();
-    }
-  }
- 
-  onReady(() => {
-    if (window.autoStatusScriptRunning || document.getElementById('autoStatusBadge')) {
-      console.log('Auto-status already initialized.');
-      return;
-    }
-    window.autoStatusScriptRunning = true;
- 
-    let intervalId = null;
-    const MAX_RETRY = 3;
-    let lastFiredSlot = null;
-    let lastFiredAtMs = 0;
- 
-    const schedule = {
-      "08:00": "TK_Cases",
-      "10:15": "TK_Break",
-      "10:30": "TK_Cases",
-      "13:00": "TK_Lunch",
-      "14:00": "TK_Cases",
-      "14:45": "TK_Break",
-      "15:00": "TK_Cases"
-    };
- 
-    const norm = s => String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
-    const hhmm = () => new Date().toTimeString().slice(0,5);
- 
-    function findControls(){
-      function scan(doc){
-        const select = doc.getElementById('activity');
-        const submit = doc.getElementById('startActivityButton');
-        return {doc, select, submit};
-      }
-      let r = scan(document);
-      if (r.select || r.submit) return r;
- 
-      for (const fr of document.querySelectorAll('iframe')){
-        try{
-          const d = fr.contentDocument || fr.contentWindow?.document;
-          if (!d) continue;
-          r = scan(d);
-          if (r.select || r.submit) return r;
-        }catch(e){}
-      }
-      return {doc:document, select:null, submit:null};
-    }
- 
-    function waitForControls(timeout = 20000){
-      return new Promise(resolve => {
-        const start = Date.now();
-        (function poll(){
-          const r = findControls();
-          if (r.select || r.submit) return resolve(r);
-          if (Date.now() - start > timeout) return resolve(r);
-          setTimeout(poll, 500);
-        })();
-      });
-    }
- 
-    function pickOption(selectEl, target){
-      const t = norm(target);
-      const opts = Array.from(selectEl.options || []);
-      for (let i=0; i<opts.length; i++){
-        const o = opts[i];
-        if (norm(o.value) === t || norm(o.textContent) === t){
-          selectEl.selectedIndex = i;
           try {
             selectEl.dispatchEvent(new Event('input',  {bubbles:true}));
             selectEl.dispatchEvent(new Event('change', {bubbles:true}));
@@ -82,7 +7,7 @@
       }
       return false;
     }
- 
+
     async function changeStatus(target, attempt = 1){
       const controls = await waitForControls(20000);
       const sel = controls.select;
@@ -90,7 +15,7 @@
         console.log('statusListCombo not found');
         return;
       }
- 
+
       const ok = pickOption(sel, target);
       if (!ok){
         console.log(`${hhmm()}: Status "${target}" not found in dropdown.`);
@@ -99,7 +24,7 @@
         }
         return;
       }
- 
+
       const btn = controls.submit;
       if (btn){
         setTimeout(() => {
@@ -112,7 +37,7 @@
         setTimeout(() => verifyStatus(target, attempt), 2000);
       }
     }
- 
+
     function verifyStatus(expected, attempt = 1){
       const {select: sel} = findControls();
       if (!sel){
@@ -122,7 +47,7 @@
       const curVal  = (sel.options[sel.selectedIndex]?.value || '').trim();
       const curText = (sel.options[sel.selectedIndex]?.textContent || '').trim();
       const ok = norm(curVal) === norm(expected) || norm(curText) === norm(expected);
- 
+
       if (ok){
         console.log(`${hhmm()}: Status verified as "${expected}".`);
       } else if (attempt < MAX_RETRY){
@@ -132,7 +57,7 @@
         console.log(`${hhmm()}: Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
       }
     }
- 
+
     function shouldFireSlot(slotTime){
       const now = Date.now();
       if (lastFiredSlot === slotTime && (now - lastFiredAtMs) < 3 * 60 * 1000) return false;
@@ -140,18 +65,74 @@
       lastFiredAtMs = now;
       return true;
     }
- 
+
+    function clickEndShift(attempt = 1){
+      if (endShiftInProgress || endShiftDoneDate === ymd()) return;
+      endShiftInProgress = true;
+
+      const controls = findEndShiftButton();
+      if (!controls || !controls.button){
+        endShiftInProgress = false;
+        retryEndShift(`endshiftbutton not found`, attempt);
+        return;
+      }
+
+      const {win, button} = controls;
+      if (button.disabled || button.getAttribute('aria-disabled') === 'true'){
+        endShiftInProgress = false;
+        retryEndShift('endshiftbutton is disabled', attempt);
+        return;
+      }
+
+      const originalConfirm = win.confirm;
+      try {
+        win.confirm = function(message){
+          console.log(`${hhmm()}: Auto-confirmed end shift popup.`, message || '');
+          return true;
+        };
+        button.click();
+        endShiftDoneDate = ymd();
+        clearEndShiftRetry();
+        console.log(`${hhmm()}: End shift button clicked.`);
+      } catch (e) {
+        retryEndShift(`endshiftbutton click failed: ${e?.message || e}`, attempt);
+      } finally {
+        win.confirm = originalConfirm;
+        endShiftInProgress = false;
+      }
+    }
+
+    function retryEndShift(reason, attempt){
+      console.log(`${hhmm()}: ${reason}. Retrying end shift in ${END_SHIFT_RETRY_MS / 1000}s (attempt ${attempt + 1}).`);
+      clearEndShiftRetry();
+      endShiftRetryTimer = setTimeout(() => clickEndShift(attempt + 1), END_SHIFT_RETRY_MS);
+    }
+
+    function clearEndShiftRetry(){
+      if (endShiftRetryTimer){
+        clearTimeout(endShiftRetryTimer);
+        endShiftRetryTimer = null;
+      }
+    }
+
+    function shouldTryEndShift(now){
+      if (endShiftDoneDate === ymd()) return false;
+      const [h, m] = END_SHIFT_TIME.split(':').map(Number);
+      const t = new Date(); t.setHours(h, m, 0, 0);
+      return now >= t;
+    }
+
     function tick(){
       const now = new Date();
       const nowHHMM = hhmm();
- 
+
+      if (shouldTryEndShift(now)){
+        clickEndShift();
+      }
+
       for (const time in schedule){
-        const [h, m] = time.split(':').map(Number);
-        const t = new Date(); t.setHours(h, m, 0, 0);
-        const diff = Math.abs(now - t) / 60000;
-        if (diff <= 1){ //add delay old value <=2
+        if (nowHHMM === time){
           if (!shouldFireSlot(time)) {
-            //console.log(`${hhmm()}: Already handled slot ${time} recently, skipping.`);
             break;
           }
           const target = schedule[time];
@@ -160,7 +141,7 @@
         }
       }
     }
- 
+
     const badge = document.createElement('div');
     badge.id = 'autoStatusBadge';
     badge.textContent = 'Auto Status: Waiting...';
@@ -181,6 +162,7 @@
     badge.onclick = () => {
       if (intervalId){
         clearInterval(intervalId); intervalId = null;
+        clearEndShiftRetry();
         badge.textContent = 'Auto Status: OFF';
         badge.style.color = '#f00';
         console.log('Auto-status script stopped.');
@@ -193,7 +175,7 @@
       }
     };
     document.body.appendChild(badge);
- 
+
     const delay = (60 - new Date().getSeconds()) * 1000;
     console.log(`Waiting ${Math.round(delay/1000)}s to align with the next full minute`);
     setTimeout(() => {
