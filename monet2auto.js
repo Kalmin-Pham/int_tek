@@ -267,7 +267,6 @@
           if (ok){
             console.log(`${hhmm()}: Status verified as "${expected}".`);
           } else if (attempt < MAX_RETRY){
-            console.log(`${hhmm()}: Status mismatch (value="${curVal}", text="${curText}"). Retrying ${attempt+1}/${MAX_RETRY}...`);
             changeStatus(expected, attempt + 1);
           } else {
             console.log(`${hhmm()}: Failed to set "${expected}" after ${MAX_RETRY} attempts.`);
